@@ -82,7 +82,7 @@ $$h(x) \approx 0.0546 + 0.0693x$$
 
 **Vector shortcut:** $\nabla J = \frac1m(X^TX\mathbf{w} - X^T\mathbf{y})$ with $X^TX = \begin{bmatrix}4&2\\2&6\end{bmatrix}$, $X^T\mathbf{y} = (11, 14)$ from part a. Epoch 2: $X^TX\mathbf{w} = (0.18, 0.265)$, so $\nabla J = \frac14(0.18 - 11,\ 0.265 - 14) = (-2.705, -3.43375)$ → same update.
 
-**Comment:** $J$ goes $5.625 \to 5.429 \to 5.239$: decreasing but far from the minimum 0.0375, and $\mathbf{w}$ is far from $(1.9, 1.7)$, because $\alpha = 0.01$ is small (the "too small" case on L3 p47). If your class drops the $\frac12$ (uses $\frac1m\sum$), the gradients double: $(0.055, 0.07)$ then $(0.1082, 0.13735)$.`,
+**Comment:** $J$ goes $5.625 \to 5.429 \to 5.239$: decreasing but far from the minimum 0.0375, and $\mathbf{w}$ is far from $(1.9, 1.7)$, because $\alpha = 0.01$ is small (the "too small" case on L3 p47). If your class drops the $\frac12$ (uses $\frac1m\sum$), every gradient doubles, so the weights become $(0.055, 0.07)$ after epoch 1 and $(0.1082, 0.13735)$ after epoch 2.`,
     },
     {
       id: 'hw02-ex2',

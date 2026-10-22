@@ -49,7 +49,7 @@ $$R(\hat f_n) - R(f^*) = \underbrace{R(\hat f_n) - \inf_{f\in\mathcal{F}}R(f)}_{
 
 ## Overfitting and underfitting
 
-- **Overfitting** (p7): too many features or too complex a model. It fits the training set very well but **fails to generalise**. Example: a degree-4 polynomial through every one of 6 house prices.
+- **Overfitting** (p7): too many features or too complex a model. It fits the training set very well but **fails to generalise**. Example: a wiggly degree-4 polynomial that passes through (almost) every one of the 6 house prices.
 - **Underfitting**: the model is too simple to capture the pattern (a straight line through clearly curved data).
 - The same holds for classification (p8): a straight boundary underfits, a quadratic boundary fits, a very high-order boundary wraps around single points and overfits.
 
@@ -222,7 +222,7 @@ Bagging is inefficient (p40): every example is equally likely to be sampled (no 
 - Their weights are doubled relative to the others, then normalised: raw $(2, 1, 1, 2, 1)$, sum 7 → $D_1 = (\frac27, \frac17, \frac17, \frac27, \frac17)$.
 - $h_2$ misclassifies only $x_4$: raw $(2, 1, 1, 4, 1)$, sum 9 → $D_2 = (\frac29, \frac19, \frac19, \frac49, \frac19)$.
 
-(In full AdaBoost the multiplier is $e^{\alpha_t}$ with $\alpha_t = \frac12\ln\frac{1 - \varepsilon_t}{\varepsilon_t}$, which depends on the weighted error $\varepsilon_t$. The slide uses ×2 to show the idea.)
+(In full AdaBoost, with $\alpha_t = \frac12\ln\frac{1 - \varepsilon_t}{\varepsilon_t}$, misclassified weights are multiplied by $e^{\alpha_t}$ and correct ones by $e^{-\alpha_t}$, so the misclassified examples gain a **relative** factor $e^{2\alpha_t} = \frac{1 - \varepsilon_t}{\varepsilon_t}$, which depends on the weighted error $\varepsilon_t$. The slide uses a fixed ×2 to show the idea.)
 :::
 
 | | Bagging | Boosting |

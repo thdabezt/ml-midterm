@@ -224,7 +224,7 @@ There is no closed form (L4 p40), so use gradient descent: $\nabla\mathcal{L} = 
 | 1,000 | −4.63 | 1.42 | 0.92 |
 | 10,000 | −11.95 | 3.46 | 0.995 |
 
-The boundary $-w_0/w_1$ stays near 3.4–3.5 hours, and $P(\text{pass} \mid 5) \to 1$.
+The boundary $-w_0/w_1$ moves towards 3.5 hours (3.26 after 1,000 iterations, 3.45 after 10,000), and $P(\text{pass} \mid 5) \to 1$.
 
 **Answer.** A student who studies 5 hours is predicted to **pass with high probability**: about **0.85** with standard L2-regularised logistic regression (scikit-learn defaults give $w_0 = -4.03$, $w_1 = 1.16$, so $P = \sigma(1.77) = 0.854$), approaching 1 for unregularised MLE. State the method you used (iterations or regularisation), because on separable data the exact number depends on it.`,
     },
@@ -235,7 +235,7 @@ The boundary $-w_0/w_1$ stays near 3.4–3.5 hours, and $P(\text{pass} \mid 5) \
       prompt: r`A logistic regression trained on the study-hours data gives $w_0 = -4.03$, $w_1 = 1.16$, so $P(\text{pass} \mid x) = \sigma(w_0 + w_1x)$. Compute $P(\text{pass})$ for 5 hours and for 2 hours, and the number of hours where the probability is exactly 0.5.`,
       fields: [
         { label: 'P(pass | 5 h)', answer: 0.8545, tol: 0.003 },
-        { label: 'P(pass | 2 h)', answer: 0.1529, tol: 0.003 },
+        { label: 'P(pass | 2 h)', answer: 0.1532, tol: 0.003 },
         { label: 'boundary (hours)', answer: 4.03 / 1.16, tol: 0.01 },
       ],
       solution: r`- 5 h: $z = -4.03 + 5.80 = 1.77$, $P = \frac{1}{1 + e^{-1.77}} = \frac{1}{1.1703} = 0.854$.

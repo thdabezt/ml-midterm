@@ -47,6 +47,10 @@ $$D \text{ is linearly separable} \iff \exists\,\mathbf{w}, b:\ s_i = y_i(\mathb
 $s_i$ is positive exactly when example $i$ is on the correct side: $y_i = +1$ needs a positive score, $y_i = -1$ a negative score, and multiplying by $y_i$ turns both into "positive = correct".
 :::
 
+:::note Strict inequality
+Taken literally, "$\ge 0$" is satisfied by $\mathbf{w} = 0, b = 0$ for any dataset (every score is 0). The intended meaning is **strictly** correct, $s_i > 0$ for all $i$, equivalently $s_i \ge \delta > 0$ as in the convergence theorem below.
+:::
+
 :::example Slide mini-exercise (p7): AND, OR, XOR
 Inputs $x_1, x_2 \in \{0, 1\}$, output $+1$ for "true".
 - **AND**: $x_1 + x_2 - 1.5$. Only $(1,1)$ gives a positive score (0.5).
@@ -143,9 +147,12 @@ $$\max_{\alpha_i \in [0, C]}\ \sum_{i=1}^{N}\alpha_i - \frac12\sum_{i,j}\alpha_i
 :::read
 - One number $\alpha_i$ per training example (the Lagrange multiplier of its constraint), with $0 \le \alpha_i \le C$.
 - The data appear **only through dot products** $\mathbf{x}_i^T\mathbf{x}_j$. This is what makes the kernel trick possible.
-- **Complementary slackness**: $\alpha_i\big(1 - y_i(\mathbf{w}^T\mathbf{x}_i + b)\big) = 0$. Either $\alpha_i = 0$ (the point is safely outside the margin and does not matter) or the point is on the margin.
-- **Support vectors are the points with $\alpha_i > 0$.**
-- Solution: $\mathbf{w} = \sum_i\alpha_iy_i\mathbf{x}_i$. For any support vector, $y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$ gives $b = y_i - \mathbf{w}^T\mathbf{x}_i$; average over the support vectors for stability. (The slide writes this with the sign convention $\mathbf{w}\cdot\mathbf{x} - b$, which flips the sign of $b$.)
+- **Complementary slackness**: $\alpha_i\big(1 - y_i(\mathbf{w}^T\mathbf{x}_i + b)\big) = 0$ (hard margin; with slack it becomes $\alpha_i(1 - \xi_i - y_i(\mathbf{w}^T\mathbf{x}_i + b)) = 0$). For the soft-margin dual with $0 \le \alpha_i \le C$:
+  - $\alpha_i = 0$: the point is on or outside the margin and does not affect the solution;
+  - $0 < \alpha_i < C$: the point lies exactly on the margin;
+  - $\alpha_i = C$: the point is inside the margin or misclassified ($\xi_i > 0$).
+- **Support vectors are the points with $\alpha_i > 0$** (on or inside the margin).
+- Solution: $\mathbf{w} = \sum_i\alpha_iy_i\mathbf{x}_i$. For any support vector exactly on the margin ($0 < \alpha_i < C$), $y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$ gives $b = y_i - \mathbf{w}^T\mathbf{x}_i$; average over those support vectors for stability. (The slide writes this with the sign convention $\mathbf{w}\cdot\mathbf{x} - b$, which flips the sign of $b$.)
 :::
 
 ## Nonlinear SVM: feature maps
