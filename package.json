@@ -1,0 +1,16 @@
+{
+  "name": "ml-midterm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ML Studyroom: theory notes and practice for INT3405 Machine Learning midterm",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node --test tests/*.test.js",
+    "start": "node tools/serve.mjs"
+  },
+  "devDependencies": {
+    "katex": "0.16.22",
+    "marked": "15.0.12"
+  }
+}

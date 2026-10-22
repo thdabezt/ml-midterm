@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ML Studyroom: plain-language theory notes with step-by-step math, and practice questions modelled on the INT3405 Machine Learning homework and slides.">
+  <meta name="theme-color" content="#f6f5f0">
+  <title>ML Studyroom</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./katex/katex.min.css">
+  <link rel="stylesheet" href="./styles.css?v=__VERSION__">
+  <script defer src="./katex/katex.min.js"></script>
+  <script defer src="./data.js?v=__VERSION__"></script>
+  <script defer src="./generators.js?v=__VERSION__"></script>
+  <script defer src="./app.js?v=__VERSION__"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <button class="menu-btn" id="menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">☰</button>
+    <a class="brand" href="#/"><span class="brand-mark">ml<span>_</span></span><span class="brand-name">studyroom</span></a>
+  </header>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="#/"><span class="brand-mark">ml<span>_</span></span><span class="brand-name">studyroom<span class="brand-sub">INT3405 · MACHINE LEARNING</span></span></a>
+    <nav aria-label="Main">
+      <a href="#/" data-nav="home">Home</a>
+      <div class="nav-group">Theory</div>
+      <a href="#/theory" data-nav="theory">All lessons</a>
+      <a href="#/theory/math-toolkit" data-nav="theory/math-toolkit">Math toolkit</a>
+      <a href="#/theory/formula-sheet" data-nav="theory/formula-sheet">Formula sheet</a>
+      <div class="nav-group">Practice</div>
+      <a href="#/practice" data-nav="practice">Question bank</a>
+      <a href="#/drills" data-nav="drills">Calculation drills</a>
+      <a href="#/exam" data-nav="exam">Mock midterm</a>
+      <a href="#/review" data-nav="review">Review list <span class="nav-count" id="review-count"></span></a>
+    </nav>
+    <div class="side-foot">Progress is saved in this browser only.</div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+  <main id="main" tabindex="-1"></main>
+  <noscript><p style="padding:2rem">This site needs JavaScript to show its lessons and questions.</p></noscript>
+</body>
+</html>
