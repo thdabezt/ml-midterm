@@ -231,26 +231,55 @@
         <div class="stat"><b>${correct}</b><span>answered correctly (you)</span></div>
       </div>
       <h2>Lessons</h2>
-      <div class="grid">${lectures.filter((l) => l.slug !== 'formula-sheet').map(lessonCard).join('')}</div>
+      ${startCards()}
+      ${lessonList()}
       <h2>About the midterm</h2>
       <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. Lecture 8 (unsupervised learning) is in the course plan before the midterm, but its slides were not in the material, so it is not covered.</p>
     </div>`;
   }
 
-  function lessonCard(l) {
+  // One full-width row per lecture: number, title, summary, jump links to its
+  // sections, and practice progress on the right.
+  function lessonRow(l) {
     const s = lessonStats(l.slug);
     const pct = s.total ? Math.round((100 * s.done) / s.total) : 0;
-    return `<a class="card" href="#/theory/${l.slug}">
-      <span class="num">${l.num > 0 ? `LECTURE ${l.num}` : 'START HERE'}</span>
-      <h3>${esc(l.title)}</h3><p>${esc(l.summary)}</p>
-      ${s.total ? `<div class="bar" title="${s.done}/${s.total} correct"><i style="width:${pct}%"></i></div><p class="small muted">${s.done}/${s.total} practice questions correct</p>` : ''}
-    </a>`;
+    const topics = l.sections.filter((sec) => sec.id !== 'overview');
+    return `<li class="lesson-row">
+      <a class="lesson-num" href="#/theory/${l.slug}" tabindex="-1" aria-hidden="true">${l.num}</a>
+      <div class="lesson-main">
+        <h3><a href="#/theory/${l.slug}">${esc(l.title)}</a></h3>
+        <p>${esc(l.summary)}</p>
+        <nav class="lesson-topics" aria-label="Sections of lecture ${l.num}">${topics.map((sec) => `<a href="#/theory/${l.slug}/${sec.id}">${esc(sec.titleText)}</a>`).join('')}</nav>
+      </div>
+      <div class="lesson-side">
+        <div class="lesson-progress" title="${s.done} of ${s.total} practice questions answered correctly"><span>${s.done}/${s.total} correct</span><div class="bar"><i style="width:${pct}%"></i></div></div>
+        <a class="practice-link" href="#/practice/${l.slug}">Practice →</a>
+      </div>
+    </li>`;
+  }
+
+  function lessonList() {
+    return `<ol class="lesson-list">${courseLessons.map(lessonRow).join('')}</ol>`;
+  }
+
+  // Math toolkit and formula sheet: the two pages that are not lectures.
+  function startCards() {
+    const card = (slug, kicker, blurb) => {
+      const l = lessonBySlug[slug];
+      return l ? `<a class="start-card" href="#/theory/${slug}"><span class="eyebrow">${kicker}</span><h3>${esc(l.title)}</h3><p>${esc(blurb)}</p><span class="go">Open →</span></a>` : '';
+    };
+    return `<div class="start-cards">
+      ${card('math-toolkit', 'Start here', 'Notation, sums, logs, derivatives and matrices explained from zero, with small examples you can check on a calculator.')}
+      ${card('formula-sheet', 'Night before', 'Every formula from L2–L7 on one printable page, each with a one-line reminder of what it means.')}
+    </div>`;
   }
 
   function pageTheoryIndex() {
-    return `<div class="page"><p class="eyebrow">Section 1</p><h1>Theory</h1>
-      <p class="lede">Read the Math toolkit first if you are unsure about notation. Each lesson ends with a link to its practice questions.</p>
-      <div class="grid">${lectures.map(lessonCard).join('')}</div></div>`;
+    return `<div class="page narrow-wide"><p class="eyebrow">Section 1</p><h1>Theory</h1>
+      <p class="lede">One page per lecture. Every formula is read out symbol by symbol and then worked through with small numbers. If notation looks unfamiliar, start with the Math toolkit.</p>
+      ${startCards()}
+      <h2>Lectures</h2>
+      ${lessonList()}</div>`;
   }
 
   function pageTheory(slug, sectionId) {
@@ -260,7 +289,7 @@
     const prev = lectures[i - 1]; const next = lectures[i + 1];
     const s = lessonStats(slug);
     const html = `<div class="page"><div class="theory-layout"><div>
-      <p class="eyebrow">${l.num > 0 ? `Lecture ${l.num} · Theory` : 'Theory'}</p>
+      <p class="eyebrow">${l.num === 0 ? 'Start here' : l.num >= 99 ? 'Reference' : `Lecture ${l.num} · Theory`}</p>
       <h1>${esc(l.title)}</h1>
       <p class="lede">${esc(l.summary)}</p>
       ${l.sourceNote ? `<p class="small muted">${esc(l.sourceNote)}</p>` : ''}

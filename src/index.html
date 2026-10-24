@@ -7,6 +7,12 @@
   <meta name="theme-color" content="#f6f5f0">
   <title>ML Studyroom</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <!-- Fetch the common math fonts up front so formulas do not appear blank while they load. -->
+  <link rel="preload" href="./katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./katex/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./katex/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./katex/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./katex/katex.min.css">
   <link rel="stylesheet" href="./styles.css?v=__VERSION__">
   <script defer src="./katex/katex.min.js"></script>
