@@ -26,6 +26,8 @@
     <button class="menu-btn" id="menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">☰</button>
     <a class="brand" href="#/"><span class="brand-mark">ml<span>_</span></span><span class="brand-name">studyroom</span></a>
   </header>
+  <!-- Own wrapper so elements that browser extensions inject into <body> cannot shift the columns. -->
+  <div class="shell">
   <aside class="sidebar" id="sidebar">
     <a class="brand brand-side" href="#/"><span class="brand-mark">ml<span>_</span></span><span class="brand-name">studyroom<span class="brand-sub">INT3405 · MACHINE LEARNING</span></span></a>
     <nav aria-label="Main">
@@ -42,8 +44,9 @@
     </nav>
     <div class="side-foot">Progress is saved in this browser only.</div>
   </aside>
-  <div class="scrim" id="scrim" hidden></div>
   <main id="main" tabindex="-1"></main>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
   <noscript><p style="padding:2rem">This site needs JavaScript to show its lessons and questions.</p></noscript>
 </body>
 </html>
