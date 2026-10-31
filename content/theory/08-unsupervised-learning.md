@@ -42,8 +42,12 @@ These descriptions can overlap. A mixture model, for example, can give soft memb
 
 A point is a list of numbers. For $\mathbf{x}=(x_1,x_2)$, $x_1$ is its first coordinate and $x_2$ its second. A **distance** is a number expressing how far apart two points are; smaller means closer (p14).
 
-:::formula Euclidean and Manhattan distance (p14)
-$$d_2(\mathbf{x},\mathbf{y})=\sqrt{\sum_{j=1}^{d}(x_j-y_j)^2},\qquad d_1(\mathbf{x},\mathbf{y})=\sum_{j=1}^{d}|x_j-y_j|$$
+:::formula @clustering-euclidean-distance Euclidean distance (p14)
+$$d_2(\mathbf{x},\mathbf{y})=\sqrt{\sum_{j=1}^{d}(x_j-y_j)^2}$$
+:::
+
+:::formula @clustering-manhattan-distance Manhattan distance (p14)
+$$d_1(\mathbf{x},\mathbf{y})=\sum_{j=1}^{d}|x_j-y_j|$$
 :::
 
 :::read
@@ -61,7 +65,7 @@ $$d_2(\mathbf{x},\mathbf{y})=\sqrt{\sum_{j=1}^{d}(x_j-y_j)^2},\qquad d_1(\mathbf
 4. Squared Euclidean distance is $25$, not $5$. This is the quantity used in the usual K-means SSE.
 :::
 
-:::formula Minkowski distance (p14)
+:::formula @clustering-minkowski-distance Minkowski distance (p14)
 $$d_p(\mathbf{x},\mathbf{y})=\left(\sum_{j=1}^{d}|x_j-y_j|^p\right)^{1/p},\qquad p\ge1$$
 :::
 
@@ -69,7 +73,7 @@ $$d_p(\mathbf{x},\mathbf{y})=\left(\sum_{j=1}^{d}|x_j-y_j|^p\right)^{1/p},\qquad
 This is one family containing Manhattan ($p=1$) and Euclidean ($p=2$). The outside power $1/p$ means "take the $p$-th root". Here $p$ is a distance parameter, not a probability. For coordinate differences 3 and 4, $p=1$ gives $7$ and $p=2$ gives $5$, exactly as above.
 :::
 
-:::formula Cosine similarity and cosine distance (p14)
+:::formula @clustering-cosine-similarity Cosine similarity and cosine distance (p14)
 $$\operatorname{cosim}(\mathbf{x},\mathbf{y})=\frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2},\qquad d_{\cos}=1-\operatorname{cosim}(\mathbf{x},\mathbf{y})$$
 :::
 
@@ -92,8 +96,12 @@ High dimensionality, dataset size, noise, outliers, cluster shape, unequal sizes
 
 Choose the number of groups $K$ **before** running ordinary K-means. Each group has a **centroid**, its coordinate-wise mean. Alternate between assigning points to their closest centroid and recomputing the centroids (p24-25).
 
-:::formula Centroid and sum of squared errors, SSE (p25)
-$$\boldsymbol{\mu}_k=\frac1{|C_k|}\sum_{\mathbf{x}\in C_k}\mathbf{x},\qquad \operatorname{SSE}=\sum_{k=1}^{K}\sum_{\mathbf{x}\in C_k}\|\mathbf{x}-\boldsymbol{\mu}_k\|_2^2$$
+:::formula @clustering-centroid Centroid (p25)
+$$\boldsymbol{\mu}_k=\frac1{|C_k|}\sum_{\mathbf{x}\in C_k}\mathbf{x}$$
+:::
+
+:::formula @clustering-sse Sum of squared errors, SSE (p25)
+$$\operatorname{SSE}=\sum_{k=1}^{K}\sum_{\mathbf{x}\in C_k}\|\mathbf{x}-\boldsymbol{\mu}_k\|_2^2$$
 :::
 
 :::read
@@ -105,7 +113,7 @@ $$\boldsymbol{\mu}_k=\frac1{|C_k|}\sum_{\mathbf{x}\in C_k}\mathbf{x},\qquad \ope
 
 :::steps The algorithm (p25)
 1. Choose $K$ initial centroids.
-2. Calculate each point's distance to each current centroid. Assign it to the closest one; state a consistent rule if there is a tie.
+2. {{priority:clustering-kmeans-assignment}} Calculate each point's distance to each current centroid. Assign it to the closest one; state a consistent rule if there is a tie.
 3. Recompute **all** centroids from those assignments.
 4. Repeat steps 2-3 until the assignments or centroids stop changing, or a chosen iteration limit is reached.
 5. An empty cluster has no mean. A practical implementation must explicitly handle it, for example by choosing a new centre.
@@ -136,7 +144,7 @@ To do the slide exercise by hand: make a table with one row per point, its two L
 
 Different initial centroids can lead to different **local** optima (p28-30). Several restarts and retaining the lowest-SSE result can help. They do not prove that the global optimum has been found.
 
-:::formula K-means++ seeding (p31)
+:::formula @clustering-kmeanspp K-means++ seeding (p31)
 $$P(\text{choose }\mathbf{x})=\frac{D(\mathbf{x})^2}{\sum_{\mathbf{z}}D(\mathbf{z})^2},\qquad D(\mathbf{x})=\min_{\text{chosen centre }\boldsymbol{\mu}}\|\mathbf{x}-\boldsymbol{\mu}\|_2$$
 :::
 
@@ -150,7 +158,7 @@ Two remaining candidates have nearest-centre distances 1 and 3. Their weights ar
 
 **Bisecting K-means** (p32): start with all points in one cluster; choose a cluster, split it using 2-means several times, keep the best split by SSE, then repeat until $K$ clusters exist. Recording the splits gives a hierarchy; stopping at $K$ leaves gives a partition. It is a **top-down** approach, unlike bottom-up HAC.
 
-**Cost** (p25): $O(nKId)$ for $n$ points, $K$ centres, $I$ iterations and $d$ features. Read this as "points times centres times iterations times coordinates": doubling $I$ roughly doubles the work when the other quantities stay fixed.
+{{priority:clustering-kmeans-cost}} **Cost** (p25): $O(nKId)$ for $n$ points, $K$ centres, $I$ iterations and $d$ features. Read this as "points times centres times iterations times coordinates": doubling $I$ roughly doubles the work when the other quantities stay fixed.
 
 **Limitations** (p33-35): K-means prefers compact, roughly spherical groups of comparable size and density. It can split a large group, merge smaller ones, or cut across curved shapes. Means are pulled by outliers. The method requires a chosen $K$, meaningful numeric coordinates, suitable scaling and careful initialization.
 
@@ -158,7 +166,7 @@ Two remaining candidates have nearest-centre distances 1 and 3. Their weights ar
 
 **Agglomerative means build up by merging** (p36-37). Start with one cluster per point. At each step merge the closest pair of clusters, update the cluster distances, and repeat until one cluster or the requested number remains. The key question is: how do we measure distance between **groups**?
 
-:::formula Linkage rules for a distance $d$ (p38-41)
+:::formula @clustering-linkage Linkage rules for a distance $d$ (p38-41)
 $$d_{\mathrm{single}}(A,B)=\min_{a\in A,\ b\in B}d(a,b),\qquad d_{\mathrm{complete}}(A,B)=\max_{a\in A,\ b\in B}d(a,b)$$
 $$d_{\mathrm{average}}(A,B)=\frac1{|A||B|}\sum_{a\in A}\sum_{b\in B}d(a,b)$$
 :::
@@ -179,7 +187,7 @@ On a number line let $A=\{0,2\}$ and $B=\{6,8\}$. The four cross-distances are $
 - Average-link $=(6+8+4+6)/4=6$.
 :::
 
-**Ward's method** (p38) merges the pair causing the **smallest increase in total within-cluster SSE**, using Euclidean geometry. It does not minimize the nearest-pair distance. For two singleton clusters $\{0\}$ and $\{2\}$, SSE before the merge is 0; their merged centre is 1 and SSE is $1+1=2$, so the increase is 2.
+{{priority:clustering-ward}} **Ward's method** (p38) merges the pair causing the **smallest increase in total within-cluster SSE**, using Euclidean geometry. It does not minimize the nearest-pair distance. For two singleton clusters $\{0\}$ and $\{2\}$, SSE before the merge is 0; their merged centre is 1 and SSE is $1+1=2$, so the increase is 2.
 
 A **dendrogram** is the tree recording the merges (p39-41). Leaves are the original points; a joining branch records a merge, and its height records the linkage value. Cut horizontally at a chosen height; the number of branches the cut crosses gives the number of remaining clusters. The left-to-right order of leaves is not a numerical feature value.
 
@@ -191,13 +199,13 @@ Data: $0,2,7,10$.
 4. A cut between heights 3 and 5 leaves two clusters: $\{0,2\}$ and $\{7,10\}$.
 :::
 
-**Limitations** (p42): greedy merges cannot be undone in that run, and an early poor merge can affect everything above it. Noise, different cluster sizes and unsuitable linkage can cause trouble. A basic implementation can take $O(n^3)$ time (p36); efficient implementations depend on the linkage and data representation. HAC builds a hierarchy instead of directly optimizing the ordinary K-means SSE objective.
+**Limitations** (p42): greedy merges cannot be undone in that run, and an early poor merge can affect everything above it. Noise, different cluster sizes and unsuitable linkage can cause trouble. {{priority:clustering-hac-cost}} A basic implementation can take $O(n^3)$ time (p36); efficient implementations depend on the linkage and data representation. HAC builds a hierarchy instead of directly optimizing the ordinary K-means SSE objective.
 
 ## DBSCAN: dense regions plus noise
 
 DBSCAN grows clusters through connected **dense neighbourhoods** (p43-46). It can find curved shapes and leave isolated points as noise. Its main parameters are a radius **Eps**, written $\varepsilon$, and the minimum neighbourhood count **MinPts**. It does not require $K$ in advance.
 
-:::formula Eps neighbourhood
+:::formula @clustering-dbscan Eps neighbourhood
 $$N_{\varepsilon}(p)=\{q:d(p,q)\le\varepsilon\},\qquad p\text{ is core if }|N_{\varepsilon}(p)|\ge\operatorname{MinPts}$$
 :::
 
@@ -258,7 +266,7 @@ The p55 map distinguishes **internal** evaluation (data and predicted groups onl
 
 ### Davies-Bouldin index: smaller is better
 
-:::formula Standard centroid-based Davies-Bouldin definition (p56)
+:::formula @clustering-davies-bouldin Standard centroid-based Davies-Bouldin definition (p56)
 $$S_i=\frac1{|C_i|}\sum_{\mathbf{x}\in C_i}\|\mathbf{x}-\boldsymbol{\mu}_i\|_2,\qquad M_{ij}=\|\boldsymbol{\mu}_i-\boldsymbol{\mu}_j\|_2$$
 $$R_{ij}=\frac{S_i+S_j}{M_{ij}},\qquad \operatorname{DB}=\frac1K\sum_{i=1}^{K}\max_{j\ne i}R_{ij}$$
 :::
@@ -280,7 +288,7 @@ Let $C_1=\{0,2\}$ and $C_2=\{6,8\}$. Centroids: 1 and 7. Average scatter: $S_1=(
 
 ### Dunn index: larger is better
 
-:::formula Point-distance version of the Dunn index (p57)
+:::formula @clustering-dunn Point-distance version of the Dunn index (p57)
 $$\operatorname{Dunn}=\frac{\min_{i\ne j}\ \min_{a\in C_i,\ b\in C_j}d(a,b)}{\max_k\ \max_{a,b\in C_k}d(a,b)}$$
 :::
 
@@ -294,7 +302,7 @@ The closest cross-cluster pair is 2 and 6, distance 4. Each cluster's diameter i
 
 ### Silhouette: compare a point with its own and other groups
 
-:::formula Silhouette for point $i$ in cluster $C$ (p58)
+:::formula @clustering-silhouette Silhouette for point $i$ in cluster $C$ (p58)
 $$a(i)=\frac1{|C|-1}\sum_{\substack{j\in C\\j\ne i}}d(i,j),\qquad b(i)=\min_{B\ne C}\frac1{|B|}\sum_{j\in B}d(i,j)$$
 $$s(i)=\frac{b(i)-a(i)}{\max\{a(i),b(i)\}},\qquad \overline{s}=\frac1n\sum_{i=1}^{n}s(i)$$
 :::
@@ -318,7 +326,7 @@ The slide sums over $j\ne i$ but divides by $|C|$. There are only $|C|-1$ other 
 4. If instead a point had $a=5,b=2$, its score would be $(2-5)/5=-0.6$, suggesting a poor assignment.
 :::
 
-Exact silhouette evaluation uses pairwise distances: ordinarily $O(n^2)$ distance calculations, or $O(n^2d)$ arithmetic work for $d$-dimensional points. Storing a complete distance matrix uses $O(n^2)$ memory, though an implementation can compute distances in chunks.
+{{priority:clustering-silhouette-cost}} Exact silhouette evaluation uses pairwise distances: ordinarily $O(n^2)$ distance calculations, or $O(n^2d)$ arithmetic work for $d$-dimensional points. Storing a complete distance matrix uses $O(n^2)$ memory, though an implementation can compute distances in chunks.
 
 :::tip Direction to remember
 **SSE and Davies-Bouldin: lower is better. Dunn and silhouette: higher is better.** SSE should be compared carefully across different $K$; compactness-based scores may underrate valid curved or density-based groups.

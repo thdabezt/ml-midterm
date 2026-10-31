@@ -18,10 +18,15 @@ This lecture ties everything together: *why* models fail on new data and *what t
 
 ## True error vs empirical error
 
-:::formula Two kinds of error (p5)
+:::formula @optimization-classification-risk Two kinds of classification error (p5)
 | | True error (risk) | Empirical (training) error |
 |---|---|---|
 | Classification | $P(f(X) \ne Y)$ | $\frac1n\sum_{i=1}^n\mathbf{1}[f(X_i) \ne Y_i]$ |
+:::
+
+:::formula @optimization-regression-risk Two kinds of regression error (p5)
+| | True error (risk) | Empirical (training) error |
+|---|---|---|
 | Regression | $E[(f(X) - Y)^2]$ | $\frac1n\sum_{i=1}^n(f(X_i) - Y_i)^2$ |
 :::
 
@@ -35,9 +40,9 @@ This lecture ties everything together: *why* models fail on new data and *what t
 The whole population has 20 faces, 10 misclassified: $\text{error}_D(h) = 10/20 = 0.5$. Our sample of 5 faces contains only 1 misclassified: $\text{error}_S(h) = 1/5 = 0.2$. A small sample can make a classifier look much better than it is.
 :::
 
-**Risk analysis** (p11–13): true risk $R(f) = E[\text{loss}(f(X), Y)]$, empirical risk $\hat R(f) = \frac1n\sum_i\text{loss}(f(X_i), Y_i)$, best possible predictor $f^* = \arg\min R(f)$, and ERM picks $\hat f_n = \arg\min_{f \in \mathcal{F}}\hat R(f)$ inside a model class $\mathcal{F}$.
+{{priority:optimization-risk-minimization}} **Risk analysis** (p11–13): true risk $R(f) = E[\text{loss}(f(X), Y)]$, empirical risk $\hat R(f) = \frac1n\sum_i\text{loss}(f(X_i), Y_i)$, best possible predictor $f^* = \arg\min R(f)$, and ERM picks $\hat f_n = \arg\min_{f \in \mathcal{F}}\hat R(f)$ inside a model class $\mathcal{F}$.
 
-:::formula Excess risk = estimation error + approximation error (p12)
+:::formula @optimization-excess-risk Excess risk = estimation error + approximation error (p12)
 $$R(\hat f_n) - R(f^*) = \underbrace{R(\hat f_n) - \inf_{f\in\mathcal{F}}R(f)}_{\text{estimation error}} + \underbrace{\inf_{f\in\mathcal{F}}R(f) - R(f^*)}_{\text{approximation error}}$$
 :::
 
@@ -63,12 +68,12 @@ $$R(\hat f_n) - R(f^*) = \underbrace{R(\hat f_n) - \inf_{f\in\mathcal{F}}R(f)}_{
 
 ## Bias–variance trade-off
 
-Setting (p14): $Y = f^*(X) + \epsilon$, $\epsilon \sim \mathcal{N}(0, \sigma^2)$. Even the optimal predictor has error $R(f^*) = E[\epsilon^2] = \sigma^2$, the **irreducible noise**.
+{{priority:optimization-signal-noise}} Setting (p14): $Y = f^*(X) + \epsilon$. {{priority:optimization-gaussian-noise}} The slide assumes $\epsilon \sim \mathcal{N}(0, \sigma^2)$. {{priority:optimization-bias-variance}} Even the optimal predictor has error $R(f^*) = E[\epsilon^2] = \sigma^2$, the **irreducible noise**.
 
 - **Bias** (p15): how far the **average** prediction (over many training sets) is from the truth. Caused by a model that is too simple.
 - **Variance** (p16): how much the prediction **changes** from one training set to another. Caused by a model that is too flexible.
 
-:::formula Decomposition of the expected squared error at a point $x_0$
+:::formula @optimization-bias-variance Decomposition of the expected squared error at a point $x_0$
 $$E\big[(Y - \hat f(x_0))^2\big] = \sigma^2 + \underbrace{\big(E[\hat f(x_0)] - f(x_0)\big)^2}_{\text{bias}^2} + \underbrace{E\big[(\hat f(x_0) - E[\hat f(x_0)])^2\big]}_{\text{variance}}$$
 :::
 
@@ -111,7 +116,7 @@ Two ways to fight overfitting (p22): **reduce the number of features** (feature 
 | **Wrapper** | search feature subsets, **training the model** to score each subset | forward selection, backward elimination, recursive feature elimination |
 | **Embedded** | selection happens **inside** training | **LASSO**, auto-encoder with a bottleneck |
 
-:::formula Information gain of a feature (p27)
+:::formula @optimization-information-gain Information gain of a feature (p27)
 $$E(T, X) = \sum_{c \in X}P(c)\,E(c), \qquad \text{Gain}(T, X) = \text{Entropy}(T) - E(T, X)$$
 :::
 
@@ -127,7 +132,7 @@ $$E(T, X) = \sum_{c \in X}P(c)\,E(c), \qquad \text{Gain}(T, X) = \text{Entropy}(
 $E(T, \text{Outlook}) = \frac{5}{14}0.971 + \frac{4}{14}0 + \frac{5}{14}0.971 = 0.693$. **Gain = 0.940 − 0.693 = 0.247.** Do the same for every feature and keep the ones with the largest gain.
 :::
 
-:::formula Chi-square score (p28)
+:::formula @optimization-chi-square Chi-square score (p28)
 $$\chi^2 = \sum_i\frac{(O_i - E_i)^2}{E_i}$$
 :::
 
@@ -145,14 +150,14 @@ $\chi^2 = \frac{(30-20)^2}{20} + \frac{(10-20)^2}{20} + \frac{(20-30)^2}{30} + \
 
 ## Fix 2: regularization
 
-:::formula Regularised learning (p30–31)
+:::formula @optimization-regularized-learning Regularised learning (p30–31)
 $$\hat f_n = \arg\min_{f \in \mathcal{F}}\big\{\hat R_n(f) + C(f)\big\} \qquad\qquad \min_{\mathbf{w}}\ \frac{1}{2m}\sum_{i=1}^{m}(h(\mathbf{x}_i) - y_i)^2 + \phi(\mathbf{w})$$
 :::
 
 | Regulariser $\phi(\mathbf{w})$ | Name | Effect |
 |---|---|---|
-| $\lambda\lVert\mathbf{w}\rVert_2^2 = \lambda\sum_j w_j^2$ | **Ridge** (L2; the slide misspells it "rigid") | shrinks all weights smoothly towards 0 |
-| $\lambda\lVert\mathbf{w}\rVert_1 = \lambda\sum_j\lvert w_j\rvert$ | **Lasso** (least absolute shrinkage and selection operator) | pushes some weights to **exactly 0** → feature selection (embedded) |
+| {{priority:optimization-ridge}} $\lambda\lVert\mathbf{w}\rVert_2^2 = \lambda\sum_j w_j^2$ | **Ridge** (L2; the slide misspells it "rigid") | shrinks all weights smoothly towards 0 |
+| {{priority:optimization-lasso}} $\lambda\lVert\mathbf{w}\rVert_1 = \lambda\sum_j\lvert w_j\rvert$ | **Lasso** (least absolute shrinkage and selection operator) | pushes some weights to **exactly 0** → feature selection (embedded) |
 
 :::read The role of λ
 - $\lambda = 0$: ordinary least squares, can overfit.
@@ -162,17 +167,19 @@ $$\hat f_n = \arg\min_{f \in \mathcal{F}}\big\{\hat R_n(f) + C(f)\big\} \qquad\q
 :::
 
 :::steps Ridge regression, both solutions (Homework 2 Exercise 2)
+{{priority:optimization-ridge}}
+
 Cost: $J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i(\mathbf{w}^T\mathbf{x}_i - y_i)^2 + \lambda\sum_{j=1}^{n}w_j^2\Big]$ (usually $w_0$ is not penalised).
 1. Gradient: $\frac{\partial J}{\partial w_0} = \frac1m\sum_i e_i$; $\frac{\partial J}{\partial w_j} = \frac1m\sum_i e_ix_{ij} + \frac{\lambda}{m}w_j$ for $j \ge 1$, where $e_i = \mathbf{w}^T\mathbf{x}_i - y_i$.
 2. **Gradient descent**: $w_j := w_j\big(1 - \frac{\alpha\lambda}{m}\big) - \frac{\alpha}{m}\sum_i e_ix_{ij}$. The factor $1 - \frac{\alpha\lambda}{m} < 1$ shrinks the weight every step ("weight decay").
 3. **Analytical**: setting the gradient to 0: $(X^TX + \lambda L)\mathbf{w} = X^T\mathbf{y}$, so $\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y}$ with $L = \mathrm{diag}(0, 1, \dots, 1)$ (use $I$ if $w_0$ is penalised too). For $\lambda > 0$ this matrix is always invertible.
 :::
 
-**Regularised logistic regression** (p32): $\min_{\mathbf{w}}\sum_i\ln(1 + \exp(-y_i\mathbf{w}^T\mathbf{x}_i)) + \lambda\lVert\mathbf{w}\rVert_2^2$ (L2) or $+ \lambda\lVert\mathbf{w}\rVert_1$ (L1, "sparse logistic regression"). This also fixes the infinite-weight problem on separable data.
+{{priority:optimization-regularized-logistic}} **Regularised logistic regression** (p32): $\min_{\mathbf{w}}\sum_i\ln(1 + \exp(-y_i\mathbf{w}^T\mathbf{x}_i)) + \lambda\lVert\mathbf{w}\rVert_2^2$ (L2) or $+ \lambda\lVert\mathbf{w}\rVert_1$ (L1, "sparse logistic regression"). This also fixes the infinite-weight problem on separable data.
 
 ### Why Lasso needs more than ordinary derivatives (HW_07.pdf, Exercise 2)
 
-The supplied `HW_07.pdf` asks about $R_{\mathrm{reg}}(\boldsymbol{\theta})=\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2+\lambda\|\boldsymbol{\theta}\|_1$. Here $X$ has $n$ rows (examples) and $p$ columns (features); $\theta_j$ is the weight of column $j$.
+{{priority:optimization-lasso}} The supplied `HW_07.pdf` asks about $R_{\mathrm{reg}}(\boldsymbol{\theta})=\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2+\lambda\|\boldsymbol{\theta}\|_1$. Here $X$ has $n$ rows (examples) and $p$ columns (features); $\theta_j$ is the weight of column $j$.
 
 :::read Absolute value has a corner
 $|t|=-t$ for $t<0$, so its slope is $-1$. For $t>0$, $|t|=t$, so its slope is $+1$. At $t=0$ the two slopes disagree: there is no ordinary derivative. Lasso has this corner whenever a penalised weight is zero. This is also why it can set weights exactly to zero.
@@ -180,7 +187,7 @@ $|t|=-t$ for $t<0$, so its slope is $-1$. For $t>0$, $|t|=t$, so its slope is $+
 
 **Convex** means a straight line between any two points on the graph stays on or above the graph: there is no separate lower valley hidden behind a hill. Squared linear residuals are convex, and absolute values are convex; adding them with $\lambda>0$ preserves convexity. Thus a Lasso local minimum is global, although the best weight vector need not be unique.
 
-:::formula Isolate one coordinate
+:::formula @optimization-lasso-coordinate Isolate one coordinate
 $$z_j=\sum_{i=1}^{n}x_{ij}^2,\qquad \rho_j=\sum_{i=1}^{n}x_{ij}\left(y_i-\sum_{k\ne j}x_{ik}\theta_k\right)$$
 $$\frac{\partial}{\partial\theta_j}\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2=z_j\theta_j-\rho_j$$
 :::
@@ -197,7 +204,7 @@ Take $X=\begin{bmatrix}1&1\\1&2\end{bmatrix}$, $\mathbf{y}=(2,3)$ and hold $\the
 4. With $\lambda=1$, on the positive side add the L1 slope $+1$: $5\theta_2-5+1=0$, giving $\theta_2=0.8$.
 :::
 
-:::formula Coordinate descent with soft thresholding
+:::formula @optimization-lasso-soft-threshold Coordinate descent with soft thresholding
 $$\theta_j\leftarrow\frac{\operatorname{sgn}(\rho_j)\max\{|\rho_j|-\lambda,0\}}{z_j}\quad(z_j>0)$$
 :::
 
@@ -209,7 +216,7 @@ Subtract $\lambda$ from the magnitude of $\rho_j$, stop at zero, restore its sig
 
 **Idea** (p33): train several models and **combine** them (vote or average). Usually improves accuracy, often by a lot.
 
-:::formula Why it works (p34)
+:::formula @optimization-binomial-majority Why it works (p34)
 With 25 independent classifiers, each with error $\varepsilon = 0.35$, a majority vote is wrong only if **13 or more** are wrong:
 $$\sum_{i=13}^{25}\binom{25}{i}\varepsilon^i(1-\varepsilon)^{25-i} \approx 0.06$$
 :::
@@ -220,8 +227,8 @@ The sum adds the binomial probabilities of 13, 14, …, 25 mistakes. 6% is far b
 
 ### Bagging (bootstrap aggregating)
 
-- **Bootstrap sample** (p36): from $n$ examples draw $n$ **with replacement**. Some examples repeat, others are missing.
-- Probability that a given example is never drawn: $(1 - \frac1n)^n \to \frac1e \approx 0.37$. So each bootstrap sample leaves out about **37%** of the data (and contains about 63% distinct examples).
+- {{priority:optimization-bootstrap-sampling}} **Bootstrap sample** (p36): from $n$ examples draw $n$ **with replacement**. Some examples repeat, others are missing.
+- {{priority:optimization-bootstrap-omission}} Probability that a given example is never drawn: $(1 - \frac1n)^n \to \frac1e \approx 0.37$. So each bootstrap sample leaves out about **37%** of the data (and contains about 63% distinct examples).
 
 :::steps Bagging algorithm (p38)
 1. **Create** $k$ bootstrap samples $D_1, \dots, D_k$.
@@ -229,7 +236,7 @@ The sum adds the binomial probabilities of 13, 14, …, 25 mistakes. 6% is far b
 3. **Classify** a new instance by a vote with **equal weights** (regression: average the predictions).
 :::
 
-Bagging approximates the Bayesian average $\sum_i P(c \mid h_i, x)$ with $h_i$ sampled from the posterior $P(h \mid D)$ (p35, p39). It mainly **reduces variance**, so it suits unstable, high-variance models such as deep decision trees.
+{{priority:optimization-bayesian-model-average}} Bagging approximates the Bayesian average $\sum_i P(c \mid h_i, x)$ with $h_i$ sampled from the posterior $P(h \mid D)$ (p35, p39). It mainly **reduces variance**, so it suits unstable, high-variance models such as deep decision trees.
 
 :::example
 $n = 10$: $(1 - 0.1)^{10} = 0.9^{10} = 0.349$. $n = 100$: $0.99^{100} = 0.366$. The limit is $1/e = 0.368$.
@@ -242,7 +249,7 @@ Input: training set $D$ of $n$ examples with $p$ features; number of trees $B$; 
 1. For $b = 1, \dots, B$:
    - draw a bootstrap sample $D_b$ of size $n$ from $D$ (with replacement);
    - grow a regression tree $T_b$ on $D_b$: at each node pick $m_{try}$ features at random, find the best split among them only (largest reduction of squared error / variance), split, and recurse until the node reaches the minimum size; do not prune.
-2. Prediction for a new $\mathbf{x}$: $\hat f(\mathbf{x}) = \frac1B\sum_{b=1}^{B}T_b(\mathbf{x})$ (classification: majority vote).
+2. {{priority:optimization-forest-average}} Prediction for a new $\mathbf{x}$: $\hat f(\mathbf{x}) = \frac1B\sum_{b=1}^{B}T_b(\mathbf{x})$ (classification: majority vote).
 3. Optional: the out-of-bag examples (the ≈37% not in $D_b$) give a free validation error.
 :::
 
@@ -257,7 +264,7 @@ Bagging is inefficient (p40): every example is equally likely to be sampled (no 
 - Their weights are doubled relative to the others, then normalised: raw $(2, 1, 1, 2, 1)$, sum 7 → $D_1 = (\frac27, \frac17, \frac17, \frac27, \frac17)$.
 - $h_2$ misclassifies only $x_4$: raw $(2, 1, 1, 4, 1)$, sum 9 → $D_2 = (\frac29, \frac19, \frac19, \frac49, \frac19)$.
 
-(In full AdaBoost, with $\alpha_t = \frac12\ln\frac{1 - \varepsilon_t}{\varepsilon_t}$, misclassified weights are multiplied by $e^{\alpha_t}$ and correct ones by $e^{-\alpha_t}$, so the misclassified examples gain a **relative** factor $e^{2\alpha_t} = \frac{1 - \varepsilon_t}{\varepsilon_t}$, which depends on the weighted error $\varepsilon_t$. The slide uses a fixed ×2 to show the idea.)
+{{priority:optimization-adaboost}} (In full AdaBoost, with $\alpha_t = \frac12\ln\frac{1 - \varepsilon_t}{\varepsilon_t}$, misclassified weights are multiplied by $e^{\alpha_t}$ and correct ones by $e^{-\alpha_t}$, so the misclassified examples gain a **relative** factor $e^{2\alpha_t} = \frac{1 - \varepsilon_t}{\varepsilon_t}$, which depends on the weighted error $\varepsilon_t$. The slide uses a fixed ×2 to show the idea.)
 :::
 
 | | Bagging | Boosting |
@@ -275,9 +282,13 @@ Train several **different** base learners (e.g. decision tree, Naive Bayes, neur
 ## Homework 5 topics in brief
 
 :::note Reject option (Exercise 1)
+{{priority:optimization-reject-option}}
+
 Loss 0 for a correct decision, $\lambda_s$ for a wrong one, $\lambda_r$ for rejecting. The risk of choosing class $j$ is $\lambda_s(1 - p(j \mid x))$; the risk of rejecting is $\lambda_r$. So pick the most probable class $j$ if $\lambda_s(1 - p(j \mid x)) \le \lambda_r$, i.e. $p(j \mid x) \ge 1 - \frac{\lambda_r}{\lambda_s}$; otherwise reject. As $\lambda_r/\lambda_s$ goes from 0 to 1 the threshold falls from 1 to 0: rejecting becomes expensive, so we reject less and less (at ratio 0 we reject everything that is not certain, at ratio 1 we never reject).
 :::
 
 :::note Linear smoothers (Exercise 2)
+{{priority:optimization-linear-smoothers}}
+
 Both linear regression and k-NN regression predict $\hat f(x_0) = \sum_i\ell_i(x_0; \mathcal{X})\,y_i$, a weighted sum of the training targets. Linear regression: $\ell_i(x_0) = [\mathbf{x}_0^T(X^TX)^{-1}X^T]_i$. k-NN: $\ell_i(x_0) = 1/k$ if $x_i$ is one of the $k$ nearest neighbours of $x_0$, else 0. The conditional MSE splits into squared bias $\big(f(x_0) - \sum_i\ell_if(x_i)\big)^2$ plus variance $\sigma^2\sum_i\ell_i^2$. See the practice section for the full derivation.
 :::

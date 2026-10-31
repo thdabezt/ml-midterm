@@ -17,7 +17,7 @@ Two of the most examinable calculations live here: the **Naive Bayes table probl
 
 ## Bayes' theorem for learning: MAP and MLE
 
-:::formula Bayes' theorem (p9)
+:::formula @classification-bayes Bayes' theorem (p9)
 $$P(h \mid D) = \frac{P(D \mid h)\,P(h)}{P(D)} \qquad \text{posterior} \propto \text{likelihood} \times \text{prior}$$
 :::
 
@@ -27,8 +27,12 @@ $$P(h \mid D) = \frac{P(D \mid h)\,P(h)}{P(D)} \qquad \text{posterior} \propto \
 - $P(D)$ is the same for every $h$, so it can be ignored when we only want the **best** $h$.
 :::
 
-:::formula MAP and MLE (p10–12)
-$$h_{MAP} = \arg\max_{h \in \mathcal{H}} P(D \mid h)\,P(h) \qquad\qquad h_{ML} = \arg\max_{h \in \mathcal{H}} P(D \mid h)$$
+:::formula @classification-map MAP (p10–12)
+$$h_{MAP} = \arg\max_{h \in \mathcal{H}} P(D \mid h)\,P(h)$$
+:::
+
+:::formula @classification-mle MLE (p10–12)
+$$h_{ML} = \arg\max_{h \in \mathcal{H}} P(D \mid h)$$
 :::
 
 - **MAP** (maximum a posteriori): uses the prior, which "encodes knowledge or preference". Computationally intensive, but a gold standard for judging learners.
@@ -45,7 +49,10 @@ $h_{MAP}$ = **healthy**, even though the test is positive, because the prior is 
 ## Least squares is MLE in disguise
 
 Assume each target is the true function plus Gaussian noise (p13): $y_i = f(x_i) + \epsilon_i$, $\epsilon_i \sim \mathcal{N}(0, \sigma^2)$. Then (p14):
+
+:::formula @classification-gaussian-mle Least squares from Gaussian maximum likelihood
 $$h_{ML} = \arg\max_h \prod_{i=1}^m \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(y_i - h(x_i))^2}{2\sigma^2}} = \arg\max_h \sum_{i=1}^m \Big[\ln\frac{1}{\sqrt{2\pi\sigma^2}} - \frac{(y_i - h(x_i))^2}{2\sigma^2}\Big] = \arg\min_h \sum_{i=1}^m (y_i - h(x_i))^2$$
+:::
 
 :::read Why each step is allowed
 1. Independent data → likelihood = product of Gaussian densities.
@@ -59,13 +66,20 @@ $$h_{ML} = \arg\max_h \prod_{i=1}^m \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(y_i 
 ## Generative models
 
 A **generative** classifier models how each class *generates* data, then uses Bayes to classify (p15–17):
+
+:::formula @classification-generative-rule Generative classification rule
 $$p(\mathcal{C}_k \mid \mathbf{x}) \propto p(\mathbf{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k), \qquad k^* = \arg\max_k p(\mathbf{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k)$$
+:::
 
 - $p(\mathbf{x} \mid \mathcal{C}_k)$: **class-conditional density**, e.g. a Gaussian $\mathcal{N}(\mathbf{x} \mid \boldsymbol\mu_k, \Sigma_k)$.
 - $p(\mathcal{C}_k)$: **class prior**.
 
-:::formula Closed-form parameter estimates (p17)
-$$\boldsymbol\mu_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)\,\mathbf{x}_i}{\sum_i \delta(y_i, \mathcal{C}_k)}, \qquad \Sigma_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)(\mathbf{x}_i - \boldsymbol\mu_k)(\mathbf{x}_i - \boldsymbol\mu_k)^T}{\sum_i \delta(y_i, \mathcal{C}_k)}, \qquad p(\mathcal{C}_k) = \frac{1}{n}\sum_i\delta(y_i, \mathcal{C}_k)$$
+:::formula @classification-gaussian-estimates Gaussian class mean and covariance (p17)
+$$\boldsymbol\mu_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)\,\mathbf{x}_i}{\sum_i \delta(y_i, \mathcal{C}_k)}, \qquad \Sigma_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)(\mathbf{x}_i - \boldsymbol\mu_k)(\mathbf{x}_i - \boldsymbol\mu_k)^T}{\sum_i \delta(y_i, \mathcal{C}_k)}$$
+:::
+
+:::formula @classification-class-prior Class prior from counts (p17)
+$$p(\mathcal{C}_k) = \frac{1}{n}\sum_i\delta(y_i, \mathcal{C}_k)$$
 :::
 
 :::read
@@ -84,7 +98,7 @@ Class A: $x = 1, 2, 3$. Class B: $x = 6, 8$.
 
 ## Naive Bayes classifier
 
-:::formula Conditional independence assumption (p21, p26)
+:::formula @classification-naive-bayes Conditional independence and Naive Bayes classifier (p21, p26)
 $$p(\mathbf{x} \mid \mathcal{C}_k) \approx \prod_{j=1}^{d} p(x_j \mid \mathcal{C}_k) \qquad\Longrightarrow\qquad \mathcal{C}_{NB} = \arg\max_{\mathcal{C}_k}\; P(\mathcal{C}_k)\prod_j P(x_j \mid \mathcal{C}_k)$$
 :::
 
@@ -99,6 +113,10 @@ $$p(\mathbf{x} \mid \mathcal{C}_k) \approx \prod_{j=1}^{d} p(x_j \mid \mathcal{C
 2. For each feature value in the new example and each class: $P(\text{value} \mid \text{class}) = \frac{\#\text{rows with that value AND that class}}{\#\text{rows of that class}}$. Note: the denominator is the class count, **not** the total.
 3. Score each class: prior × product of its conditional probabilities.
 4. Predict the class with the bigger score. (To get real probabilities, divide each score by the sum of the scores.)
+:::
+
+:::formula @classification-conditional-frequency Conditional probability from class counts
+$$P(x_j=v\mid\mathcal{C}_k)=\frac{\#\{i:x_{ij}=v,\ y_i=\mathcal{C}_k\}}{\#\{i:y_i=\mathcal{C}_k\}}$$
 :::
 
 :::example Play Tennis (slides p27–29): $\mathbf{x}$ = (Sunny, Cool, High humidity, Strong wind)
@@ -120,7 +138,7 @@ $0.0206 > 0.0053$ → **PlayTennis = No**. Normalised: $P(\text{No} \mid \mathbf
 
 If a feature value never appears with a class in training, its MLE probability is 0 and the whole product becomes 0, no matter how strong the other evidence is (p24, the "new word" problem).
 
-:::formula Laplace (add-one) smoothing (p24)
+:::formula @classification-laplace-smoothing Laplace (add-one) smoothing (p24)
 $$P(w_j \mid \mathcal{C}_k) = \frac{\text{count}(w_j, \mathcal{C}_k) + 1}{|\mathcal{V}| + \sum_{w \in \mathcal{V}}\text{count}(w, \mathcal{C}_k)}$$
 :::
 
@@ -136,16 +154,27 @@ Homework 4 says "use MLE", which means **no smoothing**: a zero count really giv
 
 A document is a **bag of words**: word order is ignored, $x_j$ = number of times word $w_j$ occurs (p22). Then $p(\mathbf{x} \mid \mathcal{C}_k) \propto \prod_j p(w_j \mid \mathcal{C}_k)^{x_j}$, and $p(w_j \mid \mathcal{C}_k)$ = frequency of $w_j$ in the "mega-document" made by joining all class-$k$ documents (p23).
 
+:::formula @classification-text-naive-bayes Bag-of-words likelihood (p22–23)
+$$p(\mathbf{x}\mid\mathcal{C}_k)\propto\prod_j p(w_j\mid\mathcal{C}_k)^{x_j}$$
+:::
+
 ### Naive Bayes gives a linear decision boundary
 
 Taking the log of the ratio of the two class scores (p31):
+
+:::formula @classification-naive-bayes-log-odds Text Naive Bayes log-odds
 $$\ln\frac{p(\mathcal{C}_1 \mid \mathbf{x})}{p(\mathcal{C}_2 \mid \mathbf{x})} = \ln\frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)} + \sum_j x_j\underbrace{\ln\frac{p(w_j \mid \mathcal{C}_1)}{p(w_j \mid \mathcal{C}_2)}}_{\text{weight of word } j}$$
+:::
 This is **linear in $\mathbf{x}$**: a constant plus a weighted sum. Gaussian class-conditionals with a **shared** covariance also give a linear boundary (p32). So why not learn the linear boundary directly? That is logistic regression (p33).
 
 ## Logistic regression (a discriminative model)
 
-:::formula Model (p35–36), labels $y \in \{-1, +1\}$
-$$\ln\frac{p(y = 1 \mid \mathbf{x})}{p(y = -1 \mid \mathbf{x})} = \mathbf{w}^T\mathbf{x} \quad\Longrightarrow\quad p(y \mid \mathbf{x}) = \frac{1}{1 + \exp(-y\,\mathbf{w}^T\mathbf{x})} = \sigma(y\,\mathbf{w}^T\mathbf{x})$$
+:::formula @classification-logistic-log-odds Log-odds model (p35–36), labels $y\in\{-1,+1\}$
+$$\ln\frac{p(y=1\mid\mathbf{x})}{p(y=-1\mid\mathbf{x})}=\mathbf{w}^T\mathbf{x}$$
+:::
+
+:::formula @classification-logistic-model Logistic probability model (p35–36)
+$$p(y\mid\mathbf{x})=\sigma(y\,\mathbf{w}^T\mathbf{x})\quad\text{for }y\in\{-1,+1\},\qquad P(y=1\mid\mathbf{x})=\sigma(\mathbf{w}^T\mathbf{x})\quad\text{for 0/1 labels}$$
 :::
 
 :::read
@@ -155,8 +184,16 @@ $$\ln\frac{p(y = 1 \mid \mathbf{x})}{p(y = -1 \mid \mathbf{x})} = \mathbf{w}^T\m
 - **Decision rule**: predict class 1 when $P \ge 0.5$, i.e. when $\mathbf{w}^T\mathbf{x} \ge 0$. The **decision boundary** is $\mathbf{w}^T\mathbf{x} = 0$.
 :::
 
-:::formula Sigmoid facts (p37)
-$$\sigma(a) = \frac{1}{1 + e^{-a}}, \qquad \sigma(-a) = 1 - \sigma(a), \qquad \frac{d\sigma}{da} = \sigma(a)\big(1 - \sigma(a)\big)$$
+:::formula @classification-linear-score Linear score and binary decision boundary
+$$z=\mathbf{w}^T\mathbf{x}=w_0+\sum_{j=1}^{d}w_jx_j\quad(x_0=1),\qquad z=0\text{ at the }P=0.5\text{ boundary}$$
+:::
+
+:::formula @classification-sigmoid Sigmoid value (p37)
+$$\sigma(a)=\frac{1}{1+e^{-a}}$$
+:::
+
+:::formula @classification-sigmoid-identities Sigmoid complement and derivative (p37)
+$$\sigma(-a)=1-\sigma(a),\qquad\frac{d\sigma}{da}=\sigma(a)\big(1-\sigma(a)\big)$$
 :::
 
 :::example Heart disease (p41–42)
@@ -168,7 +205,7 @@ Feature $x$ = age group (1..8), fitted weights $w_1 = 0.58$, $w_0 = -3.34$.
 
 ### Training: maximum likelihood
 
-:::formula Loss to minimise (p38)
+:::formula @classification-logistic-loss Loss to minimise (p38)
 $$\mathcal{L}(\mathbf{w}) = \prod_i p(y_i \mid \mathbf{x}_i; \mathbf{w}) \;\;\Longrightarrow\;\; \mathbf{w}^* = \arg\min_{\mathbf{w}}\sum_{i=1}^N \ln\big(1 + \exp(-y_i\,\mathbf{w}^T\mathbf{x}_i)\big)$$
 :::
 
@@ -178,13 +215,17 @@ Maximise the log-likelihood $\sum_i\ln\sigma(y_i\mathbf{w}^T\mathbf{x}_i)$, whic
 
 - The loss is **convex**, so there is one global optimum (p39–40), but **no closed-form solution**: use gradient descent.
 
-:::formula Gradient (p40)
-$$\nabla\mathcal{L}(\mathbf{w}) = -\sum_{i=1}^N y_i\,\mathbf{x}_i\big(1 - p(y_i \mid \mathbf{x}_i)\big), \qquad \mathbf{w}_{t+1} = \mathbf{w}_t - \eta_t\nabla\mathcal{L}(\mathbf{w}_t),\quad \eta_t \propto 1/\sqrt{t}$$
+:::formula @classification-logistic-gradient Gradient and update (p40)
+$$\nabla\mathcal{L}(\mathbf{w}) = -\sum_{i=1}^N y_i\,\mathbf{x}_i\big(1 - p(y_i \mid \mathbf{x}_i)\big), \qquad \mathbf{w}_{t+1} = \mathbf{w}_t - \eta_t\nabla\mathcal{L}(\mathbf{w}_t)$$
 With 0/1 labels: $\nabla = \sum_i \big(\sigma(\mathbf{w}^T\mathbf{x}_i) - y_i\big)\mathbf{x}_i$, the same "error × input" shape as linear regression.
 :::
 
 :::read
 $1 - p(y_i \mid \mathbf{x}_i)$ is the "classification error" of example $i$: examples that are already predicted well barely move the weights.
+:::
+
+:::formula @classification-decaying-step Decreasing step-size example (p40)
+$$\eta_t\propto1/\sqrt{t}$$
 :::
 
 :::example One gradient step by hand (0/1 labels)
@@ -202,7 +243,10 @@ If one threshold separates the classes perfectly (as in Homework 4 Exercise 3: f
 ### Multi-class: softmax
 
 For $K$ classes (p47–48), give each class its own weight vector:
+
+:::formula @classification-softmax Multi-class softmax
 $$p(\mathcal{C}_k \mid \mathbf{x}) = \frac{\exp(\mathbf{w}_k^T\mathbf{x})}{\sum_{k'=1}^{K}\exp(\mathbf{w}_{k'}^T\mathbf{x})}$$
+:::
 The denominator $Z(\mathbf{x})$ (partition function) makes the $K$ probabilities sum to 1. Train by maximising $\sum_i\ln p(y_i \mid \mathbf{x}_i)$.
 
 :::example

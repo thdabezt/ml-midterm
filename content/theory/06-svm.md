@@ -21,7 +21,7 @@ SVM questions in a midterm are mostly **conceptual** (what the margin is, what C
 
 Training data $(\mathbf{x}_1, y_1), (\mathbf{x}_2, y_2), \dots$ with labels $y_i \in \{+1, -1\}$ (p4). Goal: find a **linear hyperplane** (decision boundary) that separates the classes, and classify with
 
-:::formula Linear classifier
+:::formula @svm-linear-classifier Linear classifier
 $$f(\mathbf{x}) = \mathrm{sgn}(\mathbf{w}^T\mathbf{x} + b)$$
 :::
 
@@ -39,7 +39,7 @@ $\mathbf{w} = (1, 2)$, $b = -4$. Point $(3, 1)$: score $3 + 2 - 4 = 1 > 0$ → c
 
 The hyperplane $H = \{\mathbf{x} : \mathbf{w}^T\mathbf{x} + b = 0\}$ splits space into the positive side ($\mathbf{w}^T\mathbf{x} + b \ge 0$, $y = +1$) and the negative side ($< 0$, $y = -1$) (p6).
 
-:::formula Linear separability (p7)
+:::formula @svm-separability Linear separability (p7)
 $$D \text{ is linearly separable} \iff \exists\,\mathbf{w}, b:\ s_i = y_i(\mathbf{w}^T\mathbf{x}_i + b) \ge 0\ \ \forall i$$
 :::
 
@@ -59,14 +59,17 @@ Inputs $x_1, x_2 \in \{0, 1\}$, output $+1$ for "true".
 :::
 
 **Margin of a hyperplane** (p8): the smallest distance from any data point to $H$,
-$$\delta = \min_i\frac{|\mathbf{w}^T\mathbf{x}_i + b|}{\lVert\mathbf{w}\rVert}.$$
+
+:::formula @svm-point-distance Point-to-hyperplane distance and one-sided margin (p8)
+$$d(\mathbf{x},H)=\frac{|\mathbf{w}^T\mathbf{x}+b|}{\lVert\mathbf{w}\rVert},\qquad\delta=\min_i\frac{|\mathbf{w}^T\mathbf{x}_i+b|}{\lVert\mathbf{w}\rVert}$$
+:::
 If $\lVert\mathbf{w}\rVert = 1$ the distance is just $|\mathbf{w}^T\mathbf{x}_i + b|$; if the closest point has $|\mathbf{w}^T\mathbf{x}_i + b| = 1$ then $\delta = 1/\lVert\mathbf{w}\rVert$.
 
 :::example Distance from a point to a hyperplane
 $\mathbf{w} = (3, 4)$, $b = -5$, point $(2, 1)$: $|3\cdot2 + 4\cdot1 - 5| / \sqrt{9 + 16} = 5/5 = 1$.
 :::
 
-:::formula Perceptron algorithm (p9)
+:::formula @svm-perceptron Perceptron algorithm (p9)
 For each example, compute $s_i = y_i(\mathbf{w}^T\mathbf{x}_i + b)$. If it is misclassified:
 $$\mathbf{w} \leftarrow \mathbf{w} + y_i\mathbf{x}_i, \qquad b \leftarrow b + y_i$$
 Repeat passes over the data until every $s_i \ge 0$.
@@ -80,13 +83,19 @@ $\mathbf{w} = (1, 0)$, $b = 0$, example $\mathbf{x} = (-1, 2)$ with $y = +1$. Sc
 With $\mathbf{w} = 0, b = 0$ every score is exactly 0. In practice treat $s_i \le 0$ as a mistake (most textbooks do), otherwise the algorithm would stop immediately with $\mathbf{w} = 0$.
 :::
 
-**Convergence theorem** (p10–12): if the data is separable with margin $\delta > 0$, the perceptron makes at most $t \le \frac{R^2(\lVert\mathbf{w}^\star\rVert^2 + b^2)}{\delta^2}$ updates, where $R^2 = \max_i\lVert\mathbf{x}_i\rVert^2 + 1$. So a **large margin** (an "easy" dataset) means **few** mistakes; a tiny margin (a "difficult" dataset) can need many. If the data is not separable, the perceptron never stops.
+**Convergence theorem** (p10–12): if the data is separable with margin $\delta > 0$, the perceptron makes at most the following number of updates.
+
+:::formula @svm-perceptron-bound Perceptron convergence bound
+$$t\le\frac{R^2(\lVert\mathbf{w}^{\star}\rVert^2+b^2)}{\delta^2},\qquad R^2=\max_i\lVert\mathbf{x}_i\rVert^2+1$$
+:::
+
+So a **large margin** (an "easy" dataset) means **few** mistakes; a tiny margin (a "difficult" dataset) can need many. If the data is not separable, the perceptron never stops.
 
 ## Maximum margin: the idea of SVM
 
 Many lines separate the data (p13–15). Which is best? SVM picks the one with the **largest margin**: the width the boundary could grow before hitting a data point (p16). A wide margin is more robust to noise and generalises better.
 
-:::formula SVM geometry (p17–18)
+:::formula @svm-margin SVM geometry (p17–18)
 $$\mathbf{w}^T\mathbf{x} + b = +1,\quad \mathbf{w}^T\mathbf{x} + b = 0,\quad \mathbf{w}^T\mathbf{x} + b = -1 \qquad\qquad \text{Margin} = \frac{2}{\lVert\mathbf{w}\rVert}$$
 :::
 
@@ -97,7 +106,7 @@ $$\mathbf{w}^T\mathbf{x} + b = +1,\quad \mathbf{w}^T\mathbf{x} + b = 0,\quad \ma
 - Maximising $2/\lVert\mathbf{w}\rVert$ is the same as minimising $\frac12\lVert\mathbf{w}\rVert^2$ (nicer to optimise).
 :::
 
-:::formula Hard-margin SVM (p18–19)
+:::formula @svm-hard-margin Hard-margin SVM (p18–19)
 $$\min_{\mathbf{w}, b}\ \frac12\mathbf{w}^T\mathbf{w} \quad\text{subject to}\quad y_i(\mathbf{w}^T\mathbf{x}_i + b) \ge 1,\ \ i = 1, \dots, l$$
 :::
 
@@ -114,7 +123,7 @@ $2a + b = 1$ and $-2a + b = -1$ → $b = 0$, $a = 0.5$. So $\mathbf{w} = (0.5, 0
 
 Real data is often **not** linearly separable (p20), so the hard-margin constraints cannot all hold.
 
-:::formula Soft-margin primal (p21)
+:::formula @svm-soft-margin Soft-margin primal (p21)
 $$\min_{\mathbf{w}, b, \xi}\ \frac12\mathbf{w}^T\mathbf{w} + C\sum_{i=1}^{N}\xi_i \quad\text{s.t.}\quad y_i(\mathbf{w}^T\mathbf{x}_i + b) \ge 1 - \xi_i,\ \ \xi_i \ge 0$$
 :::
 
@@ -123,7 +132,7 @@ $$\min_{\mathbf{w}, b, \xi}\ \frac12\mathbf{w}^T\mathbf{w} + C\sum_{i=1}^{N}\xi_
 - $C$: the price of each unit of slack. It trades a **wide margin** against **few training errors**.
 :::
 
-:::formula Same thing as an unconstrained loss: hinge loss (p22–23)
+:::formula @svm-hinge-loss Same thing as an unconstrained loss: hinge loss (p22–23)
 $$\min_{\mathbf{w}, b}\ \underbrace{\frac12\sum_{j=1}^{d}w_j^2}_{\text{model complexity}} + C\underbrace{\sum_{i=1}^{N}\max\big(0,\ 1 - y_i[\mathbf{x}_i^T\mathbf{w} + b]\big)}_{\text{training error}}$$
 :::
 
@@ -140,7 +149,7 @@ Regularised logistic regression has the same shape with the **logistic loss** $\
 
 ## The dual problem and support vectors
 
-:::formula Dual form (p24)
+:::formula @svm-dual Dual form (p24)
 $$\max_{\alpha_i \in [0, C]}\ \sum_{i=1}^{N}\alpha_i - \frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\,\mathbf{x}_i^T\mathbf{x}_j \quad\text{s.t.}\quad \sum_i\alpha_iy_i = 0$$
 :::
 
@@ -161,11 +170,15 @@ A 1-D dataset with the pattern ● ● ○ ○ ○ ● ● cannot be split by on
 
 Then learn $f(\mathbf{x}) = \mathbf{w}^T\Phi(\mathbf{x}) + b$ with the same SVM (p31). The dual uses $Q_{ij} = y_iy_j\Phi(\mathbf{x}_i)^T\Phi(\mathbf{x}_j)$, and $f(\mathbf{x}) = \sum_i\alpha_iy_i\Phi(\mathbf{x}_i)^T\Phi(\mathbf{x}) + b$ (p32).
 
+:::formula @svm-feature-classifier Classifier in a transformed feature space (p31–32)
+$$f(\mathbf{x})=\mathbf{w}^T\Phi(\mathbf{x})+b=\sum_i\alpha_iy_i\Phi(\mathbf{x}_i)^T\Phi(\mathbf{x})+b$$
+:::
+
 **Problem** (p33): explicit feature maps get huge. A degree-2 polynomial map of $\mathbf{x} \in \mathbb{R}^3$ already has 10 coordinates, $(1, \sqrt2x_1, \sqrt2x_2, \sqrt2x_3, x_1^2, x_2^2, x_3^2, \sqrt2x_1x_2, \sqrt2x_1x_3, \sqrt2x_2x_3)$; high degrees are far worse.
 
 ## The kernel trick
 
-:::formula Kernel (p34)
+:::formula @svm-feature-kernel Kernel (p34)
 $$\kappa(\mathbf{x}_i, \mathbf{x}_j) = \Phi(\mathbf{x}_i)^T\Phi(\mathbf{x}_j)$$
 :::
 
@@ -175,13 +188,11 @@ A kernel computes the dot product **in the feature space** directly from the ori
 - Benefits: **efficiency** (cheaper than computing $\Phi$) and **flexibility** (choose any valid kernel).
 :::
 
-:::formula Common kernels (p35)
-| Kernel | Formula |
-|---|---|
-| Linear | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T\mathbf{x}_j$ |
-| Polynomial (degree $d$) | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T\mathbf{x}_j/a + b)^d$ |
-| Gaussian / RBF | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = \exp\!\left(-\dfrac{\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2}{2\sigma^2}\right) = \exp(-\gamma\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2)$ |
-:::
+| Kernel (p35) | Formula | Priority |
+|---|---|---|
+| Linear | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T\mathbf{x}_j$ | {{priority:svm-linear-kernel}} |
+| Polynomial (degree $d$) | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T\mathbf{x}_j/a + b)^d$ | {{priority:svm-polynomial-kernel}} |
+| Gaussian / RBF | $\kappa(\mathbf{x}_i, \mathbf{x}_j) = \exp\!\left(-\dfrac{\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2}{2\sigma^2}\right) = \exp(-\gamma\lVert\mathbf{x}_i - \mathbf{x}_j\rVert^2)$ | {{priority:svm-rbf-kernel}} |
 
 :::example Kernel values for $\mathbf{x} = (1, 2)$, $\mathbf{z} = (3, 1)$
 - Linear: $1\cdot3 + 2\cdot1 = 5$.
@@ -199,16 +210,21 @@ A kernel computes the dot product **in the feature space** directly from the ori
 
 With kernels the dual becomes $\max_\alpha \sum_i\alpha_i - \frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\kappa(\mathbf{x}_i, \mathbf{x}_j)$ and the decision function is $f(\mathbf{x}) = \sum_i\alpha_iy_i\kappa(\mathbf{x}_i, \mathbf{x}) + b$ (p38). Examples: a degree-2 polynomial kernel gives a parabola-shaped boundary (p39); RBF gives several separate "blob" regions (p40).
 
+:::formula @svm-kernel-dual Kernel dual objective and decision score (p38)
+$$\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\kappa(\mathbf{x}_i,\mathbf{x}_j),\qquad f(\mathbf{x})=\sum_i\alpha_iy_i\kappa(\mathbf{x}_i,\mathbf{x})+b$$
+The same dual feasibility constraints apply: $\sum_i\alpha_iy_i=0$, with $\alpha_i\ge0$ for hard margin or $0\le\alpha_i\le C$ for soft margin.
+:::
+
 Other points (p41): any linear method can be kernelised (e.g. kernel logistic regression); non-vector data (strings, graphs) works as long as the kernel matrix is PSD. Open questions on the slide: which kernel to use and how to set its parameters (in practice: try a few and pick by cross-validation).
 
 **Curse of kernelisation** (p42): kernel SVM training costs $O(N^3)$ with standard QP solvers, at least $O(N^2)$ with faster ones such as SMO, while linear classifiers train in $O(N)$. **Kernel approximation** (p43) builds a new finite representation $\mathbf{z}(\mathbf{x}) \in \mathbb{R}^D$ with $\kappa(\mathbf{x}_i, \mathbf{x}_j) \approx \mathbf{z}(\mathbf{x}_i)^T\mathbf{z}(\mathbf{x}_j)$, then trains a fast linear model on $\mathbf{z}$. Two methods: random **Fourier** features (approximate the function) and **Nyström** (approximate the kernel matrix).
 
 ## Multi-class SVM
 
-| Method | Binary SVMs trained | Prediction |
-|---|---|---|
-| **One-vs-rest** (one-against-the-rest), p44–45 | $k$: class $j$ vs all others | $\arg\max_j\ (\mathbf{w}^j)^T\Phi(\mathbf{x}) + b_j$ |
-| **One-vs-one**, p46–47 | $k(k-1)/2$: one per pair of classes | each SVM votes; the class with the most votes wins |
+| Method | Binary SVMs trained | Prediction | Priority |
+|---|---|---|---|
+| **One-vs-rest** (one-against-the-rest), p44–45 | $k$: class $j$ vs all others | $\arg\max_j\ (\mathbf{w}^j)^T\Phi(\mathbf{x}) + b_j$ | {{priority:svm-one-vs-rest}} |
+| **One-vs-one**, p46–47 | $k(k-1)/2$: one per pair of classes | each SVM votes; the class with the most votes wins | {{priority:svm-one-vs-one}} |
 
 :::example
 - 4 classes: one-vs-one needs $4\cdot3/2 = 6$ SVMs; one-vs-rest needs 4.

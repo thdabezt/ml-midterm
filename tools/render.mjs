@@ -3,6 +3,32 @@
 // inside formulas are never touched by the Markdown parser.
 import katex from 'katex';
 import { Marked } from 'marked';
+import { readFileSync } from 'node:fs';
+
+export const PRIORITY_LEVELS = {
+  P1: 'Used in homework and reused by other homework or follow-on calculations.',
+  P2: 'Used in one homework task without a follow-on dependency identified.',
+  P3: 'Not used in the supplied homework.',
+};
+export const FORMULA_PRIORITIES = JSON.parse(readFileSync(new URL('../content/formula-priorities.json', import.meta.url), 'utf8'));
+
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+export function formulaPriority(key, where = 'content') {
+  const entry = Object.hasOwn(FORMULA_PRIORITIES, key) && FORMULA_PRIORITIES[key];
+  if (!entry || !Object.hasOwn(PRIORITY_LEVELS, entry.grade) || typeof entry.reason !== 'string' || !entry.reason.trim()) {
+    throw new Error(`Unknown or invalid formula priority ${key} in ${where}`);
+  }
+  return entry;
+}
+
+export function priorityBadge(key, where = 'content', interactive = false) {
+  const { grade, reason } = formulaPriority(key, where);
+  const description = `${grade}: ${PRIORITY_LEVELS[grade]} ${reason}`;
+  const attrs = `class="priority-badge priority-${grade.toLowerCase()}" data-formula="${escapeHtml(key)}" data-priority="${grade}" title="${escapeHtml(description)}" aria-label="${escapeHtml(description)}"`;
+  if (interactive) return `<span class="priority-reference"><button type="button" ${attrs} data-priority-toggle aria-expanded="false">${grade}</button><span class="priority-reference-reason" hidden>${escapeHtml(reason)}</span></span>`;
+  return `<span ${attrs}>${grade}</span>`;
+}
 
 const marked = new Marked({ gfm: true, breaks: false });
 
@@ -44,6 +70,8 @@ export function md(src, where = 'content', { inline = false } = {}) {
   let html = inline ? marked.parseInline(text) : marked.parse(text);
   html = html.replace(/<p>\s*(MATHPH\d+XEND)\s*<\/p>/g, '$1');
   html = html.replace(/MATHPH(\d+)XEND/g, (_, i) => math[Number(i)]);
+  html = html.replace(/\{\{priority:([a-z][a-z0-9-]*)\}\}/g, (_, key) => priorityBadge(key, where, true));
+  if (/\{\{priority:/.test(html)) throw new Error(`Malformed formula priority in ${where}`);
   return html.replace(/DOLLARPHX/g, '$');
 }
 
@@ -62,13 +90,23 @@ export function renderTheory(src, where) {
     const open = line.match(/^:::(\w+)\s*(.*)$/);
     if (open && BLOCK_TYPES[open[1]]) {
       flush();
-      const [, type, title] = open;
+      const [, type] = open;
+      let title = open[2];
+      let badge = ''; let reason = '';
+      if (type === 'formula') {
+        const tagged = title.match(/^@([a-z][a-z0-9-]*)(?:\s+(.*))?$/);
+        if (!tagged) throw new Error(`Formula needs a priority key in ${where}: ${title || '(untitled)'}`);
+        const entry = formulaPriority(tagged[1], where);
+        badge = priorityBadge(tagged[1], where);
+        reason = `<p class="formula-priority-reason">${escapeHtml(entry.reason)}</p>`;
+        title = tagged[2] || '';
+      }
       stack.push(type);
       const label = title ? md(title, where, { inline: true }) : '';
       if (type === 'steps' || type === 'example') {
         out.push(`<details class="box box-${type}" open><summary><span class="box-kind">${BLOCK_TYPES[type]}</span>${label ? `<span class="box-title">${label}</span>` : ''}</summary><div class="box-body">`);
       } else {
-        out.push(`<div class="box box-${type}"><div class="box-head"><span class="box-kind">${BLOCK_TYPES[type]}</span>${label ? `<span class="box-title">${label}</span>` : ''}</div><div class="box-body">`);
+        out.push(`<div class="box box-${type}"><div class="box-head"><span class="box-kind">${BLOCK_TYPES[type]}</span>${badge}${label ? `<span class="box-title">${label}</span>` : ''}</div>${reason}<div class="box-body">`);
       }
       continue;
     }

@@ -38,7 +38,7 @@ Machine learning is a branch of **artificial intelligence**. It focuses on progr
 
 ## Traditional programming vs machine learning
 
-:::formula The swap (slide p14)
+:::formula @intro-programming-swap The swap (slide p14)
 - **Traditional programming:** Data + Program → computer → **Output**
 - **Machine learning:** Data + Outcome (the right answers) → computer → **Program** (the model)
 :::
@@ -77,7 +77,7 @@ Machine learning is a branch of **artificial intelligence**. It focuses on progr
 
 ### Supervised learning in symbols (p24)
 
-:::formula
+:::formula @intro-supervised-notation
 $$D = \{(\mathbf{x}_i, y_i)\}_{i=1}^{N}, \qquad y = f(\mathbf{x}), \qquad p(y \mid \mathbf{x}, D, \theta)$$
 :::
 
@@ -115,6 +115,10 @@ An **agent** takes an **action** $A_t$ in an **environment**; the environment re
 ## Two big ideas: curse of dimensionality and Occam's razor
 
 **Curse of dimensionality** (p32): split each axis into $M$ intervals; the number of cells is $M^D$ in $D$ dimensions. With $M = 3$: 3 cells in 1-D, 9 in 2-D, 27 in 3-D. The space grows **exponentially**, so the data needed to fill it grows exponentially too. (Lecture 4 repeats this with 5 samples per axis: 5, 25, 125, …, $5^{10} = 9{,}765{,}625$.)
+
+:::formula @intro-grid-cell-count Grid cells in D dimensions
+$$\text{number of cells}=M^D$$
+:::
 
 **Occam's razor** (p33): if two models perform about equally well, **choose the simpler one**. It helps prevent overfitting and improves interpretability and generalisation.
 

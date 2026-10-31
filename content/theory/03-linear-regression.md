@@ -38,7 +38,7 @@ Running example (p13–14): predict a house's price from its size (Portland, OR)
 
 Notation: $m$ = number of training examples; $x$ = input / feature; $y$ = output / target; $(x_i, y_i)$ = the $i$-th example.
 
-:::formula Univariate linear regression (p15)
+:::formula @regression-univariate-model Univariate linear regression (p15)
 $$h(x) = w_0 + w_1 x$$
 :::
 
@@ -51,7 +51,7 @@ $$h(x) = w_0 + w_1 x$$
 
 ## The cost function J (mean squared error)
 
-:::formula Cost function (p16)
+:::formula @regression-squared-cost Cost function (p16)
 $$J(w_0, w_1) = \frac{1}{2m}\sum_{i=1}^{m}\big(h(x_i) - y_i\big)^2 \qquad\text{Goal: } \min_{w_0, w_1} J(w_0, w_1)$$
 :::
 
@@ -81,7 +81,7 @@ Plotting $J$ against $w_1$ gives a **bowl (parabola)** with its bottom at $w_1 =
 
 **Idea** (p26): start somewhere, then repeatedly take a small step **downhill** until you reach a minimum.
 
-:::formula Gradient descent update (p29)
+:::formula @regression-gradient-update Gradient descent update (p29)
 $$w_j := w_j - \alpha\,\frac{\partial}{\partial w_j}J(w_0, w_1)\qquad (j = 0, 1;\ \text{update both simultaneously})$$
 :::
 
@@ -93,7 +93,7 @@ $$w_j := w_j - \alpha\,\frac{\partial}{\partial w_j}J(w_0, w_1)\qquad (j = 0, 1;
 
 For linear regression the derivatives are (p30, derived in the Math toolkit):
 
-:::formula Gradient descent for linear regression (p31)
+:::formula @regression-batch-gradient Gradient descent for linear regression (p31)
 $$\frac{\partial J}{\partial w_0} = \frac{1}{m}\sum_{i=1}^{m}\big(h(x_i) - y_i\big) \qquad \frac{\partial J}{\partial w_1} = \frac{1}{m}\sum_{i=1}^{m}\big(h(x_i) - y_i\big)\,x_i$$
 $$w_0 := w_0 - \alpha\frac{1}{m}\sum_{i=1}^{m}\big(h(x_i) - y_i\big) \qquad w_1 := w_1 - \alpha\frac{1}{m}\sum_{i=1}^{m}\big(h(x_i) - y_i\big)x_i$$
 :::
@@ -131,7 +131,7 @@ On a bumpy cost surface, different starting points can lead gradient descent to 
 - **Convergence test** (p46): stop when $J$ decreases by less than $10^{-3}$ in one iteration. Plot $J$ against the number of iterations: it should go down every time.
 - **$\alpha$ too small**: tiny steps, slow convergence.
 - **$\alpha$ too large**: overshoots the bottom, $J$ may go up and **diverge**.
-- **Gradually decreased** $\alpha_t = \alpha / t$: big steps first, small steps near the minimum (p47).
+- **Gradually decreased** $\alpha_t = \alpha / t$: big steps first, small steps near the minimum (p47). {{priority:regression-decaying-rate}}
 
 :::pitfall
 If $J$ increases from one iteration to the next, the fix is a **smaller** $\alpha$, not more iterations.
@@ -141,7 +141,7 @@ If $J$ increases from one iteration to the next, the fix is a **smaller** $\alph
 
 With several features (size, bedrooms, floors, age; p42): $n$ = number of features, $\mathbf{x}_i$ = feature vector of example $i$, $x_{ij}$ = feature $j$ of example $i$.
 
-:::formula Hypothesis with n features (p43)
+:::formula @regression-multivariate-model Hypothesis with n features (p43)
 $$h(\mathbf{x}) = w_0 + w_1x_1 + \dots + w_nx_n = \sum_{j=0}^{n} w_jx_j = \mathbf{w}^T\mathbf{x}\qquad (x_0 = 1)$$
 :::
 
@@ -149,7 +149,7 @@ $$h(\mathbf{x}) = w_0 + w_1x_1 + \dots + w_nx_n = \sum_{j=0}^{n} w_jx_j = \mathb
 The trick $x_0 = 1$ lets the intercept $w_0$ join the dot product, so $\mathbf{x}, \mathbf{w} \in \mathbb{R}^{n+1}$. In a data matrix this is the **column of 1s** on the left.
 :::
 
-:::formula Vector gradient descent (p44–45)
+:::formula @regression-vector-gradient Vector gradient descent (p44–45)
 $$\mathbf{w} := \mathbf{w} - \alpha\nabla J(\mathbf{w}), \qquad \frac{\partial J}{\partial w_j} = \frac{1}{m}\sum_{i=1}^{m}\big(h(\mathbf{x}_i) - y_i\big)x_{ij}, \qquad \nabla J(\mathbf{w}) = \frac1m X^T(X\mathbf{w} - \mathbf{y})$$
 :::
 
@@ -158,9 +158,12 @@ $$\mathbf{w} := \mathbf{w} - \alpha\nabla J(\mathbf{w}), \qquad \frac{\partial J
 Instead of walking downhill, jump straight to the bottom: the minimum is where the gradient is **zero** (p48). In 1-D, $J(w) = aw^2 + bw + c$ is a parabola and you solve $J'(w) = 0$.
 
 Stack the data into a matrix (p49): $X$ is $m \times (n+1)$ (one row per example, first column all 1s), $\mathbf{y}$ is $m \times 1$. Then
-$$J(\mathbf{w}) = \frac{1}{2m}(X\mathbf{w} - \mathbf{y})^T(X\mathbf{w} - \mathbf{y})$$
 
-:::formula Normal equation (p50–51)
+:::formula @regression-matrix-cost Squared-error cost in matrix form
+$$J(\mathbf{w}) = \frac{1}{2m}(X\mathbf{w} - \mathbf{y})^T(X\mathbf{w} - \mathbf{y})$$
+:::
+
+:::formula @regression-normal-equation Normal equation (p50–51)
 $$\nabla J = 0 \;\Longrightarrow\; X^TX\,\mathbf{w} = X^T\mathbf{y} \;\Longrightarrow\; \mathbf{w} = (X^TX)^{-1}X^T\mathbf{y} = X^\dagger\mathbf{y}$$
 :::
 
@@ -186,7 +189,7 @@ $$\mathbf{w} = \frac16\begin{bmatrix}14\cdot10 - 6\cdot23\\ -6\cdot10 + 3\cdot23
 So $h(x) = 0.333 + 1.5x$. Predictions 1.833, 3.333, 4.833; errors $-0.167 + 0.333 - 0.167 = 0$ ✓.
 :::
 
-:::tip Shortcut formulas for one feature (same answer, fewer matrices)
+:::formula @regression-univariate-shortcut Shortcut formulas for one feature (same answer, fewer matrices)
 $$w_1 = \frac{m\sum xy - \sum x\sum y}{m\sum x^2 - (\sum x)^2}, \qquad w_0 = \bar y - w_1\bar x$$
 Example above: $w_1 = \frac{3\cdot23 - 6\cdot10}{3\cdot14 - 36} = \frac{9}{6} = 1.5$, $w_0 = \frac{10}{3} - 1.5\cdot2 = 0.333$.
 :::
@@ -208,7 +211,25 @@ Example above: $w_1 = \frac{3\cdot23 - 6\cdot10}{3\cdot14 - 36} = \frac{9}{6} = 
 ## Extensions used in Homework 2
 
 **Ridge regression** (Exercise 2) adds an L2 penalty to $J$. Full details are in Lecture 7; the results to remember:
-$$J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i (h(\mathbf{x}_i) - y_i)^2 + \lambda\sum_{j\ge1}w_j^2\Big] \;\Rightarrow\; \mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y},\ L = \mathrm{diag}(0, 1, \dots, 1)$$
-GD update: $w_j := w_j\left(1 - \frac{\alpha\lambda}{m}\right) - \frac{\alpha}{m}\sum_i e_ix_{ij}$ for $j \ge 1$ ("weight decay"). As $\lambda \to \infty$, all $w_j$ ($j \ge 1$) shrink to 0 and the model becomes the flat line $h(x) = \bar y$ (**underfitting**).
 
-**Multi-output regression** (Exercise 3): with $\mathbf{y}_i \in \mathbb{R}^2$ and $h(x) = W^T\phi(x)$, the MSE splits into one ordinary regression per output column, so $W = (\Phi^T\Phi)^{-1}\Phi^TY$, solved column by column.
+:::formula @regression-ridge-cost Ridge objective
+$$J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i (h(\mathbf{x}_i) - y_i)^2 + \lambda\sum_{j\ge1}w_j^2\Big]$$
+:::
+
+:::formula @regression-ridge-solution Ridge analytical solution
+$$\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y},\qquad L = \mathrm{diag}(0, 1, \dots, 1)$$
+:::
+
+:::formula @regression-ridge-update Ridge gradient-descent update (weight decay)
+$$w_j := w_j\left(1 - \frac{\alpha\lambda}{m}\right) - \frac{\alpha}{m}\sum_i e_ix_{ij},\qquad j\ge1$$
+:::
+
+As $\lambda \to \infty$, all $w_j$ ($j \ge 1$) shrink to 0 and the model becomes the flat line $h(x) = \bar y$ (**underfitting**). {{priority:regression-ridge-limit}}
+
+**Multi-output regression** (Exercise 3): with $\mathbf{y}_i \in \mathbb{R}^2$ and $h(x) = W^T\phi(x)$, the MSE splits into one ordinary regression per output column.
+
+:::formula @regression-multi-output Multi-output least-squares solution
+$$W = (\Phi^T\Phi)^{-1}\Phi^TY$$
+:::
+
+Solve column by column, one response variable at a time.

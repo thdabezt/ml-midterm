@@ -1,0 +1,1218 @@
+{
+  "math-sum": {
+    "grade": "P1",
+    "reason": "HW02 Ex1 uses sums for fitting and gradients; the same operation supports HW04 likelihoods, HW07 gain and HW08 centroids.",
+    "homework": [
+      "hw02-ex1a",
+      "hw02-ex1b",
+      "hw04-ex2",
+      "hw07-ex1",
+      "hw08-ex1"
+    ]
+  },
+  "math-product": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 and Ex2 multiply observation probabilities; this transfers to HW04 Ex2 Naive Bayes and HW07 Ex3 voting probabilities.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw07-ex3"
+    ]
+  },
+  "math-log-definition": {
+    "grade": "P1",
+    "reason": "HW01 MLE uses log likelihoods; logs also supply HW04 Ex3 classification loss and HW07 Ex1 entropy calculations.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex3",
+      "hw07-ex1"
+    ]
+  },
+  "math-log-product": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 and Ex2 turn likelihood products into log sums; HW04 Ex3 uses the same likelihood-to-loss step.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "math-log-quotient": {
+    "grade": "P3",
+    "reason": "The standalone log-of-a-quotient identity is not required in a supplied homework solution.",
+    "homework": []
+  },
+  "math-log-power": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 and Ex2 bring count exponents outside logarithms; this also supports the Bernoulli log loss in HW04 Ex3.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "math-log-change-base": {
+    "grade": "P1",
+    "reason": "HW07 Ex1 needs base-2 entropy on a calculator; change of base supports the entropy-to-information-gain calculation.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "math-sigmoid": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 uses sigmoid predictions both to calculate a probability and to construct the logistic-loss gradient.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "math-probability": {
+    "grade": "P1",
+    "reason": "HW01 estimates probabilities; these proportions then supply HW04 Ex2 class scores and HW05 Ex1 expected risks.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "math-joint-probability": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 constructs feature-and-class scores; the joint/conditional relationship supports posterior comparison and HW05 Ex1 decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "math-conditional-probability": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 counts each feature within a class; these conditional probabilities supply posterior scores and HW05 Ex1 risk decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "math-complement": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 uses the tail probability as one minus heads; HW05 Ex1 and HW07 Ex3 reuse complements for error risk and voting tails.",
+    "homework": [
+      "hw01-ex1",
+      "hw05-ex1",
+      "hw07-ex3"
+    ]
+  },
+  "math-conditional-bayes": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 combines conditional likelihoods and class priors; the resulting posterior supports HW05 Ex1 reject decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "math-derivative-rules": {
+    "grade": "P1",
+    "reason": "HW01 differentiates log likelihoods and HW02 differentiates squared costs; these rules transfer to HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-constant": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to drop constant terms; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-identity": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to differentiate linear prediction terms; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-power": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to differentiate squared residuals and penalties; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-scaling": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to retain loss-scaling constants; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-sum": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to differentiate a sum observation by observation; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-chain": {
+    "grade": "P1",
+    "reason": "HW01/HW02 use this rule to differentiate composed residual or log-likelihood terms; the same rule supports HW04 logistic and HW07 Lasso gradients.",
+    "homework": [
+      "hw01-ex1",
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-derivative-log": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 and Ex2 differentiate log likelihoods; this rule also supports the logistic-likelihood gradient in HW04 Ex3.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "math-derivative-exp": {
+    "grade": "P1",
+    "reason": "Differentiating the sigmoid underlying HW04 Ex3 uses the exponential derivative; it connects logistic predictions to the training gradient.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "math-gradient": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b and Ex2 update several weights with a gradient; HW04 Ex3 and HW07 Ex2 reuse partial derivatives for training.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw07-ex2"
+    ]
+  },
+  "math-dot-product": {
+    "grade": "P1",
+    "reason": "HW02 computes predictions and matrix products; HW06 uses dot products for kernels and separating hyperplanes.",
+    "homework": [
+      "hw02-ex1a",
+      "hw02-ex1b",
+      "hw06-ex1",
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "math-matrix-multiplication": {
+    "grade": "P1",
+    "reason": "HW02 Ex1a forms and solves the normal equation; matrix products recur in HW04 Ex1 and HW05 Ex2 linear-smoother weights.",
+    "homework": [
+      "hw02-ex1a",
+      "hw04-ex1",
+      "hw05-ex2"
+    ]
+  },
+  "math-matrix-inverse": {
+    "grade": "P1",
+    "reason": "HW02 Ex1a and HW04 Ex1 invert a small normal-equation matrix; the same operation supplies HW02 ridge and HW05 linear smoothers.",
+    "homework": [
+      "hw02-ex1a",
+      "hw02-ex2",
+      "hw04-ex1",
+      "hw05-ex2"
+    ]
+  },
+  "math-norm-l2": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 use vector length to compute the margin; Euclidean length also supplies HW08 assignment and neighbourhood distances.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3",
+      "hw08-ex1",
+      "hw08-ex2"
+    ]
+  },
+  "math-norm-l2-squared": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 uses a squared L2 penalty; HW07 Ex2 reuses squared vector error while HW06 margins depend on its square root.",
+    "homework": [
+      "hw02-ex2",
+      "hw06-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "math-norm-l1": {
+    "grade": "P1",
+    "reason": "HW07 Ex2 expands the L1 penalty to prove convexity and derive the zero-setting coordinate update.",
+    "homework": [
+      "hw07-ex2"
+    ]
+  },
+  "math-distance-manhattan": {
+    "grade": "P3",
+    "reason": "Manhattan distance appears in slide exercises and variants, but no supplied homework specifies an L1 calculation.",
+    "homework": []
+  },
+  "math-distance-euclidean": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 use geometric separation; HW08 Ex1 and Ex2 use Euclidean distance for assignment and density neighbourhoods.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3",
+      "hw08-ex1",
+      "hw08-ex2"
+    ]
+  },
+  "math-centroid": {
+    "grade": "P1",
+    "reason": "HW08 Ex1 averages assigned point coordinates; means also supply HW02 Ex3 output estimates and HW05 Ex3 tree/forest predictions.",
+    "homework": [
+      "hw08-ex1",
+      "hw02-ex3",
+      "hw05-ex3"
+    ]
+  },
+  "math-max-argmax": {
+    "grade": "P1",
+    "reason": "HW01 maximises likelihood and HW04 Ex2 chooses the largest class score; HW05 Ex1 adds a reject-risk comparison.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "math-combinations": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 counts binomial outcomes; HW07 Ex3 reuses the same coefficient inside majority-vote tails.",
+    "homework": [
+      "hw01-ex1",
+      "hw07-ex3"
+    ]
+  },
+  "math-lagrange": {
+    "grade": "P2",
+    "reason": "HW01 Ex2 uses an equality multiplier to estimate die probabilities; no later supplied task asks for a multiplier calculation.",
+    "homework": [
+      "hw01-ex2"
+    ]
+  },
+  "intro-programming-swap": {
+    "grade": "P3",
+    "reason": "This introductory programming-versus-learning diagram is not a calculation used in supplied homework.",
+    "homework": []
+  },
+  "intro-supervised-notation": {
+    "grade": "P3",
+    "reason": "The formal dataset-and-model notation is introductory context; no supplied homework asks to calculate this expression.",
+    "homework": []
+  },
+  "intro-grid-cell-count": {
+    "grade": "P3",
+    "reason": "Grid cell counts are a slide/quiz topic, with no supplied homework using this calculation.",
+    "homework": []
+  },
+  "prob-discrete-mass": {
+    "grade": "P1",
+    "reason": "HW01 Ex2 normalises categorical probabilities; the same probability-mass rules support HW04 Ex2 counts and HW07 Ex3 binomial sums.",
+    "homework": [
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw07-ex3"
+    ]
+  },
+  "prob-continuous-density": {
+    "grade": "P3",
+    "reason": "No supplied homework calculates a probability by integrating a continuous density.",
+    "homework": []
+  },
+  "prob-cdf": {
+    "grade": "P2",
+    "reason": "HW07 Ex3 evaluates one binomial CDF complement for a strict majority; no current downstream homework requires CDF calculations.",
+    "homework": [
+      "hw07-ex3"
+    ]
+  },
+  "prob-cdf-interval": {
+    "grade": "P3",
+    "reason": "Subtracting two CDF values for an interval is used in slide practice, not in supplied homework.",
+    "homework": []
+  },
+  "prob-discrete-cdf": {
+    "grade": "P2",
+    "reason": "HW07 Ex3 sums binomial masses through a cutoff before taking the complement; this is a self-contained voting calculation.",
+    "homework": [
+      "hw07-ex3"
+    ]
+  },
+  "prob-continuous-cdf": {
+    "grade": "P3",
+    "reason": "Continuous CDF integration and density differentiation are not required by supplied homework.",
+    "homework": []
+  },
+  "prob-expectation-discrete": {
+    "grade": "P1",
+    "reason": "HW05 Ex1 forms a posterior-weighted risk; weighted expectation then supplies the conditional mean and bias in HW05 Ex2.",
+    "homework": [
+      "hw05-ex1",
+      "hw05-ex2"
+    ]
+  },
+  "prob-expectation-continuous": {
+    "grade": "P3",
+    "reason": "Supplied homework uses expectation algebra, but does not evaluate the continuous expectation integral.",
+    "homework": []
+  },
+  "prob-variance": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 derives variance and squared bias for linear smoothers; HW01 estimator variance and HW07 voting spread use the same spread concept.",
+    "homework": [
+      "hw01-ex1",
+      "hw05-ex2",
+      "hw07-ex3"
+    ]
+  },
+  "prob-standard-deviation": {
+    "grade": "P3",
+    "reason": "The standard deviation is used only in an optional normal-approximation explanation of HW07 Ex3; the requested binomial-CDF calculation does not require this conversion.",
+    "homework": []
+  },
+  "prob-expectation-properties": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 moves expectation through a weighted sum and cancels zero-mean terms; these steps supply conditional bias and variance.",
+    "homework": [
+      "hw05-ex2"
+    ]
+  },
+  "prob-variance-properties": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 squares smoother weights and adds independent noise variances; this yields variance for both linear and nearest-neighbour regression.",
+    "homework": [
+      "hw05-ex2"
+    ]
+  },
+  "prob-normalization": {
+    "grade": "P1",
+    "reason": "HW01 Ex2 constrains face probabilities to sum to one; HW04 Ex2 and HW05 Ex1 reuse normalised class probabilities.",
+    "homework": [
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "prob-sum-rule": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 normalises class-joint scores by their sum; summing class probabilities also supplies the conditional risks in HW05 Ex1.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "prob-product-rule": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 multiplies a class prior by feature likelihoods; the joint/conditional relation also supplies its posterior decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "prob-independence": {
+    "grade": "P1",
+    "reason": "HW01 multiplies independent observations; HW04 Ex2 uses conditional feature independence and HW07 Ex3 independent voters.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw07-ex3"
+    ]
+  },
+  "prob-bayes": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 converts class priors and likelihoods to posterior class scores; those posterior probabilities support HW05 Ex1 reject-risk decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "prob-uniform": {
+    "grade": "P2",
+    "reason": "HW05 Ex3 draws training examples uniformly for bootstrap trees; this sampling subtask has no required downstream homework probability calculation.",
+    "homework": [
+      "hw05-ex3"
+    ]
+  },
+  "prob-bernoulli": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 fits a binary probability; the same success/failure likelihood supplies HW04 Ex3 logistic loss and HW07 Ex3 voters.",
+    "homework": [
+      "hw01-ex1",
+      "hw04-ex3",
+      "hw07-ex3"
+    ]
+  },
+  "prob-binomial": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 uses the probability of a head count; HW07 Ex3 sums the same mass function over majority counts.",
+    "homework": [
+      "hw01-ex1",
+      "hw07-ex3"
+    ]
+  },
+  "prob-categorical": {
+    "grade": "P1",
+    "reason": "HW01 Ex2 estimates face probabilities; the count-and-divide principle supplies categorical feature probabilities in HW04 Ex2.",
+    "homework": [
+      "hw01-ex2",
+      "hw04-ex2"
+    ]
+  },
+  "prob-gaussian": {
+    "grade": "P3",
+    "reason": "No supplied homework evaluates the Gaussian density; HW05 Ex2 needs only noise mean and variance, not this distribution formula.",
+    "homework": []
+  },
+  "prob-exponential": {
+    "grade": "P3",
+    "reason": "The exponential density and its moments are slide material, with no supplied homework calculation.",
+    "homework": []
+  },
+  "prob-multivariate-gaussian": {
+    "grade": "P3",
+    "reason": "No supplied homework evaluates a multivariate Gaussian density or covariance-matrix exponent.",
+    "homework": []
+  },
+  "prob-entropy": {
+    "grade": "P1",
+    "reason": "HW07 Ex1 computes parent and child entropies; their weighted difference then ranks features by information gain.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "prob-cross-entropy": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 minimises Bernoulli cross-entropy; this loss supplies its gradient updates and resulting probability prediction.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "prob-kl-divergence": {
+    "grade": "P3",
+    "reason": "KL divergence occurs in slide quizzes and variants, not in supplied homework.",
+    "homework": []
+  },
+  "prob-mutual-information": {
+    "grade": "P1",
+    "reason": "The entropy-minus-conditional-entropy identity is the information-gain calculation in HW07 Ex1 and supplies feature/split ranking.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "prob-mle-recipe": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 and Ex2 maximise likelihoods; HW04 Ex2 estimates categorical counts and HW04 Ex3 fits logistic probabilities by the same principle.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "prob-coin-mle": {
+    "grade": "P1",
+    "reason": "HW01 Ex1 estimates successes divided by trials; the same binary relative-frequency calculation supplies class priors and conditionals in HW04 Ex2.",
+    "homework": [
+      "hw01-ex1",
+      "hw04-ex2"
+    ]
+  },
+  "prob-categorical-mle": {
+    "grade": "P1",
+    "reason": "HW01 Ex2 estimates each category by its relative frequency; HW04 Ex2 reuses this to fill every feature/class probability table.",
+    "homework": [
+      "hw01-ex2",
+      "hw04-ex2"
+    ]
+  },
+  "prob-classification-error": {
+    "grade": "P3",
+    "reason": "The displayed true-versus-training classification error definitions are not calculated in supplied homework.",
+    "homework": []
+  },
+  "prob-validation-counts": {
+    "grade": "P3",
+    "reason": "Cross-validation model/fold counts appear in slide practice; supplied homework does not ask for these counts.",
+    "homework": []
+  },
+  "regression-univariate-model": {
+    "grade": "P1",
+    "reason": "HW02 Ex1 predicts with a line while fitting it; HW04 Ex1 and Ex3 reuse a linear score for classification.",
+    "homework": [
+      "hw02-ex1a",
+      "hw02-ex1b",
+      "hw04-ex1",
+      "hw04-ex3"
+    ]
+  },
+  "regression-squared-cost": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b differentiates squared prediction errors; the same error objective underlies ridge, HW05 linear smoothers and HW07 Lasso.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw05-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "regression-gradient-update": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b and Ex2 train with gradient steps; HW04 Ex3 applies the same update rule to logistic loss.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "regression-batch-gradient": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b computes residual sums for two batch epochs; adding a penalty yields HW02 Ex2 ridge updates and prepares HW07 Ex2 coordinate gradients.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "regression-decaying-rate": {
+    "grade": "P3",
+    "reason": "A reciprocal-time learning-rate schedule appears in the slides, but no supplied homework uses this schedule.",
+    "homework": []
+  },
+  "regression-multivariate-model": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 expresses its objective through vector predictions; the same dot-product score supports HW04 Ex3 and HW05 Ex2 smoother weights.",
+    "homework": [
+      "hw02-ex2",
+      "hw04-ex3",
+      "hw05-ex2"
+    ]
+  },
+  "regression-vector-gradient": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b and Ex2 use matrix/coordinate gradients; HW07 Ex2 isolates a coordinate of the same squared-error derivative.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "regression-matrix-cost": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 writes squared residuals as a matrix quadratic; HW07 Ex2 reuses this squared-norm objective to derive Lasso coordinates.",
+    "homework": [
+      "hw02-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "regression-normal-equation": {
+    "grade": "P1",
+    "reason": "HW02 Ex1a fits weights analytically; HW04 Ex1 and HW05 Ex2 reuse the normal-equation solution for classification fitting and smoother weights.",
+    "homework": [
+      "hw02-ex1a",
+      "hw04-ex1",
+      "hw05-ex2"
+    ]
+  },
+  "regression-univariate-shortcut": {
+    "grade": "P1",
+    "reason": "This is the one-feature algebraic form of HW02 Ex1a and HW04 Ex1 normal equations; it supports computing the fitted line and its predictions.",
+    "homework": [
+      "hw02-ex1a",
+      "hw04-ex1"
+    ]
+  },
+  "regression-ridge-cost": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 adds this L2 penalty to squared error; the resulting cost feeds its gradient and analytical-solution derivations.",
+    "homework": [
+      "hw02-ex2"
+    ]
+  },
+  "regression-ridge-solution": {
+    "grade": "P2",
+    "reason": "HW02 Ex2 asks for the ridge analytical solution; no later supplied homework needs this specific penalised inverse.",
+    "homework": [
+      "hw02-ex2"
+    ]
+  },
+  "regression-ridge-update": {
+    "grade": "P2",
+    "reason": "HW02 Ex2 derives this ridge-specific weight-decay update; no later supplied homework applies this exact update.",
+    "homework": [
+      "hw02-ex2"
+    ]
+  },
+  "regression-ridge-limit": {
+    "grade": "P2",
+    "reason": "HW02 Ex2 asks what happens as the ridge penalty grows without bound; no later supplied calculation depends on this limit.",
+    "homework": [
+      "hw02-ex2"
+    ]
+  },
+  "regression-multi-output": {
+    "grade": "P2",
+    "reason": "HW02 Ex3 solves a two-output regression matrix; no later supplied homework requires a multi-output calculation.",
+    "homework": [
+      "hw02-ex3"
+    ]
+  },
+  "classification-bayes": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 uses posterior normalization; the same posterior calculation supplies class comparison and HW05 rejection-risk decisions.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "classification-map": {
+    "grade": "P3",
+    "reason": "The supplied homework does not optimize a posterior with a nonuniform hypothesis prior; its estimation tasks use MLE.",
+    "homework": []
+  },
+  "classification-mle": {
+    "grade": "P1",
+    "reason": "HW01 estimates coin and die probabilities by likelihood, and HW04 reuses MLE for Naive Bayes counts and logistic training.",
+    "homework": [
+      "hw01-ex1",
+      "hw01-ex2",
+      "hw04-ex2",
+      "hw04-ex3"
+    ]
+  },
+  "classification-gaussian-mle": {
+    "grade": "P3",
+    "reason": "Homework fits least squares but does not require deriving its equivalence to a Gaussian-noise likelihood.",
+    "homework": []
+  },
+  "classification-generative-rule": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 compares prior-times-likelihood class scores; posterior normalization then supports decisions and rejection-risk calculations.",
+    "homework": [
+      "hw04-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "classification-gaussian-estimates": {
+    "grade": "P3",
+    "reason": "No supplied homework estimates a Gaussian classifier's class means and covariance matrices; generic averaging is covered separately.",
+    "homework": []
+  },
+  "classification-class-prior": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 counts class frequencies as a prerequisite for both Naive Bayes scores and normalized posterior decisions.",
+    "homework": [
+      "hw04-ex2"
+    ]
+  },
+  "classification-naive-bayes": {
+    "grade": "P2",
+    "reason": "HW04 Ex2 directly applies the conditional-independence classifier in a self-contained weather-classification task; other homework does not require that classifier.",
+    "homework": [
+      "hw04-ex2"
+    ]
+  },
+  "classification-conditional-frequency": {
+    "grade": "P1",
+    "reason": "HW04 Ex2 estimates each feature probability within a class, supplying the factors needed for class scores and posterior normalization.",
+    "homework": [
+      "hw04-ex2"
+    ]
+  },
+  "classification-laplace-smoothing": {
+    "grade": "P3",
+    "reason": "HW04 Ex2 explicitly requests unsmoothed MLE; smoothing appears only as an optional remark and an added variant.",
+    "homework": []
+  },
+  "classification-text-naive-bayes": {
+    "grade": "P3",
+    "reason": "The supplied Naive Bayes homework uses categorical weather rows, not document word-count likelihoods.",
+    "homework": []
+  },
+  "classification-naive-bayes-log-odds": {
+    "grade": "P3",
+    "reason": "No supplied homework derives a text classifier's linear log-odds boundary.",
+    "homework": []
+  },
+  "classification-logistic-log-odds": {
+    "grade": "P3",
+    "reason": "HW04 Ex3 uses sigmoid probabilities and their likelihood without requiring an explicit log-odds derivation.",
+    "homework": []
+  },
+  "classification-logistic-model": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 uses logistic probabilities for prediction, then reuses them in the likelihood and training-gradient calculation.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "classification-linear-score": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 computes the score before sigmoid prediction; HW06 also uses weighted scores to construct and check SVM boundaries.",
+    "homework": [
+      "hw04-ex3",
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "classification-sigmoid": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 turns a linear score into a probability, which also feeds cross-entropy and gradient-based fitting.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "classification-sigmoid-identities": {
+    "grade": "P3",
+    "reason": "The supplied logistic homework solution gives the gradient directly and does not explicitly apply the sigmoid complement or derivative identities.",
+    "homework": []
+  },
+  "classification-logistic-loss": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 fits the logistic model by cross-entropy; this objective supplies the gradient and explains the separable-data fitting behavior.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "classification-logistic-gradient": {
+    "grade": "P1",
+    "reason": "HW04 Ex3 updates the weights from probability errors, then uses the fitted scores for the requested pass probability.",
+    "homework": [
+      "hw04-ex3"
+    ]
+  },
+  "classification-decaying-step": {
+    "grade": "P3",
+    "reason": "The supplied logistic homework calculation uses a fixed step size, not an inverse-square-root schedule.",
+    "homework": []
+  },
+  "classification-softmax": {
+    "grade": "P3",
+    "reason": "The supplied classification homework is binary and does not require multiclass softmax probabilities.",
+    "homework": []
+  },
+  "tree-gini": {
+    "grade": "P3",
+    "reason": "The supplied feature-selection homework uses entropy; the random-forest task is regression and does not require Gini impurity.",
+    "homework": []
+  },
+  "tree-entropy": {
+    "grade": "P1",
+    "reason": "HW07 Ex1 computes parent and child entropies as the prerequisite for information-gain feature ranking and entropy-based split selection.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "tree-classification-error": {
+    "grade": "P3",
+    "reason": "No supplied homework calculates classification-error impurity to grow or compare tree splits.",
+    "homework": []
+  },
+  "tree-information-gain": {
+    "grade": "P1",
+    "reason": "HW07 Ex1 subtracts weighted child entropy to rank features; the same split calculation chooses attributes in entropy-based trees.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "tree-gini-gain": {
+    "grade": "P3",
+    "reason": "No supplied homework asks for Gini-weighted split gain; HW07 requires information gain and HW05 random forests use regression SSE.",
+    "homework": []
+  },
+  "tree-gain-ratio": {
+    "grade": "P3",
+    "reason": "No supplied homework normalizes information gain by branch-size entropy.",
+    "homework": []
+  },
+  "svm-linear-classifier": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 use linear scores to locate the separating boundary and verify canonical hard-margin constraints.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "svm-separability": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 first establishes separation, which makes its hard-margin constraints and maximum-margin construction feasible.",
+    "homework": [
+      "hw06-ex2"
+    ]
+  },
+  "svm-point-distance": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 use geometric distances to establish the optimal margin and check the constructed SVM boundary.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "svm-perceptron": {
+    "grade": "P3",
+    "reason": "No supplied homework trains a perceptron or applies its mistake-driven update rule.",
+    "homework": []
+  },
+  "svm-perceptron-bound": {
+    "grade": "P3",
+    "reason": "No supplied homework calculates the perceptron convergence bound.",
+    "homework": []
+  },
+  "svm-margin": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 compute canonical margin widths and use support geometry to justify optimality and point-removal behavior.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "svm-hard-margin": {
+    "grade": "P1",
+    "reason": "HW06 Ex2 and Ex3 solve the canonical constraints for weights and bias, then use them to identify margins and support points.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "svm-soft-margin": {
+    "grade": "P3",
+    "reason": "The supplied SVM homework is separable and uses hard margins; it does not introduce slack penalties or C.",
+    "homework": []
+  },
+  "svm-hinge-loss": {
+    "grade": "P3",
+    "reason": "No supplied homework evaluates hinge loss or its penalized soft-margin objective.",
+    "homework": []
+  },
+  "svm-dual": {
+    "grade": "P3",
+    "reason": "HW06 solves its boundaries geometrically and does not optimize the dual multipliers.",
+    "homework": []
+  },
+  "svm-feature-classifier": {
+    "grade": "P3",
+    "reason": "HW06 proves a feature-map dot-product identity but does not train or predict with a classifier in that transformed space.",
+    "homework": []
+  },
+  "svm-feature-kernel": {
+    "grade": "P2",
+    "reason": "HW06 Ex1 proves the feature-map inner-product identity as a self-contained exercise; no later supplied task fits a kernel classifier.",
+    "homework": [
+      "hw06-ex1"
+    ]
+  },
+  "svm-linear-kernel": {
+    "grade": "P1",
+    "reason": "HW06 Ex1 expands dot products in the kernel proof; the same weighted inner-product calculation checks the linear SVM scores in Ex2 and Ex3.",
+    "homework": [
+      "hw06-ex1",
+      "hw06-ex2",
+      "hw06-ex3"
+    ]
+  },
+  "svm-polynomial-kernel": {
+    "grade": "P2",
+    "reason": "HW06 Ex1 proves the degree-two polynomial kernel expansion, with no later supplied calculation depending on that kernel.",
+    "homework": [
+      "hw06-ex1"
+    ]
+  },
+  "svm-rbf-kernel": {
+    "grade": "P3",
+    "reason": "No supplied homework evaluates or trains an RBF kernel.",
+    "homework": []
+  },
+  "svm-kernel-dual": {
+    "grade": "P3",
+    "reason": "The supplied kernel exercise verifies an identity only; no homework optimizes a kernel dual or uses its prediction expansion.",
+    "homework": []
+  },
+  "svm-one-vs-rest": {
+    "grade": "P3",
+    "reason": "No supplied homework constructs multiclass one-vs-rest SVMs or counts them.",
+    "homework": []
+  },
+  "svm-one-vs-one": {
+    "grade": "P3",
+    "reason": "No supplied homework constructs multiclass pairwise SVMs, counts them, or combines their votes.",
+    "homework": []
+  },
+  "optimization-classification-risk": {
+    "grade": "P3",
+    "reason": "The supplied homework does not calculate population or empirical misclassification error with these definitions.",
+    "homework": []
+  },
+  "optimization-regression-risk": {
+    "grade": "P1",
+    "reason": "HW02 Ex1b/Ex2 use squared training error, and HW05 Ex2 decomposes expected squared error; the same loss connects fitting to regression risk calculations.",
+    "homework": [
+      "hw02-ex1b",
+      "hw02-ex2",
+      "hw05-ex2"
+    ]
+  },
+  "optimization-risk-minimization": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 minimizes penalised empirical loss and HW05 Ex1 minimizes expected decision loss; this operation connects training objectives to minimum-risk prediction.",
+    "homework": [
+      "hw02-ex2",
+      "hw05-ex1"
+    ]
+  },
+  "optimization-excess-risk": {
+    "grade": "P3",
+    "reason": "No supplied homework uses the estimation-error and approximation-error decomposition of excess risk.",
+    "homework": []
+  },
+  "optimization-signal-noise": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 starts from signal plus independent zero-mean noise; substitution into the smoother gives both its expectation and its bias-variance decomposition.",
+    "homework": [
+      "hw05-ex2"
+    ]
+  },
+  "optimization-gaussian-noise": {
+    "grade": "P3",
+    "reason": "The homework smoother calculation needs zero mean and variance sigma squared, but does not require this particular Gaussian distribution assumption.",
+    "homework": []
+  },
+  "optimization-bias-variance": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 derives squared bias plus variance, then applies it to linear regression and KNN; it supports comparing their prediction risks.",
+    "homework": [
+      "hw05-ex2"
+    ]
+  },
+  "optimization-information-gain": {
+    "grade": "P1",
+    "reason": "HW07 Ex1 ranks features by information gain; the weighted-entropy subtraction is also the building block for choosing decision-tree splits.",
+    "homework": [
+      "hw07-ex1"
+    ]
+  },
+  "optimization-chi-square": {
+    "grade": "P3",
+    "reason": "Chi-square feature scoring appears in slides and practice, but no supplied homework requests it.",
+    "homework": []
+  },
+  "optimization-regularized-learning": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 and HW07 Ex2 add penalties to squared loss; the objective is the starting point for both Ridge derivatives and Lasso coordinate calculations.",
+    "homework": [
+      "hw02-ex2",
+      "hw07-ex2"
+    ]
+  },
+  "optimization-ridge": {
+    "grade": "P1",
+    "reason": "HW02 Ex2 uses the L2 penalty to derive a gradient update and an analytical solution, then uses that penalty to find the large-lambda limit.",
+    "homework": [
+      "hw02-ex2"
+    ]
+  },
+  "optimization-lasso": {
+    "grade": "P1",
+    "reason": "HW07 Ex2 uses the L1-penalised objective for non-differentiability and convexity proofs; it then supplies the coordinate-gradient and soft-threshold calculations.",
+    "homework": [
+      "hw07-ex2"
+    ]
+  },
+  "optimization-regularized-logistic": {
+    "grade": "P3",
+    "reason": "No supplied homework requests this penalised logistic objective; the regularised estimate discussed for separable HW04 data is an explanatory addition.",
+    "homework": []
+  },
+  "optimization-lasso-coordinate": {
+    "grade": "P1",
+    "reason": "HW07 Ex2 directly asks for rho and z in the coordinate derivative; those quantities are the inputs to the follow-on soft-threshold update.",
+    "homework": [
+      "hw07-ex2"
+    ]
+  },
+  "optimization-lasso-soft-threshold": {
+    "grade": "P2",
+    "reason": "The coordinate update completes the Lasso procedure explained with HW07 Ex2; no other supplied homework calculation depends on this update.",
+    "homework": [
+      "hw07-ex2"
+    ]
+  },
+  "optimization-binomial-majority": {
+    "grade": "P1",
+    "reason": "HW07 Ex3 computes a strict-majority binomial tail; its binomial mass is also used by the coin-likelihood MLE calculation in HW01 Ex1.",
+    "homework": [
+      "hw07-ex3",
+      "hw01-ex1"
+    ]
+  },
+  "optimization-bootstrap-sampling": {
+    "grade": "P1",
+    "reason": "HW05 Ex3 draws bootstrap datasets in the forest pseudocode; those datasets feed separate tree training and the final averaged prediction.",
+    "homework": [
+      "hw05-ex3"
+    ]
+  },
+  "optimization-bootstrap-omission": {
+    "grade": "P3",
+    "reason": "HW05 Ex3 requires sampling with replacement, but does not calculate the omission probability or the 37-percent limit shown here.",
+    "homework": []
+  },
+  "optimization-bayesian-model-average": {
+    "grade": "P3",
+    "reason": "No supplied homework computes a posterior-weighted average over models with this expression.",
+    "homework": []
+  },
+  "optimization-forest-average": {
+    "grade": "P1",
+    "reason": "HW05 Ex3 averages tree outputs for regression; the same weighted-average operation underlies the linear-smoother and KNN risk calculations in HW05 Ex2.",
+    "homework": [
+      "hw05-ex3",
+      "hw05-ex2"
+    ]
+  },
+  "optimization-adaboost": {
+    "grade": "P3",
+    "reason": "AdaBoost model and example-weight updates are slide material, with no direct use in the supplied homework.",
+    "homework": []
+  },
+  "optimization-reject-option": {
+    "grade": "P2",
+    "reason": "HW05 Ex1 derives class-versus-reject risks and the rejection threshold; this is a self-contained decision task with no later homework dependency.",
+    "homework": [
+      "hw05-ex1"
+    ]
+  },
+  "optimization-linear-smoothers": {
+    "grade": "P1",
+    "reason": "HW05 Ex2 expresses linear regression and KNN as weighted target sums; the weights then determine expected prediction, conditional bias and variance.",
+    "homework": [
+      "hw05-ex2"
+    ]
+  },
+  "clustering-euclidean-distance": {
+    "grade": "P1",
+    "reason": "HW06 Ex2/Ex3 use Euclidean geometry for margins, while HW08 Ex1/Ex2 use it for centroid assignments and DBSCAN neighbourhoods.",
+    "homework": [
+      "hw06-ex2",
+      "hw06-ex3",
+      "hw08-ex1",
+      "hw08-ex2"
+    ]
+  },
+  "clustering-manhattan-distance": {
+    "grade": "P3",
+    "reason": "Manhattan distance is used in the slide exercise, but the supplied clustering homework is solved with an explicit Euclidean convention.",
+    "homework": []
+  },
+  "clustering-minkowski-distance": {
+    "grade": "P3",
+    "reason": "The general Minkowski-distance formula is not used by any supplied homework task.",
+    "homework": []
+  },
+  "clustering-cosine-similarity": {
+    "grade": "P3",
+    "reason": "Cosine similarity and its dissimilarity conversion are not used by any supplied homework task.",
+    "homework": []
+  },
+  "clustering-centroid": {
+    "grade": "P1",
+    "reason": "HW08 Ex1 updates coordinate means after assignment; those means become the centres needed for later assignment and distance calculations.",
+    "homework": [
+      "hw08-ex1"
+    ]
+  },
+  "clustering-sse": {
+    "grade": "P1",
+    "reason": "HW05 Ex3 scores regression-tree splits with squared deviations around each group mean; that same sum is reused as the clustering objective. HW08 does not ask to calculate SSE.",
+    "homework": [
+      "hw05-ex3"
+    ]
+  },
+  "clustering-kmeans-assignment": {
+    "grade": "P1",
+    "reason": "HW08 Ex1 assigns every point to its nearest seed; those memberships are required before calculating the new centroids.",
+    "homework": [
+      "hw08-ex1"
+    ]
+  },
+  "clustering-kmeanspp": {
+    "grade": "P3",
+    "reason": "No supplied homework uses probabilistic K-means++ seeding; HW08 supplies its initial seeds directly.",
+    "homework": []
+  },
+  "clustering-kmeans-cost": {
+    "grade": "P3",
+    "reason": "No supplied homework asks for the computational complexity of K-means.",
+    "homework": []
+  },
+  "clustering-linkage": {
+    "grade": "P3",
+    "reason": "Single, complete and average linkage occur in the slides, but no supplied homework performs hierarchical linkage calculations.",
+    "homework": []
+  },
+  "clustering-ward": {
+    "grade": "P3",
+    "reason": "No supplied homework chooses hierarchical merges by Ward's increase in within-cluster SSE.",
+    "homework": []
+  },
+  "clustering-hac-cost": {
+    "grade": "P3",
+    "reason": "No supplied homework computes hierarchical clustering time complexity.",
+    "homework": []
+  },
+  "clustering-dbscan": {
+    "grade": "P1",
+    "reason": "HW08 Ex2 counts radius neighbours to find core points; these counts feed core connectivity, border/noise decisions and comparison of two radii.",
+    "homework": [
+      "hw08-ex2"
+    ]
+  },
+  "clustering-davies-bouldin": {
+    "grade": "P3",
+    "reason": "The Davies-Bouldin score appears in the lecture, but no supplied homework computes it.",
+    "homework": []
+  },
+  "clustering-dunn": {
+    "grade": "P3",
+    "reason": "The Dunn index appears in the lecture, but no supplied homework computes it.",
+    "homework": []
+  },
+  "clustering-silhouette": {
+    "grade": "P3",
+    "reason": "Silhouette calculations appear in lecture and practice questions, but not in the supplied homework.",
+    "homework": []
+  },
+  "clustering-silhouette-cost": {
+    "grade": "P3",
+    "reason": "No supplied homework evaluates the pairwise-distance cost of silhouette scoring.",
+    "homework": []
+  }
+}

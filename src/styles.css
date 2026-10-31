@@ -229,6 +229,25 @@ a.card:hover { border-color: var(--ink-3); }
 .box-formula { border-left-color: var(--theory); background: var(--theory-soft); }
 .box-formula .box-kind { color: var(--theory); }
 .box-formula .katex-display { font-size: 1.08em; }
+.priority-badge { display: inline-block; flex-shrink: 0; border: 1px solid currentColor; border-radius: 5px; padding: .05rem .4rem; font: 700 .75rem/1.5 var(--sans); letter-spacing: .02em; white-space: nowrap; vertical-align: middle; }
+.priority-p1 { color: var(--good); background: var(--good-soft); }
+.priority-p2 { color: var(--warn); background: var(--warn-soft); }
+.priority-p3 { color: var(--ink-2); background: var(--panel-2); }
+button.priority-badge { cursor: pointer; }
+.priority-reference-reason:not([hidden]) { display: block; margin-top: .35rem; font-size: .8rem; font-weight: 400; line-height: 1.5; color: var(--ink-2); }
+.priority-reference-reason[hidden] { display: none; }
+.formula-priority-reason { margin: .25rem .95rem .1rem; color: var(--ink-2); font-size: .82rem; line-height: 1.5; }
+.priority-legend { margin: 1rem 0 1.5rem; padding: .65rem .85rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; font-size: .88rem; }
+.priority-legend > summary { cursor: pointer; font-weight: 600; }
+.priority-legend ul { list-style: none; padding: 0; margin: .65rem 0; }
+.priority-legend li { display: flex; align-items: baseline; gap: .6rem; margin: .4rem 0; }
+.priority-legend p { margin: .5rem 0 0; color: var(--ink-2); }
+.priority-print-legend { display: none; }
+@media print {
+  .priority-badge { background: transparent; color: #000; }
+  .priority-legend { display: none; }
+  .priority-print-legend { display: block; font-size: .8rem; margin: 1rem 0; }
+}
 .box-read { border-left-color: var(--accent); }
 .box-read .box-kind { color: var(--accent); }
 .box-steps, .box-example { border-left-color: var(--practice); }

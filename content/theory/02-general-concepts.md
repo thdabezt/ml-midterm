@@ -24,7 +24,7 @@ A **random variable (RV)** is a variable whose value is a numerical outcome of a
 
 ### Discrete: probability mass ("density") function
 
-:::formula
+:::formula @prob-discrete-mass
 $$p_i = f(x_i) = P(X = x_i), \qquad f(x_i) \ge 0, \qquad \sum_{i=1}^{n} f(x_i) = 1$$
 :::
 
@@ -40,7 +40,7 @@ The probabilities add to 1. ✓
 
 ### Continuous: density and cumulative distribution
 
-:::formula
+:::formula @prob-continuous-density
 $$f(x) \ge 0, \qquad \int_{-\infty}^{+\infty} f(x)\,dx = 1, \qquad P(a < X < b) = \int_a^b f(x)\,dx$$
 :::
 
@@ -52,22 +52,35 @@ $$f(x) \ge 0, \qquad \int_{-\infty}^{+\infty} f(x)\,dx = 1, \qquad P(a < X < b) 
 
 **Cumulative distribution function (CDF)** (p15–17): $F(x) = P(X \le x)$.
 
+:::formula @prob-cdf Cumulative distribution function
+$$F(x)=P(X\le x)$$
+:::
+
 - $0 \le F(x) \le 1$; $F$ never decreases; $F(-\infty) = 0$, $F(+\infty) = 1$.
-- $P(a < X \le b) = F(b) - F(a)$.
-- Discrete: $F(x_0) = \sum_{x_i \le x_0} p_i$. Continuous: $F(x_0) = \int_{-\infty}^{x_0} f(x)\,dx$, and $f(x) = F'(x)$.
+- $P(a < X \le b) = F(b) - F(a)$. {{priority:prob-cdf-interval}}
+- Discrete: $F(x_0) = \sum_{x_i \le x_0} p_i$. {{priority:prob-discrete-cdf}}
+- Continuous: $F(x_0) = \int_{-\infty}^{x_0} f(x)\,dx$, and $f(x) = F'(x)$. {{priority:prob-continuous-cdf}}
 
 ## Expected value and variance
 
-:::formula Expected value (mean)
-$$E[X] = \sum_x x\,P(X = x) \quad\text{(discrete)} \qquad E[X] = \int x\,f(x)\,dx \quad\text{(continuous)}$$
+:::formula @prob-expectation-discrete Expected value (mean)
+$$E[X] = \sum_x x\,P(X = x) \quad\text{(discrete)}$$
+:::
+
+:::formula @prob-expectation-continuous Continuous expected value
+$$E[X] = \int x\,f(x)\,dx \quad\text{(continuous)}$$
 :::
 
 :::read
 "Multiply each value by its probability and add up." It is the long-run average.
 :::
 
-:::formula Variance and standard deviation
-$$\mathrm{Var}[X] = E\big[(X - E[X])^2\big] = E[X^2] - (E[X])^2, \qquad \sigma = \sqrt{\mathrm{Var}[X]}$$
+:::formula @prob-variance Variance
+$$\mathrm{Var}[X] = E\big[(X - E[X])^2\big] = E[X^2] - (E[X])^2$$
+:::
+
+:::formula @prob-standard-deviation Standard deviation from variance
+$$\sigma = \sqrt{\mathrm{Var}[X]}$$
 :::
 
 :::example A fair die
@@ -78,7 +91,9 @@ Values 1..6, each with probability 1/6.
 3. $\mathrm{Var}[X] = 15.1667 - 3.5^2 = 15.1667 - 12.25 = 2.9167$, so $\sigma = 1.708$.
 :::
 
-**Properties** (p19, p21): $E[C] = C$; $E[CX] = C\,E[X]$; $E[X+Y] = E[X] + E[Y]$ always; $E[XY] = E[X]E[Y]$ **only if independent**. $\mathrm{Var}[C] = 0$; $\mathrm{Var}[CX] = C^2\mathrm{Var}[X]$; $\mathrm{Var}[X + C] = \mathrm{Var}[X]$; $\mathrm{Var}[X+Y] = \mathrm{Var}[X] + \mathrm{Var}[Y]$ **if independent**.
+**Properties** (p19, p21): $E[C] = C$; $E[CX] = C\,E[X]$; $E[X+Y] = E[X] + E[Y]$ always; $E[XY] = E[X]E[Y]$ **if independent**. {{priority:prob-expectation-properties}}
+
+$\mathrm{Var}[C] = 0$; $\mathrm{Var}[CX] = C^2\mathrm{Var}[X]$; $\mathrm{Var}[X + C] = \mathrm{Var}[X]$; $\mathrm{Var}[X+Y] = \mathrm{Var}[X] + \mathrm{Var}[Y]$ **if independent**. {{priority:prob-variance-properties}}
 
 :::pitfall
 $\mathrm{Var}[3X] = 9\,\mathrm{Var}[X]$, not $3\,\mathrm{Var}[X]$: constants come out **squared**. Adding a constant shifts the values but does not change the spread.
@@ -86,16 +101,24 @@ $\mathrm{Var}[3X] = 9\,\mathrm{Var}[X]$, not $3\,\mathrm{Var}[X]$: constants com
 
 ## The rules of probability and Bayes' theorem
 
-:::formula Three rules (p22)
-$$\text{Basic: } p(x) \ge 0,\ \sum_x p(x) = 1 \qquad \text{Sum rule: } p(X) = \sum_Y p(X, Y) \qquad \text{Product rule: } p(X, Y) = p(Y \mid X)\,p(X)$$
+:::formula @prob-normalization Three rules (p22)
+$$\text{Basic: } p(x) \ge 0,\qquad \sum_x p(x) = 1$$
+:::
+
+:::formula @prob-sum-rule Sum rule: marginalise the joint distribution
+$$p(X) = \sum_Y p(X,Y)$$
+:::
+
+:::formula @prob-product-rule Product rule for joint probability
+$$p(X,Y)=p(Y\mid X)\,p(X)$$
 :::
 
 - **Joint** $p(x, y)$: both happen. All joint probabilities add up to 1.
 - **Marginal** $p(x) = \sum_y p(x, y)$: "sum out" the variable you do not care about (row totals of a table).
-- **Conditional** $p(x \mid y) = \dfrac{p(x, y)}{p(y)}$: zoom into the cases where $y$ happened.
-- **Independence**: $p(x \mid y) = p(x)$, equivalently $p(x, y) = p(x)\,p(y)$.
+- **Conditional** $p(x \mid y) = \dfrac{p(x, y)}{p(y)}$: zoom into the cases where $y$ happened. {{priority:math-conditional-probability}}
+- **Independence**: $p(x \mid y) = p(x)$, equivalently $p(x, y) = p(x)\,p(y)$. {{priority:prob-independence}}
 
-:::formula Bayes' rule (p25–26)
+:::formula @prob-bayes Bayes' rule (p25–26)
 $$p(\theta \mid X) = \frac{p(X \mid \theta)\,p(\theta)}{p(X)} \qquad\Longrightarrow\qquad \underbrace{p(\theta \mid X)}_{\text{posterior}} \propto \underbrace{p(X \mid \theta)}_{\text{likelihood}} \times \underbrace{p(\theta)}_{\text{prior}}$$
 :::
 
@@ -120,14 +143,14 @@ $$p(\theta \mid X) = \frac{p(X \mid \theta)\,p(\theta)}{p(X)} \qquad\Longrightar
 
 ## Typical distributions
 
-| Distribution | Models | Formula | Mean / variance |
-|---|---|---|---|
-| **Uniform** (discrete) | every outcome equally likely (day of week, a digit) | $P(X) = 1/\#\text{outcomes}$ | |
-| **Bernoulli** $\mathrm{Bern}(\lambda)$ | one yes/no trial (coin, rain/sunny, male/female) | $P(x) = \lambda^x(1-\lambda)^{1-x}$, $x \in \{0,1\}$ | $\lambda$ / $\lambda(1-\lambda)$ |
-| **Binomial** $\mathrm{Bin}(n, p)$ | number of successes in $n$ independent trials | $P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}$ | $np$ / $np(1-p)$ |
-| **Categorical** $\mathrm{Cat}(\boldsymbol\lambda)$ | one trial with $C > 2$ outcomes (die, image class) | $P(x = k) = \lambda_k$, $\sum_k \lambda_k = 1$ | |
-| **Normal / Gaussian** $\mathcal{N}(\mu, \sigma^2)$ | continuous, bell-shaped (exam scores, IQ, height) | $\dfrac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\dfrac{(x-\mu)^2}{2\sigma^2}\right)$ | $\mu$ / $\sigma^2$ |
-| **Exponential** $\mathrm{Exp}(\lambda)$ | waiting times, call durations ($x \ge 0$) | $\lambda e^{-\lambda x}$ | $1/\lambda$ / $1/\lambda^2$ |
+| Distribution | Models | Formula | Mean / variance | Priority |
+|---|---|---|---|---|
+| **Uniform** (discrete) | every outcome equally likely (day of week, a digit) | $P(X) = 1/\#\text{outcomes}$ | | {{priority:prob-uniform}} |
+| **Bernoulli** $\mathrm{Bern}(\lambda)$ | one yes/no trial (coin, rain/sunny, male/female) | $P(x) = \lambda^x(1-\lambda)^{1-x}$, $x \in \{0,1\}$ | $\lambda$ / $\lambda(1-\lambda)$ | {{priority:prob-bernoulli}} |
+| **Binomial** $\mathrm{Bin}(n, p)$ | number of successes in $n$ independent trials | $P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}$ | $np$ / $np(1-p)$ | {{priority:prob-binomial}} |
+| **Categorical** $\mathrm{Cat}(\boldsymbol\lambda)$ | one trial with $C > 2$ outcomes (die, image class) | $P(x = k) = \lambda_k$, $\sum_k \lambda_k = 1$ | | {{priority:prob-categorical}} |
+| **Normal / Gaussian** $\mathcal{N}(\mu, \sigma^2)$ | continuous, bell-shaped (exam scores, IQ, height) | $\dfrac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\dfrac{(x-\mu)^2}{2\sigma^2}\right)$ | $\mu$ / $\sigma^2$ | {{priority:prob-gaussian}} |
+| **Exponential** $\mathrm{Exp}(\lambda)$ | waiting times, call durations ($x \ge 0$) | $\lambda e^{-\lambda x}$ | $1/\lambda$ / $1/\lambda^2$ | {{priority:prob-exponential}} |
 
 :::read The Bernoulli formula is a clever switch
 $\lambda^x(1-\lambda)^{1-x}$: if $x = 1$ it becomes $\lambda^1(1-\lambda)^0 = \lambda$; if $x = 0$ it becomes $\lambda^0(1-\lambda)^1 = 1 - \lambda$. One formula covers both cases, which makes MLE derivations easy.
@@ -139,7 +162,11 @@ The slide's table gives 0.246094 ✓. The most likely count is 5 = $np$.
 :::
 
 The **multivariate normal** generalises the Gaussian to vectors $\mathbf{x} \in \mathbb{R}^D$ with a mean vector $\boldsymbol\mu$ and a covariance matrix $\boldsymbol\Sigma$:
+
+:::formula @prob-multivariate-gaussian Multivariate Gaussian density
 $$p(\mathbf{x}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol\Sigma|^{1/2}}\exp\!\left(-\tfrac12(\mathbf{x}-\boldsymbol\mu)^T\boldsymbol\Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)\right)$$
+:::
+
 (The slide prints the exponent without the minus sign; the minus is needed, otherwise the "bell" would point upwards.)
 
 :::example Slide quiz 3 & 4 (p49)
@@ -149,7 +176,7 @@ $$p(\mathbf{x}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol\Sigma|^{1/2}}\exp\!\left(-\t
 
 ## Entropy, cross-entropy, KL divergence, mutual information
 
-:::formula Entropy (p44)
+:::formula @prob-entropy Entropy (p44)
 $$H(X) = -\sum_{i=1}^{n} P(x_i)\log P(x_i)$$
 :::
 
@@ -169,8 +196,12 @@ Example $p = (0.5, 0.25, 0.25)$: $-(0.5\cdot(-1) + 0.25\cdot(-2) + 0.25\cdot(-2)
 Fair coin: $H = -(0.5\log_2 0.5 + 0.5\log_2 0.5) = 1$ bit. Coin with $p = 0.9$: $H = -(0.9\log_2 0.9 + 0.1\log_2 0.1) = 0.137 + 0.332 = 0.469$ bits.
 :::
 
-:::formula Cross-entropy and KL divergence (p46–47)
-$$H(p, q) = -\sum_x p(x)\log q(x) \qquad D_{KL}(P \,\|\, Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)} = H(P, Q) - H(P)$$
+:::formula @prob-cross-entropy Cross-entropy (p46–47)
+$$H(p, q) = -\sum_x p(x)\log q(x)$$
+:::
+
+:::formula @prob-kl-divergence KL divergence
+$$D_{KL}(P \,\|\, Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)} = H(P, Q) - H(P)$$
 :::
 
 :::read
@@ -190,7 +221,7 @@ $P = (0.5, 0.5)$, $Q = (0.9, 0.1)$, base-2 logs.
 If $P(x) > 0$ somewhere that $Q(x) = 0$, the term $P(x)\log\frac{P(x)}{0}$ is infinite. So $D_{KL}(P\|Q) = +\infty$: KL "explodes" when the distributions do not overlap.
 :::
 
-:::formula Mutual information (p45)
+:::formula @prob-mutual-information Mutual information (p45)
 $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y)$$
 :::
 
@@ -200,7 +231,7 @@ How much knowing $Y$ reduces the uncertainty about $X$. $I = 0$ when $X$ and $Y$
 
 This is **Homework 1**. The question: we observe data $D$; which parameter $\theta$ makes this data **most probable**?
 
-:::formula The recipe
+:::formula @prob-mle-recipe The recipe
 $$L(\theta) = P(D \mid \theta) = \prod_{i=1}^{N} P(x_i \mid \theta), \qquad \hat\theta_{MLE} = \arg\max_\theta L(\theta) = \arg\max_\theta \log L(\theta)$$
 :::
 
@@ -212,7 +243,7 @@ $$L(\theta) = P(D \mid \theta) = \prod_{i=1}^{N} P(x_i \mid \theta), \qquad \hat
 5. Solve for $\theta$. (If there is a constraint such as $\sum_k \theta_k = 1$, add a Lagrange multiplier.)
 :::
 
-:::example Coin (Bernoulli), Homework 1 Exercise 1 and slides p65–68
+:::formula @prob-coin-mle Coin (Bernoulli), Homework 1 Exercise 1 and slides p65–68
 Toss $N$ times, get $s$ heads. Each toss: $P(x_i) = \theta^{x_i}(1-\theta)^{1-x_i}$.
 
 1. $L(\theta) = \prod_i \theta^{x_i}(1-\theta)^{1-x_i} = \theta^{s}(1-\theta)^{N-s}$ (the exponents add up: $\sum x_i = s$ heads, $\sum (1-x_i) = N-s$ tails).
@@ -225,7 +256,7 @@ The "sensible value" is the fraction of heads. With the binomial form $\binom{N}
 Properties (p68): unbiased, $E[\hat\theta] = \theta$; variance $\theta(1-\theta)/N \to 0$; consistent: $P(|\hat\theta - \theta| \ge \epsilon) \to 0$ as $N \to \infty$ (the slide prints $\infty$ by mistake).
 :::
 
-:::example C-sided die (categorical), Homework 1 Exercise 2
+:::formula @prob-categorical-mle C-sided die (categorical), Homework 1 Exercise 2
 Roll $N$ times; let $N_k$ = number of times face $k$ appeared ($\sum_k N_k = N$).
 
 1. $L(\boldsymbol\theta) = \prod_{n=1}^{N}\theta_{y_n} = \prod_{k=1}^{C}\theta_k^{N_k}$.
@@ -249,7 +280,7 @@ Without the constraint, $\sum_k N_k\log\theta_k$ grows forever as every $\theta_
 
 **Data-generation pipeline** (p54): an unknown distribution $\mathcal{D}$ produces $x_i \sim \mathcal{D}$; an unknown correct labelling function $c$ gives $y_i = c(x_i)$. The learner sees only $S$, never $\mathcal{D}$ or $c$. Each run of the pipeline gives a new $S$.
 
-:::formula True error vs training (empirical) error
+:::formula @prob-classification-error True error vs training (empirical) error
 $$L_{\mathcal{D},c}(h) = \mathbb{P}_{x \sim \mathcal{D}}[h(x) \ne c(x)] \qquad\qquad L_S(h) = \frac{|\{i \in [m] : h(x_i) \ne y_i\}|}{m}$$
 :::
 
@@ -273,11 +304,11 @@ As the model gets more complex, training (empirical) error keeps going **down**.
 
 **Cross-validation** (p59), when data is scarce:
 
-| Scheme | How | Models trained |
-|---|---|---|
-| Hold-out | one split, e.g. 2/3 train, 1/3 validation | 1 |
-| **k-fold** | split into $k$ equal folds; each fold is the validation set once, the other $k-1$ train | $k$ |
-| **LOOCV** (leave-one-out) | $k = m$: each single example is the validation set once | $m$ |
+| Scheme | How | Models trained | Priority |
+|---|---|---|---|
+| Hold-out | one split, e.g. 2/3 train, 1/3 validation | 1 | {{priority:prob-validation-counts}} |
+| **k-fold** | split into $k$ equal folds; each fold is the validation set once, the other $k-1$ train | $k$ | {{priority:prob-validation-counts}} |
+| **LOOCV** (leave-one-out) | $k = m$: each single example is the validation set once | $m$ | {{priority:prob-validation-counts}} |
 
 The cross-validation score is the **average** validation error over the $k$ runs.
 

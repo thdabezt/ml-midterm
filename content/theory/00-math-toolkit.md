@@ -38,7 +38,7 @@ When you meet a formula, say it out loud in words, symbol by symbol. "$J$ equals
 
 ## Sums (Σ) and products (Π)
 
-:::formula Sum
+:::formula @math-sum Sum
 $$\sum_{i=1}^{m} a_i = a_1 + a_2 + \dots + a_m$$
 :::
 
@@ -56,7 +56,7 @@ Data: $x = (-1, 0, 1, 2)$, so $m = 4$.
 - $\sum_{i=1}^{4} 3x_i = 3 \cdot 2 = 6$ (a constant can be pulled out of a sum)
 :::
 
-:::formula Product
+:::formula @math-product Product
 $$\prod_{i=1}^{m} a_i = a_1 \times a_2 \times \dots \times a_m$$
 :::
 
@@ -74,7 +74,7 @@ $\left(\sum x_i\right)^2 \ne \sum x_i^2$. With $x = (1, 2)$: $(1+2)^2 = 9$ but $
 
 A logarithm answers: **"what power do I raise the base to, to get this number?"**
 
-:::formula
+:::formula @math-log-definition
 $$\log_b(a) = c \iff b^c = a$$
 :::
 
@@ -87,12 +87,12 @@ $$\log_b(a) = c \iff b^c = a$$
 
 **Rules you will use** (they turn products into sums, which is why ML loves logs):
 
-| Rule | Example |
-|---|---|
-| $\log(ab) = \log a + \log b$ | $\log_2(4 \cdot 8) = 2 + 3 = 5$ |
-| $\log(a/b) = \log a - \log b$ | $\log_2(1/4) = 0 - 2 = -2$ |
-| $\log(a^k) = k \log a$ | $\log_2(8^2) = 2 \cdot 3 = 6$ |
-| $\log_2 x = \dfrac{\ln x}{\ln 2}$ | $\log_2 5 = 1.6094/0.6931 = 2.3219$ |
+| Rule | Example | Priority |
+|---|---|---|
+| $\log(ab) = \log a + \log b$ | $\log_2(4 \cdot 8) = 2 + 3 = 5$ | {{priority:math-log-product}} |
+| $\log(a/b) = \log a - \log b$ | $\log_2(1/4) = 0 - 2 = -2$ | {{priority:math-log-quotient}} |
+| $\log(a^k) = k \log a$ | $\log_2(8^2) = 2 \cdot 3 = 6$ | {{priority:math-log-power}} |
+| $\log_2 x = \dfrac{\ln x}{\ln 2}$ | $\log_2 5 = 1.6094/0.6931 = 2.3219$ | {{priority:math-log-change-base}} |
 
 :::steps Computing $\log_2$ on a calculator
 1. Many calculators have a $\log_{\square}\square$ key. If not, use the change-of-base rule.
@@ -111,7 +111,7 @@ $0 \cdot \log 0$ is treated as $0$. (A class with zero examples contributes noth
 
 $e^x$ (also written $\exp(x)$) is "2.71828 to the power $x$". Facts: $e^0 = 1$; $e^x > 0$ always; $e^{-x} = 1/e^x$; $\ln(e^x) = x$.
 
-:::formula Sigmoid (logistic) function
+:::formula @math-sigmoid Sigmoid (logistic) function
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 :::
 
@@ -128,14 +128,14 @@ $\sigma(2) = \dfrac{1}{1 + e^{-2}} = \dfrac{1}{1 + 0.1353} = 0.8808$. And $\sigm
 
 ## Probability basics
 
-| Notation | Meaning |
-|---|---|
-| $P(A)$ | probability that $A$ happens, between 0 and 1 |
-| $P(A, B)$ or $P(A \cap B)$ | probability that **both** happen (joint) |
-| $P(A \mid B)$ | probability of $A$ **when we already know** $B$ happened (conditional) |
-| $P(\neg A)$, $P(\bar A)$ | probability that $A$ does **not** happen $= 1 - P(A)$ |
+| Notation | Meaning | Priority |
+|---|---|---|
+| $P(A)$ | probability that $A$ happens, between 0 and 1 | {{priority:math-probability}} |
+| $P(A, B)$ or $P(A \cap B)$ | probability that **both** happen (joint) | {{priority:math-joint-probability}} |
+| $P(A \mid B)$ | probability of $A$ **when we already know** $B$ happened (conditional) | {{priority:math-conditional-probability}} |
+| $P(\neg A)$, $P(\bar A)$ | probability that $A$ does **not** happen $= 1 - P(A)$ | {{priority:math-complement}} |
 
-:::formula Conditional probability and Bayes' rule
+:::formula @math-conditional-bayes Conditional probability and Bayes' rule
 $$P(A \mid B) = \frac{P(A, B)}{P(B)} \qquad\qquad P(A \mid B) = \frac{P(B \mid A)\,P(A)}{P(B)}$$
 :::
 
@@ -149,17 +149,17 @@ The full treatment (sum rule, product rule, independence, distributions) is in L
 
 A derivative tells you the **slope**: how fast a function goes up or down when you nudge its input. At the bottom of a valley the slope is **zero**, which is how we find the best parameters.
 
-:::formula Rules you need (all of them)
-| Function $f(x)$ | Derivative $f'(x)$ or $\frac{d}{dx}f$ |
-|---|---|
-| constant $c$ | $0$ |
-| $x$ | $1$ |
-| $x^k$ | $k\,x^{k-1}$ |
-| $c \cdot g(x)$ | $c \cdot g'(x)$ |
-| $g(x) + h(x)$ | $g'(x) + h'(x)$ |
-| $\ln x$ | $1/x$ |
-| $e^x$ | $e^x$ |
-| $g(u(x))$ (chain rule) | $g'(u) \cdot u'(x)$ |
+:::formula @math-derivative-rules Rules you need (all of them)
+| Function $f(x)$ | Derivative $f'(x)$ or $\frac{d}{dx}f$ | Priority |
+|---|---|---|
+| constant $c$ | $0$ | {{priority:math-derivative-constant}} |
+| $x$ | $1$ | {{priority:math-derivative-identity}} |
+| $x^k$ | $k\,x^{k-1}$ | {{priority:math-derivative-power}} |
+| $c \cdot g(x)$ | $c \cdot g'(x)$ | {{priority:math-derivative-scaling}} |
+| $g(x) + h(x)$ | $g'(x) + h'(x)$ | {{priority:math-derivative-sum}} |
+| $\ln x$ | $1/x$ | {{priority:math-derivative-log}} |
+| $e^x$ | $e^x$ | {{priority:math-derivative-exp}} |
+| $g(u(x))$ (chain rule) | $g'(u) \cdot u'(x)$ | {{priority:math-derivative-chain}} |
 :::
 
 :::example Chain rule on a squared error
@@ -178,13 +178,13 @@ $J(w_0, w_1) = \tfrac12(w_0 + w_1 x - y)^2$ for one point $(x, y)$. Let $e = w_0
 This is exactly where the gradient-descent formulas in Lecture 3 come from: average these over all $m$ points.
 :::
 
-The **gradient** $\nabla J$ ("nabla J") is the list of all partial derivatives: $\nabla J = \left(\frac{\partial J}{\partial w_0}, \frac{\partial J}{\partial w_1}, \dots\right)$. It points uphill; gradient descent steps the opposite way.
+The **gradient** $\nabla J$ ("nabla J") is the list of all partial derivatives: $\nabla J = \left(\frac{\partial J}{\partial w_0}, \frac{\partial J}{\partial w_1}, \dots\right)$. It points uphill; gradient descent steps the opposite way. {{priority:math-gradient}}
 
 ## Vectors and matrices
 
 **Vector:** a column of numbers, $\mathbf{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}$. Its **transpose** $\mathbf{w}^T = [w_0\ \ w_1]$ is the same numbers lying flat.
 
-:::formula Dot product
+:::formula @math-dot-product Dot product
 $$\mathbf{w}^T\mathbf{x} = \sum_j w_j x_j = w_0x_0 + w_1x_1 + \dots$$
 :::
 
@@ -193,6 +193,10 @@ $\mathbf{w} = (2, 3)$, $\mathbf{x} = (1, 4)$: $\mathbf{w}^T\mathbf{x} = 2\cdot1 
 :::
 
 **Matrix multiplication** $AB$: entry (row $i$, column $j$) of the result = dot product of **row $i$ of $A$** with **column $j$ of $B$**. Sizes must match: $(a \times b)(b \times c) = (a \times c)$.
+
+:::formula @math-matrix-multiplication Matrix multiplication by matching rows and columns
+$$[AB]_{ij}=\sum_k A_{ik}B_{kj}$$
+:::
 
 :::example Compute $X^TX$ and $X^T\mathbf{y}$ (used in every normal-equation question)
 $$X = \begin{bmatrix}1 & -1\\ 1 & 0\\ 1 & 1\\ 1 & 2\end{bmatrix},\quad \mathbf{y} = \begin{bmatrix}0\\2\\4\\5\end{bmatrix}$$
@@ -205,7 +209,7 @@ $$X^TX = \begin{bmatrix}4 & 2\\ 2 & 6\end{bmatrix},\qquad X^T\mathbf{y} = \begin
 **Shortcut:** for one feature, $X^TX = \begin{bmatrix} m & \sum x\\ \sum x & \sum x^2\end{bmatrix}$ and $X^T\mathbf{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix}$. Build a table of $x, y, x^2, xy$ and add the columns.
 :::
 
-:::formula Inverse of a 2×2 matrix
+:::formula @math-matrix-inverse Inverse of a 2×2 matrix
 $$\begin{bmatrix} a & b\\ c & d\end{bmatrix}^{-1} = \frac{1}{ad - bc}\begin{bmatrix} d & -b\\ -c & a\end{bmatrix}$$
 :::
 
@@ -220,11 +224,11 @@ $$\begin{bmatrix} a & b\\ c & d\end{bmatrix}^{-1} = \frac{1}{ad - bc}\begin{bmat
 
 ## Norms (length of a vector)
 
-| Name | Formula | Example $\mathbf{w} = (3, -4)$ |
-|---|---|---|
-| L2 norm | $\lVert\mathbf{w}\rVert_2 = \sqrt{\sum w_j^2}$ | $\sqrt{9 + 16} = 5$ |
-| squared L2 | $\lVert\mathbf{w}\rVert_2^2 = \sum w_j^2 = \mathbf{w}^T\mathbf{w}$ | $25$ |
-| L1 norm | $\lVert\mathbf{w}\rVert_1 = \sum \lvert w_j\rvert$ | $3 + 4 = 7$ |
+| Name | Formula | Example $\mathbf{w} = (3, -4)$ | Priority |
+|---|---|---|---|
+| L2 norm | $\lVert\mathbf{w}\rVert_2 = \sqrt{\sum w_j^2}$ | $\sqrt{9 + 16} = 5$ | {{priority:math-norm-l2}} |
+| squared L2 | $\lVert\mathbf{w}\rVert_2^2 = \sum w_j^2 = \mathbf{w}^T\mathbf{w}$ | $25$ | {{priority:math-norm-l2-squared}} |
+| L1 norm | $\lVert\mathbf{w}\rVert_1 = \sum \lvert w_j\rvert$ | $3 + 4 = 7$ | {{priority:math-norm-l1}} |
 
 Ridge regression adds $\lambda\lVert\mathbf{w}\rVert_2^2$; Lasso adds $\lambda\lVert\mathbf{w}\rVert_1$ (Lecture 7). The SVM margin is $2/\lVert\mathbf{w}\rVert$ (Lecture 6).
 
@@ -232,8 +236,12 @@ Ridge regression adds $\lambda\lVert\mathbf{w}\rVert_2^2$; Lasso adds $\lambda\l
 
 Lecture 8 compares points and replaces a group of points with its **centroid** (average point). A point such as $(2, 5)$ has two coordinates: first 2, then 5.
 
-:::formula Distance between two points
-$$d_1(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{d}|x_j-z_j|, \qquad d_2(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
+:::formula @math-distance-manhattan Distance between two points
+$$d_1(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{d}|x_j-z_j|$$
+:::
+
+:::formula @math-distance-euclidean Euclidean / L2 distance
+$$d_2(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
 :::
 
 :::read
@@ -246,7 +254,7 @@ $$d_1(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{d}|x_j-z_j|, \qquad d_2(\mathbf{x},\m
 For $\mathbf{x}=(1,2)$ and $\mathbf{z}=(4,6)$, the differences are $-3,-4$. L1 distance is $3+4=7$. L2 distance is $\sqrt{9+16}=5$. Squared L2 distance is $25$.
 :::
 
-:::formula A centroid is a coordinate-by-coordinate average
+:::formula @math-centroid A centroid is a coordinate-by-coordinate average
 $$\mu_j = \frac{1}{|C|}\sum_{\mathbf{x}\in C}x_j$$
 :::
 
@@ -260,8 +268,8 @@ For points $(1,2),(3,4),(5,3)$, there are $|C|=3$ points. The first coordinate i
 
 ## Max, min, argmax, argmin
 
-- $\max_x f(x)$ = the **highest value** of $f$.
-- $\arg\max_x f(x)$ = the **input $x$** that gives the highest value.
+- $\max_x f(x)$ = the **highest value** of $f$. {{priority:math-max-argmax}}
+- $\arg\max_x f(x)$ = the **input $x$** that gives the highest value. {{priority:math-max-argmax}}
 
 :::example
 $f(\text{cat}) = 0.2,\ f(\text{dog}) = 0.7,\ f(\text{bird}) = 0.1$. Then $\max f = 0.7$ and $\arg\max f = \text{dog}$. A classifier predicts the **argmax** class.
@@ -271,7 +279,7 @@ $f(\text{cat}) = 0.2,\ f(\text{dog}) = 0.7,\ f(\text{bird}) = 0.1$. Then $\max f
 
 ## Counting: combinations
 
-:::formula
+:::formula @math-combinations
 $$\binom{n}{k} = \frac{n!}{k!\,(n-k)!}, \qquad n! = 1 \cdot 2 \cdots n$$
 :::
 
@@ -280,6 +288,10 @@ $\binom{n}{k}$ ("n choose k") counts the ways to pick $k$ items out of $n$. Exam
 ## Constrained optimisation (Lagrange multipliers)
 
 Sometimes we must maximise something **subject to a rule**, e.g. probabilities must add to 1 ($\sum_k \theta_k = 1$). The trick:
+
+:::formula @math-lagrange Lagrange objective for one equality constraint
+$$\mathcal{L}=f+\lambda g,\qquad g=0$$
+:::
 
 :::steps
 1. Write the objective $f$ and the constraint as $g = 0$ (e.g. $g = \sum_k\theta_k - 1$).

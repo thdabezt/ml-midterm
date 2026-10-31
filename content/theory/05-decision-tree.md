@@ -78,8 +78,16 @@ Let $D_t$ be the training records that reach node $t$.
 
 We want children that are **purer** than the parent (p27): a node with (C0: 5, C1: 5) is highly impure; (C0: 9, C1: 1) is nearly pure. Let $p_i(t)$ = fraction of records of class $i$ at node $t$, and $c$ = number of classes.
 
-:::formula The three impurity measures (p28)
-$$\text{Gini}(t) = 1 - \sum_{i} p_i(t)^2 \qquad \text{Entropy}(t) = -\sum_i p_i(t)\log_2 p_i(t) \qquad \text{Error}(t) = 1 - \max_i p_i(t)$$
+:::formula @tree-gini Gini impurity (p28)
+$$\text{Gini}(t)=1-\sum_i p_i(t)^2$$
+:::
+
+:::formula @tree-entropy Entropy impurity (p28)
+$$\text{Entropy}(t)=-\sum_i p_i(t)\log_2 p_i(t)$$
+:::
+
+:::formula @tree-classification-error Classification-error impurity (p28)
+$$\text{Error}(t)=1-\max_i p_i(t)$$
 :::
 
 :::read
@@ -101,8 +109,12 @@ $$\text{Gini}(t) = 1 - \sum_{i} p_i(t)^2 \qquad \text{Entropy}(t) = -\sum_i p_i(
 
 ## Finding the best split: gain
 
-:::formula Weighted impurity of a split and the gain (p29, p33, p38)
-$$M = \sum_{i=1}^{k}\frac{n_i}{n}\,I(\text{child } i) \qquad\qquad \text{Gain} = P - M = I(\text{parent}) - \sum_{i=1}^{k}\frac{n_i}{n}I(\text{child } i)$$
+:::formula @tree-information-gain Weighted entropy and information gain (p29, p38)
+$$M_H=\sum_{i=1}^{k}\frac{n_i}{n}H(\text{child }i),\qquad\operatorname{IG}=H(\text{parent})-M_H$$
+:::
+
+:::formula @tree-gini-gain Weighted Gini impurity and gain (p29, p33)
+$$M_G=\sum_{i=1}^{k}\frac{n_i}{n}\operatorname{Gini}(\text{child }i),\qquad\operatorname{Gain}_G=\operatorname{Gini}(\text{parent})-M_G$$
 :::
 
 :::read
@@ -149,7 +161,7 @@ Marital Status has the higher information gain, so ID3 would put it at the root.
 
 Impurity measures prefer splits into **many small pure partitions** (p39). Customer ID has the highest information gain (every child has entropy 0), but it cannot generalise.
 
-:::formula Gain ratio (C4.5) (p40)
+:::formula @tree-gain-ratio Gain ratio (C4.5) (p40)
 $$\text{Gain Ratio} = \frac{\text{Gain}_{split}}{\text{Split Info}}, \qquad \text{Split Info} = -\sum_{i=1}^{k}\frac{n_i}{n}\log_2\frac{n_i}{n}$$
 :::
 

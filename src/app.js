@@ -282,6 +282,15 @@
       ${lessonList()}</div>`;
   }
 
+  function priorityLegend() {
+    const levels = DATA.formulaPriorityLevels || {};
+    const items = Object.entries(levels).map(([grade, description]) => `<li><span class="priority-badge priority-${grade.toLowerCase()}">${esc(grade)}</span><span>${esc(description)}</span></li>`).join('');
+    return `<details class="priority-legend"><summary>Formula priorities: P1 · P2 · P3</summary>
+      <ul>${items}</ul>
+      <p>Based on the supplied HW01–HW08. Follow-on links mean connected calculation skills; grades can change when new homework arrives. Each formula explains its grade. Select a formula-sheet badge to read its reason.</p>
+    </details><div class="priority-print-legend"><b>Formula priorities</b><ul>${items}</ul></div>`;
+  }
+
   function pageTheory(slug, sectionId) {
     const l = lessonBySlug[slug];
     if (!l) return notFound();
@@ -294,6 +303,7 @@
       <p class="lede">${esc(l.summary)}</p>
       ${l.sourceNote ? `<p class="small muted">${esc(l.sourceNote)}</p>` : ''}
       ${s.total ? `<p><a class="practice-link" href="#/practice/${slug}">✎ ${s.total} practice questions for this lesson</a></p>` : ''}
+      ${priorityLegend()}
       <div class="theory-body">${l.sections.map((sec) => `<section class="theory-section" id="sec-${sec.id}"><h2>${sec.title}</h2>${sec.html}</section>`).join('')}</div>
       <nav class="pager">${prev ? `<a href="#/theory/${prev.slug}"><small>← Previous</small>${esc(prev.title)}</a>` : '<span></span>'}
       ${next ? `<a href="#/theory/${next.slug}" style="text-align:right"><small>Next →</small>${esc(next.title)}</a>` : ''}</nav>
@@ -576,6 +586,14 @@
     sidebar.classList.toggle('open', open); scrim.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open));
   });
   scrim.addEventListener('click', closeMenu);
+
+  main.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-priority-toggle]');
+    if (!toggle) return;
+    const reason = toggle.nextElementSibling;
+    reason.hidden = !reason.hidden;
+    toggle.setAttribute('aria-expanded', String(!reason.hidden));
+  });
 
   window.addEventListener('hashchange', route);
   updateReviewCount();

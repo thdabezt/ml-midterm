@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, copyFileSync, cpSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { md, theorySections } from './render.mjs';
+import { md, theorySections, PRIORITY_LEVELS } from './render.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
@@ -89,6 +89,7 @@ async function build() {
   const questions = await loadQuestions(ordered.map((l) => l.slug));
   const data = {
     version: pkg.version,
+    formulaPriorityLevels: PRIORITY_LEVELS,
     lectures: ordered.map(({ slug, num, title, short, summary, sourceNote, sections }) => ({ slug, num, title, short, summary, sourceNote, sections })),
     questions,
   };
