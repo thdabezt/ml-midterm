@@ -1,6 +1,6 @@
 # ML Studyroom
 
-Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures 1–8. Current version: **1.4.0**.
+Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures 1–8. Current version: **1.4.1**.
 
 **Website:** https://thdabezt.github.io/ml-midterm/
 
@@ -23,6 +23,7 @@ Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures
 
 ## Notes on content
 
+- Vectors use arrows, such as $\vec{x}$ and $\vec{w}$, across lessons, practice, the formula sheet and drills. Individual components remain scalar; matrices keep their existing notation.
 - Slide typos are corrected with a note where they would mislead (e.g. the margin $2/\|w\|$, the sign in the multivariate Gaussian, the entropy example on L5 p37).
 - L8 p26/p51 combines L1 distance with a k-means instruction. Its worked exercise explicitly uses Manhattan assignments, arithmetic-mean updates and ties to cluster 1; a true L1 objective uses coordinate medians. DBSCAN follows the L1 heading, counts the point itself, and explains the Euclidean alternative. The conventional Davies–Bouldin definition and silhouette divisor are stated with corrections to p56/p58.
 - HW06's feature map has six coordinates despite its printed target space being five-dimensional. `HW_07.pdf` is identified by its supplied filename because its header instead says "Homework 01" and lists different course codes. Its binomial ensemble solution states the independent-voter assumption and excludes even-size ties from a strict majority.

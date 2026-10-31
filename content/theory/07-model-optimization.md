@@ -151,35 +151,35 @@ $\chi^2 = \frac{(30-20)^2}{20} + \frac{(10-20)^2}{20} + \frac{(20-30)^2}{30} + \
 ## Fix 2: regularization
 
 :::formula @optimization-regularized-learning Regularised learning (p30–31)
-$$\hat f_n = \arg\min_{f \in \mathcal{F}}\big\{\hat R_n(f) + C(f)\big\} \qquad\qquad \min_{\mathbf{w}}\ \frac{1}{2m}\sum_{i=1}^{m}(h(\mathbf{x}_i) - y_i)^2 + \phi(\mathbf{w})$$
+$$\hat f_n = \arg\min_{f \in \mathcal{F}}\big\{\hat R_n(f) + C(f)\big\} \qquad\qquad \min_{\vec{w}}\ \frac{1}{2m}\sum_{i=1}^{m}(h(\vec{x}_i) - y_i)^2 + \phi(\vec{w})$$
 :::
 
-| Regulariser $\phi(\mathbf{w})$ | Name | Effect |
+| Regulariser $\phi(\vec{w})$ | Name | Effect |
 |---|---|---|
-| {{priority:optimization-ridge}} $\lambda\lVert\mathbf{w}\rVert_2^2 = \lambda\sum_j w_j^2$ | **Ridge** (L2; the slide misspells it "rigid") | shrinks all weights smoothly towards 0 |
-| {{priority:optimization-lasso}} $\lambda\lVert\mathbf{w}\rVert_1 = \lambda\sum_j\lvert w_j\rvert$ | **Lasso** (least absolute shrinkage and selection operator) | pushes some weights to **exactly 0** → feature selection (embedded) |
+| {{priority:optimization-ridge}} $\lambda\lVert\vec{w}\rVert_2^2 = \lambda\sum_j w_j^2$ | **Ridge** (L2; the slide misspells it "rigid") | shrinks all weights smoothly towards 0 |
+| {{priority:optimization-lasso}} $\lambda\lVert\vec{w}\rVert_1 = \lambda\sum_j\lvert w_j\rvert$ | **Lasso** (least absolute shrinkage and selection operator) | pushes some weights to **exactly 0** → feature selection (embedded) |
 
 :::read The role of λ
 - $\lambda = 0$: ordinary least squares, can overfit.
 - Larger $\lambda$: smaller weights, simpler model, more bias, less variance.
-- $\lambda \to \infty$: every penalised weight → 0; the model becomes $h(\mathbf{x}) = \bar y$ (a flat line) if $w_0$ is not penalised: **underfitting**.
+- $\lambda \to \infty$: every penalised weight → 0; the model becomes $h(\vec{x}) = \bar y$ (a flat line) if $w_0$ is not penalised: **underfitting**.
 - Choose $\lambda$ with a validation set or cross-validation.
 :::
 
 :::steps Ridge regression, both solutions (Homework 2 Exercise 2)
 {{priority:optimization-ridge}}
 
-Cost: $J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i(\mathbf{w}^T\mathbf{x}_i - y_i)^2 + \lambda\sum_{j=1}^{n}w_j^2\Big]$ (usually $w_0$ is not penalised).
-1. Gradient: $\frac{\partial J}{\partial w_0} = \frac1m\sum_i e_i$; $\frac{\partial J}{\partial w_j} = \frac1m\sum_i e_ix_{ij} + \frac{\lambda}{m}w_j$ for $j \ge 1$, where $e_i = \mathbf{w}^T\mathbf{x}_i - y_i$.
+Cost: $J(\vec{w}) = \frac{1}{2m}\Big[\sum_i(\vec{w}^T\vec{x}_i - y_i)^2 + \lambda\sum_{j=1}^{n}w_j^2\Big]$ (usually $w_0$ is not penalised).
+1. Gradient: $\frac{\partial J}{\partial w_0} = \frac1m\sum_i e_i$; $\frac{\partial J}{\partial w_j} = \frac1m\sum_i e_ix_{ij} + \frac{\lambda}{m}w_j$ for $j \ge 1$, where $e_i = \vec{w}^T\vec{x}_i - y_i$.
 2. **Gradient descent**: $w_j := w_j\big(1 - \frac{\alpha\lambda}{m}\big) - \frac{\alpha}{m}\sum_i e_ix_{ij}$. The factor $1 - \frac{\alpha\lambda}{m} < 1$ shrinks the weight every step ("weight decay").
-3. **Analytical**: setting the gradient to 0: $(X^TX + \lambda L)\mathbf{w} = X^T\mathbf{y}$, so $\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y}$ with $L = \mathrm{diag}(0, 1, \dots, 1)$ (use $I$ if $w_0$ is penalised too). For $\lambda > 0$ this matrix is always invertible.
+3. **Analytical**: setting the gradient to 0: $(X^TX + \lambda L)\vec{w} = X^T\vec{y}$, so $\vec{w} = (X^TX + \lambda L)^{-1}X^T\vec{y}$ with $L = \mathrm{diag}(0, 1, \dots, 1)$ (use $I$ if $w_0$ is penalised too). For $\lambda > 0$ this matrix is always invertible.
 :::
 
-{{priority:optimization-regularized-logistic}} **Regularised logistic regression** (p32): $\min_{\mathbf{w}}\sum_i\ln(1 + \exp(-y_i\mathbf{w}^T\mathbf{x}_i)) + \lambda\lVert\mathbf{w}\rVert_2^2$ (L2) or $+ \lambda\lVert\mathbf{w}\rVert_1$ (L1, "sparse logistic regression"). This also fixes the infinite-weight problem on separable data.
+{{priority:optimization-regularized-logistic}} **Regularised logistic regression** (p32): $\min_{\vec{w}}\sum_i\ln(1 + \exp(-y_i\vec{w}^T\vec{x}_i)) + \lambda\lVert\vec{w}\rVert_2^2$ (L2) or $+ \lambda\lVert\vec{w}\rVert_1$ (L1, "sparse logistic regression"). This also fixes the infinite-weight problem on separable data.
 
 ### Why Lasso needs more than ordinary derivatives (HW_07.pdf, Exercise 2)
 
-{{priority:optimization-lasso}} The supplied `HW_07.pdf` asks about $R_{\mathrm{reg}}(\boldsymbol{\theta})=\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2+\lambda\|\boldsymbol{\theta}\|_1$. Here $X$ has $n$ rows (examples) and $p$ columns (features); $\theta_j$ is the weight of column $j$.
+{{priority:optimization-lasso}} The supplied `HW_07.pdf` asks about $R_{\mathrm{reg}}(\vec{\theta})=\frac12\|X\vec{\theta}-\vec{y}\|_2^2+\lambda\|\vec{\theta}\|_1$. Here $X$ has $n$ rows (examples) and $p$ columns (features); $\theta_j$ is the weight of column $j$.
 
 :::read Absolute value has a corner
 $|t|=-t$ for $t<0$, so its slope is $-1$. For $t>0$, $|t|=t$, so its slope is $+1$. At $t=0$ the two slopes disagree: there is no ordinary derivative. Lasso has this corner whenever a penalised weight is zero. This is also why it can set weights exactly to zero.
@@ -189,7 +189,7 @@ $|t|=-t$ for $t<0$, so its slope is $-1$. For $t>0$, $|t|=t$, so its slope is $+
 
 :::formula @optimization-lasso-coordinate Isolate one coordinate
 $$z_j=\sum_{i=1}^{n}x_{ij}^2,\qquad \rho_j=\sum_{i=1}^{n}x_{ij}\left(y_i-\sum_{k\ne j}x_{ik}\theta_k\right)$$
-$$\frac{\partial}{\partial\theta_j}\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2=z_j\theta_j-\rho_j$$
+$$\frac{\partial}{\partial\theta_j}\frac12\|X\vec{\theta}-\vec{y}\|_2^2=z_j\theta_j-\rho_j$$
 :::
 
 :::read
@@ -197,7 +197,7 @@ Hold all weights except $\theta_j$ fixed. The inner sum is the prediction from t
 :::
 
 :::steps A two-row example
-Take $X=\begin{bmatrix}1&1\\1&2\end{bmatrix}$, $\mathbf{y}=(2,3)$ and hold $\theta_1=1$ while updating $\theta_2$.
+Take $X=\begin{bmatrix}1&1\\1&2\end{bmatrix}$, $\vec{y}=(2,3)$ and hold $\theta_1=1$ while updating $\theta_2$.
 1. Predictions from column 1 alone: $(1,1)$; remaining targets: $(1,2)$.
 2. $z_2=1^2+2^2=5$; $\rho_2=1\times1+2\times2=5$.
 3. The squared-loss derivative is $5\theta_2-5$.
@@ -249,7 +249,7 @@ Input: training set $D$ of $n$ examples with $p$ features; number of trees $B$; 
 1. For $b = 1, \dots, B$:
    - draw a bootstrap sample $D_b$ of size $n$ from $D$ (with replacement);
    - grow a regression tree $T_b$ on $D_b$: at each node pick $m_{try}$ features at random, find the best split among them only (largest reduction of squared error / variance), split, and recurse until the node reaches the minimum size; do not prune.
-2. {{priority:optimization-forest-average}} Prediction for a new $\mathbf{x}$: $\hat f(\mathbf{x}) = \frac1B\sum_{b=1}^{B}T_b(\mathbf{x})$ (classification: majority vote).
+2. {{priority:optimization-forest-average}} Prediction for a new $\vec{x}$: $\hat f(\vec{x}) = \frac1B\sum_{b=1}^{B}T_b(\vec{x})$ (classification: majority vote).
 3. Optional: the out-of-bag examples (the ≈37% not in $D_b$) give a free validation error.
 :::
 
@@ -260,9 +260,9 @@ Bagging is inefficient (p40): every example is equally likely to be sampled (no 
 - Misclassified examples get **larger** weights; correctly classified ones get **smaller** weights, so hard examples are sampled more often in the next round (p43: example 4 shows up five times in round 3).
 
 :::example AdaBoost weights (p45), 5 examples
-- $D_0 = (\frac15, \frac15, \frac15, \frac15, \frac15)$. $h_1$ misclassifies $x_1$ and $x_4$.
-- Their weights are doubled relative to the others, then normalised: raw $(2, 1, 1, 2, 1)$, sum 7 → $D_1 = (\frac27, \frac17, \frac17, \frac27, \frac17)$.
-- $h_2$ misclassifies only $x_4$: raw $(2, 1, 1, 4, 1)$, sum 9 → $D_2 = (\frac29, \frac19, \frac19, \frac49, \frac19)$.
+- $\vec{D}_0 = (\frac15, \frac15, \frac15, \frac15, \frac15)$. $h_1$ misclassifies $x_1$ and $x_4$.
+- Their weights are doubled relative to the others, then normalised: raw $(2, 1, 1, 2, 1)$, sum 7 → $\vec{D}_1 = (\frac27, \frac17, \frac17, \frac27, \frac17)$.
+- $h_2$ misclassifies only $x_4$: raw $(2, 1, 1, 4, 1)$, sum 9 → $\vec{D}_2 = (\frac29, \frac19, \frac19, \frac49, \frac19)$.
 
 {{priority:optimization-adaboost}} (In full AdaBoost, with $\alpha_t = \frac12\ln\frac{1 - \varepsilon_t}{\varepsilon_t}$, misclassified weights are multiplied by $e^{\alpha_t}$ and correct ones by $e^{-\alpha_t}$, so the misclassified examples gain a **relative** factor $e^{2\alpha_t} = \frac{1 - \varepsilon_t}{\varepsilon_t}$, which depends on the weighted error $\varepsilon_t$. The slide uses a fixed ×2 to show the idea.)
 :::
@@ -290,5 +290,5 @@ Loss 0 for a correct decision, $\lambda_s$ for a wrong one, $\lambda_r$ for reje
 :::note Linear smoothers (Exercise 2)
 {{priority:optimization-linear-smoothers}}
 
-Both linear regression and k-NN regression predict $\hat f(x_0) = \sum_i\ell_i(x_0; \mathcal{X})\,y_i$, a weighted sum of the training targets. Linear regression: $\ell_i(x_0) = [\mathbf{x}_0^T(X^TX)^{-1}X^T]_i$. k-NN: $\ell_i(x_0) = 1/k$ if $x_i$ is one of the $k$ nearest neighbours of $x_0$, else 0. The conditional MSE splits into squared bias $\big(f(x_0) - \sum_i\ell_if(x_i)\big)^2$ plus variance $\sigma^2\sum_i\ell_i^2$. See the practice section for the full derivation.
+Both linear regression and k-NN regression predict $\hat f(\vec{x}_0) = \sum_i\ell_i(\vec{x}_0; \mathcal{X})\,y_i$, a weighted sum of the training targets. Linear regression: $\ell_i(\vec{x}_0) = [\vec{x}_0^T(X^TX)^{-1}X^T]_i$. k-NN: $\ell_i(\vec{x}_0) = 1/k$ if $\vec{x}_i$ is one of the $k$ nearest neighbours of $\vec{x}_0$, else 0. The conditional MSE splits into squared bias $\big(f(\vec{x}_0) - \sum_i\ell_if(\vec{x}_i)\big)^2$ plus variance $\sigma^2\sum_i\ell_i^2$. See the practice section for the full derivation.
 :::

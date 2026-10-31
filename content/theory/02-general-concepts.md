@@ -148,7 +148,7 @@ $$p(\theta \mid X) = \frac{p(X \mid \theta)\,p(\theta)}{p(X)} \qquad\Longrightar
 | **Uniform** (discrete) | every outcome equally likely (day of week, a digit) | $P(X) = 1/\#\text{outcomes}$ | | {{priority:prob-uniform}} |
 | **Bernoulli** $\mathrm{Bern}(\lambda)$ | one yes/no trial (coin, rain/sunny, male/female) | $P(x) = \lambda^x(1-\lambda)^{1-x}$, $x \in \{0,1\}$ | $\lambda$ / $\lambda(1-\lambda)$ | {{priority:prob-bernoulli}} |
 | **Binomial** $\mathrm{Bin}(n, p)$ | number of successes in $n$ independent trials | $P(X = k) = \binom{n}{k}p^k(1-p)^{n-k}$ | $np$ / $np(1-p)$ | {{priority:prob-binomial}} |
-| **Categorical** $\mathrm{Cat}(\boldsymbol\lambda)$ | one trial with $C > 2$ outcomes (die, image class) | $P(x = k) = \lambda_k$, $\sum_k \lambda_k = 1$ | | {{priority:prob-categorical}} |
+| **Categorical** $\mathrm{Cat}(\vec{\lambda})$ | one trial with $C > 2$ outcomes (die, image class) | $P(x = k) = \lambda_k$, $\sum_k \lambda_k = 1$ | | {{priority:prob-categorical}} |
 | **Normal / Gaussian** $\mathcal{N}(\mu, \sigma^2)$ | continuous, bell-shaped (exam scores, IQ, height) | $\dfrac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\dfrac{(x-\mu)^2}{2\sigma^2}\right)$ | $\mu$ / $\sigma^2$ | {{priority:prob-gaussian}} |
 | **Exponential** $\mathrm{Exp}(\lambda)$ | waiting times, call durations ($x \ge 0$) | $\lambda e^{-\lambda x}$ | $1/\lambda$ / $1/\lambda^2$ | {{priority:prob-exponential}} |
 
@@ -161,10 +161,10 @@ $$P(X = 5) = \binom{10}{5}0.5^5\,0.5^5 = 252 \times \frac{1}{1024} = 0.246$$
 The slide's table gives 0.246094 ✓. The most likely count is 5 = $np$.
 :::
 
-The **multivariate normal** generalises the Gaussian to vectors $\mathbf{x} \in \mathbb{R}^D$ with a mean vector $\boldsymbol\mu$ and a covariance matrix $\boldsymbol\Sigma$:
+The **multivariate normal** generalises the Gaussian to vectors $\vec{x} \in \mathbb{R}^D$ with a mean vector $\vec{\mu}$ and a covariance matrix $\boldsymbol\Sigma$:
 
 :::formula @prob-multivariate-gaussian Multivariate Gaussian density
-$$p(\mathbf{x}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol\Sigma|^{1/2}}\exp\!\left(-\tfrac12(\mathbf{x}-\boldsymbol\mu)^T\boldsymbol\Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)\right)$$
+$$p(\vec{x}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol\Sigma|^{1/2}}\exp\!\left(-\tfrac12(\vec{x}-\vec{\mu})^T\boldsymbol\Sigma^{-1}(\vec{x}-\vec{\mu})\right)$$
 :::
 
 (The slide prints the exponent without the minus sign; the minus is needed, otherwise the "bell" would point upwards.)
@@ -261,8 +261,8 @@ Properties (p68): unbiased, $E[\hat\theta] = \theta$; variance $\theta(1-\theta)
 :::formula @prob-categorical-mle C-sided die (categorical), Homework 1 Exercise 2
 Roll $N$ times; let $N_k$ = number of times face $k$ appeared ($\sum_k N_k = N$).
 
-1. $L(\boldsymbol\theta) = \prod_{n=1}^{N}\theta_{y_n} = \prod_{k=1}^{C}\theta_k^{N_k}$.
-2. $\ell(\boldsymbol\theta) = \sum_k N_k \log\theta_k$, with the constraint $\sum_k\theta_k = 1$.
+1. $L(\vec{\theta}) = \prod_{n=1}^{N}\theta_{y_n} = \prod_{k=1}^{C}\theta_k^{N_k}$.
+2. $\ell(\vec{\theta}) = \sum_k N_k \log\theta_k$, with the constraint $\sum_k\theta_k = 1$.
 3. Lagrangian: $\mathcal{L} = \sum_k N_k\log\theta_k + \lambda\left(1 - \sum_k \theta_k\right)$.
 4. $\dfrac{\partial\mathcal{L}}{\partial\theta_k} = \dfrac{N_k}{\theta_k} - \lambda = 0 \Rightarrow \theta_k = \dfrac{N_k}{\lambda}$.
 5. Constraint: $\sum_k \dfrac{N_k}{\lambda} = 1 \Rightarrow \lambda = N$.

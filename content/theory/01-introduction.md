@@ -71,21 +71,21 @@ Machine learning is a branch of **artificial intelligence**. It focuses on progr
 
 | Type | Data you get | Goal | Sub-tasks and examples |
 |---|---|---|---|
-| **Supervised** | inputs **with** labels $D = \{(\mathbf{x}_i, y_i)\}_{i=1}^N$ | learn $y = f(\mathbf{x})$ | **Classification** (image classification, fraud detection, diagnostics); **Regression** (weather, market, life expectancy, population growth) |
-| **Unsupervised** | inputs **only** $D = \{\mathbf{x}_i\}_{i=1}^N$ | find structure, learn $p(\mathbf{x}_i \mid \theta)$ | **Clustering** (customer segmentation, recommender systems, targeted marketing); **Dimensionality reduction** (compression, visualisation, structure discovery) |
+| **Supervised** | inputs **with** labels $D = \{(\vec{x}_i, y_i)\}_{i=1}^N$ | learn $y = f(\vec{x})$ | **Classification** (image classification, fraud detection, diagnostics); **Regression** (weather, market, life expectancy, population growth) |
+| **Unsupervised** | inputs **only** $D = \{\vec{x}_i\}_{i=1}^N$ | find structure, learn $p(\vec{x}_i \mid \theta)$ | **Clustering** (customer segmentation, recommender systems, targeted marketing); **Dimensionality reduction** (compression, visualisation, structure discovery) |
 | **Reinforcement** | rewards from an environment | choose actions that maximise cumulative reward | game AI, robot navigation, real-time decisions, skill acquisition |
 
 ### Supervised learning in symbols (p24)
 
 :::formula @intro-supervised-notation
-$$D = \{(\mathbf{x}_i, y_i)\}_{i=1}^{N}, \qquad y = f(\mathbf{x}), \qquad p(y \mid \mathbf{x}, D, \theta)$$
+$$D = \{(\vec{x}_i, y_i)\}_{i=1}^{N}, \qquad y = f(\vec{x}), \qquad p(y \mid \vec{x}, D, \theta)$$
 :::
 
 :::read
 - $D$: the training set; $N$: how many labelled examples.
-- $\mathbf{x}$: a $d$-dimensional vector of **features** (also called attributes or covariates).
+- $\vec{x}$: a $d$-dimensional vector of **features** (also called attributes or covariates).
 - $y$: the **response** (label / target).
-- $p(y \mid \mathbf{x}, D, \theta)$: the probabilistic view, "how likely is each label $y$ for this input, given the training data and the model parameters $\theta$".
+- $p(y \mid \vec{x}, D, \theta)$: the probabilistic view, "how likely is each label $y$ for this input, given the training data and the model parameters $\theta$".
 :::
 
 - **Classification**: $y$ is a category, $y \in \{1, \dots, C\}$.
@@ -97,7 +97,7 @@ Data is stored as a **design matrix**: one **row per example** ($N$ rows), one *
 
 ### Unsupervised learning (p29–35)
 
-There is **no response variable**. We learn a density $p(\mathbf{x}_i \mid \theta)$ or discover structure.
+There is **no response variable**. We learn a density $p(\vec{x}_i \mid \theta)$ or discover structure.
 
 - **Clustering**: find subgroups in the data and decide which subgroup each point belongs to (e.g. countries grouped by test scores and happiness; MNIST digits forming 10 clusters).
 - **Dimensionality reduction**: project data to a lower-dimensional space that keeps its "essence" (e.g. many photos of one scene vary only by lighting; face images grouped by person).

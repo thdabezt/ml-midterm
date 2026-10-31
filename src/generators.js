@@ -147,10 +147,10 @@
       const det = m * Sxx - Sx * Sx;
       const w0 = (Sxx * Sy - Sx * Sxy) / det; const w1 = (m * Sxy - Sx * Sy) / det;
       return {
-        prompt: `<p>Fit $h(x) = w_0 + w_1x$ to the points ${xs.map((x, i) => `$(${x}, ${ys[i]})$`).join(', ')} using the normal equation $\\mathbf{w} = (X^TX)^{-1}X^T\\mathbf{y}$.</p>`,
+        prompt: `<p>Fit $h(x) = w_0 + w_1x$ to the points ${xs.map((x, i) => `$(${x}, ${ys[i]})$`).join(', ')} using the normal equation $\\vec{w} = (X^TX)^{-1}X^T\\vec{y}$.</p>`,
         fields: [field('$w_0$', w0), field('$w_1$', w1)],
         solution: `${table(['$x$', '$y$', '$x^2$', '$xy$'], [...xs.map((x, i) => [x, ys[i], x * x, x * ys[i]]), [`<b>${Sx}</b>`, `<b>${Sy}</b>`, `<b>${Sxx}</b>`, `<b>${Sxy}</b>`]])}
-          <ol><li>$X^TX = \\begin{bmatrix}${m} & ${Sx}\\\\ ${Sx} & ${Sxx}\\end{bmatrix}$, $X^T\\mathbf{y} = \\begin{bmatrix}${Sy}\\\\ ${Sxy}\\end{bmatrix}$.</li>
+          <ol><li>$X^TX = \\begin{bmatrix}${m} & ${Sx}\\\\ ${Sx} & ${Sxx}\\end{bmatrix}$, $X^T\\vec{y} = \\begin{bmatrix}${Sy}\\\\ ${Sxy}\\end{bmatrix}$.</li>
           <li>Determinant $= ${m}\\cdot${Sxx} - ${par(Sx)}^2 = ${det}$; $(X^TX)^{-1} = \\frac{1}{${det}}\\begin{bmatrix}${Sxx} & ${-Sx}\\\\ ${-Sx} & ${m}\\end{bmatrix}$.</li>
           <li>$w_0 = \\frac{${Sxx}\\cdot${par(Sy)} - ${par(Sx)}\\cdot${par(Sxy)}}{${det}} = ${f(w0)}$, $\\quad w_1 = \\frac{${m}\\cdot${par(Sxy)} - ${par(Sx)}\\cdot${par(Sy)}}{${det}} = ${f(w1)}$.</li>
           <li>Check: the residuals $h(x_i) - y_i$ add up to 0.</li></ol>`,
@@ -314,7 +314,7 @@
     id: 'svm-geometry',
     lesson: 'l6-svm',
     title: 'SVM score, distance, margin',
-    blurb: 'Classify a point, its distance to the hyperplane, the margin 2/‖w‖.',
+    blurb: 'Classify a point, its distance to the hyperplane, the margin 2/‖w⃗‖.',
     make(rng) {
       const w = [pick(rng, [1, 2, 3, -1, -2]), pick(rng, [1, 2, 4, -2])];
       const b = int(rng, -4, 4);
@@ -322,11 +322,11 @@
       const s = w[0] * x[0] + w[1] * x[1] + b;
       const nw = Math.hypot(w[0], w[1]);
       return {
-        prompt: `<p>An SVM has $\\mathbf{w} = (${w[0]}, ${w[1]})$, $b = ${b}$. For $\\mathbf{x} = (${x[0]}, ${x[1]})$ compute the score $\\mathbf{w}^T\\mathbf{x} + b$, the distance from $\\mathbf{x}$ to the hyperplane, and the margin.</p>`,
+        prompt: `<p>An SVM has $\\vec{w} = (${w[0]}, ${w[1]})$, $b = ${b}$. For $\\vec{x} = (${x[0]}, ${x[1]})$ compute the score $\\vec{w}^T\\vec{x} + b$, the distance from $\\vec{x}$ to the hyperplane, and the margin.</p>`,
         fields: [field('score', s, 0.001), field('distance', Math.abs(s) / nw), field('margin', 2 / nw)],
         solution: `<ol><li>Score $= ${par(w[0])}\\cdot${par(x[0])} + ${par(w[1])}\\cdot${par(x[1])} + ${par(b)} = ${s}$ → class $${s >= 0 ? '+1' : '-1'}$.</li>
-          <li>$\\lVert\\mathbf{w}\\rVert = \\sqrt{${w[0] ** 2} + ${w[1] ** 2}} = ${f(nw)}$; distance $= |${s}|/${f(nw)} = ${f(Math.abs(s) / nw)}$.</li>
-          <li>Margin $= 2/\\lVert\\mathbf{w}\\rVert = ${f(2 / nw)}$.</li></ol>`,
+          <li>$\\lVert\\vec{w}\\rVert = \\sqrt{${w[0] ** 2} + ${w[1] ** 2}} = ${f(nw)}$; distance $= |${s}|/${f(nw)} = ${f(Math.abs(s) / nw)}$.</li>
+          <li>Margin $= 2/\\lVert\\vec{w}\\rVert = ${f(2 / nw)}$.</li></ol>`,
       };
     },
   });
@@ -344,11 +344,11 @@
       const dot = x[0] * z[0] + x[1] * z[1];
       const dist2 = (x[0] - z[0]) ** 2 + (x[1] - z[1]) ** 2;
       return {
-        prompt: `<p>For $\\mathbf{x} = (${x[0]}, ${x[1]})$ and $\\mathbf{z} = (${z[0]}, ${z[1]})$ compute the linear kernel, the polynomial kernel $(\\mathbf{x}^T\\mathbf{z} + 1)^{${d}}$ and the RBF kernel $\\exp(-${g}\\lVert\\mathbf{x} - \\mathbf{z}\\rVert^2)$.</p>`,
+        prompt: `<p>For $\\vec{x} = (${x[0]}, ${x[1]})$ and $\\vec{z} = (${z[0]}, ${z[1]})$ compute the linear kernel, the polynomial kernel $(\\vec{x}^T\\vec{z} + 1)^{${d}}$ and the RBF kernel $\\exp(-${g}\\lVert\\vec{x} - \\vec{z}\\rVert^2)$.</p>`,
         fields: [field('linear', dot, 0.001), field('polynomial', (dot + 1) ** d, 0.001), field('RBF', Math.exp(-g * dist2))],
-        solution: `<ol><li>$\\mathbf{x}^T\\mathbf{z} = ${par(x[0])}\\cdot${par(z[0])} + ${par(x[1])}\\cdot${par(z[1])} = ${dot}$.</li>
+        solution: `<ol><li>$\\vec{x}^T\\vec{z} = ${par(x[0])}\\cdot${par(z[0])} + ${par(x[1])}\\cdot${par(z[1])} = ${dot}$.</li>
           <li>Polynomial: $(${dot} + 1)^{${d}} = ${(dot + 1) ** d}$.</li>
-          <li>$\\lVert\\mathbf{x} - \\mathbf{z}\\rVert^2 = ${dist2}$, so RBF $= e^{-${g}\\cdot${dist2}} = ${f(Math.exp(-g * dist2))}$.</li></ol>`,
+          <li>$\\lVert\\vec{x} - \\vec{z}\\rVert^2 = ${dist2}$, so RBF $= e^{-${g}\\cdot${dist2}} = ${f(Math.exp(-g * dist2))}$.</li></ol>`,
       };
     },
   });

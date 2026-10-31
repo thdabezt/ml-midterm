@@ -61,19 +61,19 @@ If these are the only available features, which has the largest information gain
       id: 'hw07-ex2',
       type: 'written',
       source: { kind: 'hw', label: 'HW_07.pdf Exercise 2 (pp1–2, L1 regularization)' },
-      prompt: r`For $X\in\mathbb{R}^{n\times p}$, $\mathbf{y}\in\mathbb{R}^n$ and $\lambda>0$, consider
-$$R_{\mathrm{reg}}(\boldsymbol\theta)=\frac12\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2+\lambda\lVert\boldsymbol\theta\rVert_1.$$
+      prompt: r`For $X\in\mathbb{R}^{n\times p}$, $\vec{y}\in\mathbb{R}^n$ and $\lambda>0$, consider
+$$R_{\mathrm{reg}}(\vec{\theta})=\frac12\lVert X\vec{\theta}-\vec{y}\rVert_2^2+\lambda\lVert\vec{\theta}\rVert_1.$$
 1. Why is this objective not differentiable everywhere?
 2. Show that it is convex.
 3. With all coordinates except $\theta_j$ held fixed, find $\rho_j,z_j$ such that
-$$\frac12\frac{\partial}{\partial\theta_j}\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2=-\rho_j+\theta_jz_j.$$
+$$\frac12\frac{\partial}{\partial\theta_j}\lVert X\vec{\theta}-\vec{y}\rVert_2^2=-\rho_j+\theta_jz_j.$$
 Explain how these quantities can give a coordinate update.`,
-      solution: r`First unpack the norms: $\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2=\sum_i(\sum_kx_{ik}\theta_k-y_i)^2$, and $\lVert\boldsymbol\theta\rVert_1=\sum_k|\theta_k|$. Here $x_{ik}$ is row $i$, feature $k$ of $X$.
+      solution: r`First unpack the norms: $\lVert X\vec{\theta}-\vec{y}\rVert_2^2=\sum_i(\sum_kx_{ik}\theta_k-y_i)^2$, and $\lVert\vec{\theta}\rVert_1=\sum_k|\theta_k|$. Here $x_{ik}$ is row $i$, feature $k$ of $X$.
 
 **1. Non-differentiability.** The slope of $|\theta_j|$ is $-1$ to the left of 0 and $+1$ to the right; at 0 there is no single derivative. With $\lambda>0$, adding a smooth squared-error term does not remove this corner. The objective is differentiable when every penalised coordinate is nonzero, but not at a zero coordinate.
 
-**2. Convexity.** The squared-error term has Hessian $X^TX$, and for every vector $\mathbf{v}$,
-$$\mathbf{v}^TX^TX\mathbf{v}=\lVert X\mathbf{v}\rVert_2^2\ge0.$$
+**2. Convexity.** The squared-error term has Hessian $X^TX$, and for every vector $\vec{v}$,
+$$\vec{v}^TX^TX\vec{v}=\lVert X\vec{v}\rVert_2^2\ge0.$$
 Thus the quadratic is convex. Absolute value is convex because $|ta+(1-t)b|\le t|a|+(1-t)|b|$ for $0\le t\le1$ (triangle inequality). Summing these absolute values and multiplying by $\lambda>0$ preserves convexity. The sum of the two convex terms is convex; it need not be strictly convex, so a minimiser need not be unique.
 
 **3. Coordinate quantities.** Define the partial residual $r_i^{(j)}=y_i-\sum_{k\ne j}x_{ik}\theta_k$: what remains of target $i$ after accounting for all other features. Differentiating the squared-error term gives
@@ -88,7 +88,7 @@ This **soft-thresholding** update sets weak coordinates exactly to zero. Cycle t
       id: 'hw07-ex2-v1',
       type: 'numeric',
       source: { kind: 'variant', label: 'like HW_07.pdf Ex 2 (one Lasso coordinate)' },
-      prompt: r`For a single feature without an intercept, $X=(1,2)^T$, $\mathbf{y}=(3,5)^T$, minimise $\frac12\lVert X\theta-\mathbf{y}\rVert_2^2+\lambda|\theta|$ with $\lambda=1$. Compute $\rho=\sum_ix_iy_i$, $z=\sum_ix_i^2$ and the minimising $\theta$.`,
+      prompt: r`For a single feature without an intercept, $X=(1,2)^T$, $\vec{y}=(3,5)^T$, minimise $\frac12\lVert X\theta-\vec{y}\rVert_2^2+\lambda|\theta|$ with $\lambda=1$. Compute $\rho=\sum_ix_iy_i$, $z=\sum_ix_i^2$ and the minimising $\theta$.`,
       fields: [
         { label: r`$\rho$`, answer: 13, tol: 0.001 },
         { label: r`$z$`, answer: 5, tol: 0.001 },
@@ -184,25 +184,25 @@ $0.3 < 0.4$ (equivalently $p_1 = 0.6 < 0.7$) → **reject**. If $\lambda_r$ were
       id: 'hw05-ex2',
       type: 'written',
       source: { kind: 'hw', label: 'HW05 Exercise 2 (linear smoothers, bias–variance)' },
-      prompt: r`We have $N$ pairs $(x_i, y_i)$ i.i.d. with $x_i \sim h(x)$, $y_i = f(x_i) + \epsilon_i$, $\epsilon_i \sim (0, \sigma^2)$. Consider estimators linear in the $y_i$:
-$$\hat f(x_0) = \sum_{i=1}^{N}\ell_i(x_0; \mathcal{X})\,y_i,$$
-where the weights depend on all the $x_i$ (denoted $\mathcal{X}$) but not on the $y_i$.
-1. Show that linear regression and $k$-nearest-neighbour regression are members of this class; give the weights $\ell_i(x_0; \mathcal{X})$ explicitly.
-2. Decompose the conditional mean-squared error $E_{\mathcal{Y}|\mathcal{X}}\big(f(x_0) - \hat f(x_0)\big)^2$ into a conditional squared bias and a conditional variance.`,
-      solution: r`**1a. Linear regression.** With design matrix $X$ (rows $\mathbf{x}_i^T$, including the 1 for the intercept), the least-squares weights are $\hat{\mathbf{w}} = (X^TX)^{-1}X^T\mathbf{y}$, so
-$$\hat f(x_0) = \mathbf{x}_0^T\hat{\mathbf{w}} = \underbrace{\mathbf{x}_0^T(X^TX)^{-1}X^T}_{\text{row vector } \boldsymbol\ell(x_0)^T}\mathbf{y} = \sum_i\ell_i(x_0; \mathcal{X})\,y_i,\qquad \ell_i(x_0; \mathcal{X}) = \mathbf{x}_0^T(X^TX)^{-1}\mathbf{x}_i.$$
-The weights use only $\mathbf{x}_0$ and the training inputs, never the $y_i$ ✓.
+      prompt: r`We have $N$ pairs $(\vec{x}_i, y_i)$ i.i.d. with $\vec{x}_i \sim h(\vec{x})$, $y_i = f(\vec{x}_i) + \epsilon_i$, $\epsilon_i \sim (0, \sigma^2)$. Consider estimators linear in the $y_i$:
+$$\hat f(\vec{x}_0) = \sum_{i=1}^{N}\ell_i(\vec{x}_0; \mathcal{X})\,y_i,$$
+where the weights depend on all the $\vec{x}_i$ (denoted $\mathcal{X}$) but not on the $y_i$.
+1. Show that linear regression and $k$-nearest-neighbour regression are members of this class; give the weights $\ell_i(\vec{x}_0; \mathcal{X})$ explicitly.
+2. Decompose the conditional mean-squared error $E_{\mathcal{Y}|\mathcal{X}}\big(f(\vec{x}_0) - \hat f(\vec{x}_0)\big)^2$ into a conditional squared bias and a conditional variance.`,
+      solution: r`**1a. Linear regression.** With design matrix $X$ (rows $\vec{x}_i^T$, including the 1 for the intercept), the least-squares weights are $\hat{\vec{w}} = (X^TX)^{-1}X^T\vec{y}$, so
+$$\hat f(\vec{x}_0) = \vec{x}_0^T\hat{\vec{w}} = \underbrace{\vec{x}_0^T(X^TX)^{-1}X^T}_{\text{row vector } \vec{\ell}(\vec{x}_0)^T}\vec{y} = \sum_i\ell_i(\vec{x}_0; \mathcal{X})\,y_i,\qquad \ell_i(\vec{x}_0; \mathcal{X}) = \vec{x}_0^T(X^TX)^{-1}\vec{x}_i.$$
+The weights use only $\vec{x}_0$ and the training inputs, never the $y_i$ ✓.
 
-**1b. k-NN regression.** Let $N_k(x_0)$ be the indices of the $k$ training points closest to $x_0$. Then $\hat f(x_0) = \frac1k\sum_{i \in N_k(x_0)}y_i$, so
-$$\ell_i(x_0; \mathcal{X}) = \begin{cases}1/k & \text{if } x_i \in N_k(x_0)\\ 0 & \text{otherwise.}\end{cases}$$
+**1b. k-NN regression.** Let $N_k(\vec{x}_0)$ be the indices of the $k$ training points closest to $\vec{x}_0$. Then $\hat f(\vec{x}_0) = \frac1k\sum_{i \in N_k(\vec{x}_0)}y_i$, so
+$$\ell_i(\vec{x}_0; \mathcal{X}) = \begin{cases}1/k & \text{if } \vec{x}_i \in N_k(\vec{x}_0)\\ 0 & \text{otherwise.}\end{cases}$$
 The neighbourhood depends only on the $x$'s ✓.
 
-**2. Decomposition.** Conditioning on $\mathcal{X}$, the only randomness is in the $\epsilon_i$. Let $\bar f(x_0) = E_{\mathcal{Y}|\mathcal{X}}[\hat f(x_0)] = \sum_i\ell_i\,f(x_i)$ (because $E[y_i] = f(x_i)$).
+**2. Decomposition.** Conditioning on $\mathcal{X}$, the only randomness is in the $\epsilon_i$. Let $\bar f(\vec{x}_0) = E_{\mathcal{Y}|\mathcal{X}}[\hat f(\vec{x}_0)] = \sum_i\ell_i\,f(\vec{x}_i)$ (because $E[y_i] = f(\vec{x}_i)$).
 
-Add and subtract $\bar f(x_0)$:
-$$E\big(f(x_0) - \hat f(x_0)\big)^2 = \big(f(x_0) - \bar f(x_0)\big)^2 + 2\big(f(x_0) - \bar f(x_0)\big)\underbrace{E\big[\bar f(x_0) - \hat f(x_0)\big]}_{=0} + E\big(\hat f(x_0) - \bar f(x_0)\big)^2.$$
+Add and subtract $\bar f(\vec{x}_0)$:
+$$E\big(f(\vec{x}_0) - \hat f(\vec{x}_0)\big)^2 = \big(f(\vec{x}_0) - \bar f(\vec{x}_0)\big)^2 + 2\big(f(\vec{x}_0) - \bar f(\vec{x}_0)\big)\underbrace{E\big[\bar f(\vec{x}_0) - \hat f(\vec{x}_0)\big]}_{=0} + E\big(\hat f(\vec{x}_0) - \bar f(\vec{x}_0)\big)^2.$$
 So
-$$E_{\mathcal{Y}|\mathcal{X}}\big(f(x_0) - \hat f(x_0)\big)^2 = \underbrace{\Big(f(x_0) - \sum_i\ell_i(x_0; \mathcal{X})f(x_i)\Big)^2}_{\text{conditional bias}^2} + \underbrace{\sigma^2\sum_i\ell_i(x_0; \mathcal{X})^2}_{\text{conditional variance}}.$$
+$$E_{\mathcal{Y}|\mathcal{X}}\big(f(\vec{x}_0) - \hat f(\vec{x}_0)\big)^2 = \underbrace{\Big(f(\vec{x}_0) - \sum_i\ell_i(\vec{x}_0; \mathcal{X})f(\vec{x}_i)\Big)^2}_{\text{conditional bias}^2} + \underbrace{\sigma^2\sum_i\ell_i(\vec{x}_0; \mathcal{X})^2}_{\text{conditional variance}}.$$
 The variance line uses $\hat f - \bar f = \sum_i\ell_i\epsilon_i$ with independent $\epsilon_i$: $\mathrm{Var} = \sum_i\ell_i^2\sigma^2$.
 
 **Interpretation.** For k-NN the variance is $\sigma^2\cdot k\cdot\frac{1}{k^2} = \sigma^2/k$: a larger $k$ lowers variance but averages farther points, increasing bias (L7 p10: small $k$ = high complexity).`,
@@ -295,15 +295,15 @@ Both are far below the individual error. This only works if the classifiers are 
       id: 'l7-adaboost-slide',
       type: 'numeric',
       source: { kind: 'variant', label: 'like L7 p45' },
-      prompt: r`Boosting in the style of L7 p45 (misclassified examples get **double** weight, then normalise). Four examples start with equal weights $D_0 = (\frac14, \frac14, \frac14, \frac14)$. Classifier $h_1$ misclassifies $x_2$ only; then $h_2$ misclassifies $x_1$ and $x_2$. Give the weight of $x_2$ in $D_1$, and the weights of $x_1$ and $x_2$ in $D_2$.`,
+      prompt: r`Boosting in the style of L7 p45 (misclassified examples get **double** weight, then normalise). Four examples start with equal weights $\vec{D}_0 = (\frac14, \frac14, \frac14, \frac14)$. Classifier $h_1$ misclassifies $x_2$ only; then $h_2$ misclassifies $x_1$ and $x_2$. Give the weight of $x_2$ in $\vec{D}_1$, and the weights of $x_1$ and $x_2$ in $\vec{D}_2$.`,
       fields: [
-        { label: r`$x_2$ in $D_1$`, answer: 0.4, tol: 0.002 },
-        { label: r`$x_1$ in $D_2$`, answer: 0.25, tol: 0.002 },
-        { label: r`$x_2$ in $D_2$`, answer: 0.5, tol: 0.002 },
+        { label: r`$x_2$ in $\vec{D}_1$`, answer: 0.4, tol: 0.002 },
+        { label: r`$x_1$ in $\vec{D}_2$`, answer: 0.25, tol: 0.002 },
+        { label: r`$x_2$ in $\vec{D}_2$`, answer: 0.5, tol: 0.002 },
       ],
-      solution: r`**Round 1:** relative weights $(1, 2, 1, 1)$, sum 5 → $D_1 = (\frac15, \frac25, \frac15, \frac15)$.
+      solution: r`**Round 1:** relative weights $(1, 2, 1, 1)$, sum 5 → $\vec{D}_1 = (\frac15, \frac25, \frac15, \frac15)$.
 
-**Round 2:** double $x_1$ and $x_2$ relative to $D_1$: $(2, 4, 1, 1)$, sum 8 → $D_2 = (\frac28, \frac48, \frac18, \frac18) = (0.25, 0.5, 0.125, 0.125)$.
+**Round 2:** double $x_1$ and $x_2$ relative to $\vec{D}_1$: $(2, 4, 1, 1)$, sum 8 → $\vec{D}_2 = (\frac28, \frac48, \frac18, \frac18) = (0.25, 0.5, 0.125, 0.125)$.
 
 $x_2$, misclassified twice, now carries half of the total weight, so the next round's sample will be dominated by it.`,
     },
@@ -424,7 +424,7 @@ $\chi^2 = 0.014 + 0.026 + 0.794 + 1.429 + 0.459 + 0.825 = 3.547$.`,
       type: 'mcq',
       source: { kind: 'slide', label: 'L7 p24, p31' },
       prompt: r`Which regulariser tends to set some weights **exactly to zero**, and so performs embedded feature selection?`,
-      options: [r`Ridge, $\lambda\lVert\mathbf{w}\rVert_2^2$`, r`Lasso, $\lambda\lVert\mathbf{w}\rVert_1$`, 'Both equally', 'Neither'],
+      options: [r`Ridge, $\lambda\lVert\vec{w}\rVert_2^2$`, r`Lasso, $\lambda\lVert\vec{w}\rVert_1$`, 'Both equally', 'Neither'],
       answer: 1,
       solution: r`The L1 penalty (Lasso, "least absolute shrinkage and selection operator") produces **sparse** weights, so it is listed as an embedded feature-selection method (L7 p24). Ridge shrinks weights towards 0 but rarely to exactly 0.`,
     },
@@ -486,7 +486,7 @@ $\chi^2 = 0.014 + 0.026 + 0.794 + 1.429 + 0.459 + 0.825 = 3.547$.`,
         'The weights grow to infinity',
       ],
       answer: 1,
-      solution: r`The penalty $\lambda\sum_{j\ge1}w_j^2$ dominates, forcing $w_1..w_n \to 0$. The best constant under squared error is the mean, so $h(\mathbf{x}) \to \bar y$: high bias, low variance.`,
+      solution: r`The penalty $\lambda\sum_{j\ge1}w_j^2$ dominates, forcing $w_1..w_n \to 0$. The best constant under squared error is the mean, so $h(\vec{x}) \to \bar y$: high bias, low variance.`,
     },
     {
       id: 'l7-ensemble-condition',

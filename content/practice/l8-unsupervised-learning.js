@@ -18,7 +18,7 @@ export default {
       source: { kind: 'hw', label: 'HW_Cluster.pdf, Homework 08 Exercise 1 (p1)' },
       prompt: r`${HW08_POINTS}
 
-Run K-means for **one epoch only**, starting with centres $c_1=A1=(2,10)$, $c_2=A4=(5,8)$ and $c_3=A7=(1,2)$. Find the points in each new cluster and its updated centre. Enter the six updated centre coordinates below; compare your cluster memberships with the solution.
+Run K-means for **one epoch only**, starting with centres $\vec{c}_1=A1=(2,10)$, $\vec{c}_2=A4=(5,8)$ and $\vec{c}_3=A7=(1,2)$. Find the points in each new cluster and its updated centre. Enter the six updated centre coordinates below; compare your cluster memberships with the solution.
 
 **Distance convention:** the homework does not specify a metric. Use standard **Euclidean K-means** here. One epoch means a single **batch assignment to the original seeds, followed by one arithmetic-mean update**. Do not reassign points to the new centres within this epoch.`,
       fields: [
@@ -31,7 +31,7 @@ Run K-means for **one epoch only**, starting with centres $c_1=A1=(2,10)$, $c_2=
       ],
       solution: r`**1. Assign every point using the original seeds.** Euclidean distance is $d((x,y),(u,v))=\sqrt{(x-u)^2+(y-v)^2}$. Work out the coordinate differences, square them, add, then take the square root.
 
-| Point | Distance to $c_1=(2,10)$ | Distance to $c_2=(5,8)$ | Distance to $c_3=(1,2)$ | Chosen cluster |
+| Point | Distance to $\vec{c}_1=(2,10)$ | Distance to $\vec{c}_2=(5,8)$ | Distance to $\vec{c}_3=(1,2)$ | Chosen cluster |
 |---|---|---|---|---|
 | A1 | $0$ | $\sqrt{13}$ | $\sqrt{65}$ | 1 |
 | A2 | $5$ | $\sqrt{18}$ | $\sqrt{10}$ | 3 |
@@ -42,12 +42,12 @@ Run K-means for **one epoch only**, starting with centres $c_1=A1=(2,10)$, $c_2=
 | A7 | $\sqrt{65}$ | $\sqrt{52}$ | $0$ | 3 |
 | A8 | $\sqrt{5}$ | $\sqrt{2}$ | $\sqrt{58}$ | 2 |
 
-For example, A2 to $c_3$ is $\sqrt{(2-1)^2+(5-2)^2}=\sqrt{1+9}=\sqrt{10}$. This is smaller than $\sqrt{18}$ and 5, so A2 joins cluster 3. You may compare squared distances directly: squaring preserves the order of nonnegative distances.
+For example, A2 to $\vec{c}_3$ is $\sqrt{(2-1)^2+(5-2)^2}=\sqrt{1+9}=\sqrt{10}$. This is smaller than $\sqrt{18}$ and 5, so A2 joins cluster 3. You may compare squared distances directly: squaring preserves the order of nonnegative distances.
 
 **2. Average coordinates within each assigned cluster.**
-- $C_1=\{A1\}$: $c_1=(2,10)$.
-- $C_2=\{A3,A4,A5,A6,A8\}$: $c_2=\left(\frac{8+5+7+6+4}{5},\frac{4+8+5+4+9}{5}\right)=(6,6)$.
-- $C_3=\{A2,A7\}$: $c_3=\left(\frac{2+1}{2},\frac{5+2}{2}\right)=(1.5,3.5)$.
+- $C_1=\{A1\}$: $\vec{c}_1=(2,10)$.
+- $C_2=\{A3,A4,A5,A6,A8\}$: $\vec{c}_2=\left(\frac{8+5+7+6+4}{5},\frac{4+8+5+4+9}{5}\right)=(6,6)$.
+- $C_3=\{A2,A7\}$: $\vec{c}_3=\left(\frac{2+1}{2},\frac{5+2}{2}\right)=(1.5,3.5)$.
 
 These memberships and centres are the result after **exactly one epoch**. Updating a centre after each individual point, or assigning again after the mean update, would be a different procedure.`,
     },
@@ -130,11 +130,11 @@ The cluster count increases here because former noise points A2 and A7 form a ne
     {
       id: 'l8-distance-v1', type: 'numeric',
       source: { kind: 'variant', label: 'L8 distance practice (new numbers)' },
-      prompt: r`For $x=(1,2)$ and $z=(4,6)$, compute Manhattan ($L_1$) distance, Euclidean ($L_2$) distance, and squared Euclidean distance.`,
+      prompt: r`For $\vec{x}=(1,2)$ and $\vec{z}=(4,6)$, compute Manhattan ($L_1$) distance, Euclidean ($L_2$) distance, and squared Euclidean distance.`,
       fields: [
-        { label: '$d_1(x,z)$', answer: 7, tol: 0.001 },
-        { label: '$d_2(x,z)$', answer: 5, tol: 0.001 },
-        { label: '$d_2(x,z)^2$', answer: 25, tol: 0.001 },
+        { label: r`$d_1(\vec{x},\vec{z})$`, answer: 7, tol: 0.001 },
+        { label: r`$d_2(\vec{x},\vec{z})$`, answer: 5, tol: 0.001 },
+        { label: r`$d_2(\vec{x},\vec{z})^2$`, answer: 25, tol: 0.001 },
       ],
       solution: r`Subtract one coordinate at a time: $1-4=-3$, $2-6=-4$.
 - Manhattan: take absolute values and add: $|-3|+|-4|=3+4=7$.
@@ -163,7 +163,7 @@ SSE means sum of squared errors, not their average and not the sum of unsquared 
       source: { kind: 'quiz', label: 'L8 p26 / p51, three clustering iterations' },
       prompt: r`${POINTS}
 
-The slide asks for three iterations starting at $c_1=(0,0)$ and $c_2=(2,2)$ using **Manhattan distance**. To make the exercise unambiguous, use these conventions: an iteration is assignment followed by an **arithmetic-mean update**, and an equal-distance tie goes to cluster 1. Enter both centroid coordinates after each of the three iterations.
+The slide asks for three iterations starting at $\vec{c}_1=(0,0)$ and $\vec{c}_2=(2,2)$ using **Manhattan distance**. To make the exercise unambiguous, use these conventions: an iteration is assignment followed by an **arithmetic-mean update**, and an equal-distance tie goes to cluster 1. Enter both centroid coordinates after each of the three iterations.
 
 **Convention note:** this follows the slide's hybrid instruction. Standard K-means uses squared Euclidean distance and means; minimising a Manhattan-distance objective uses coordinate-wise medians instead.`,
       fields: [
@@ -182,7 +182,7 @@ The slide asks for three iterations starting at $c_1=(0,0)$ and $c_2=(2,2)$ usin
       ],
       solution: r`For each point, compute $|x-c_x|+|y-c_y|$ to both current centroids. Choose the smaller distance (tie: cluster 1), then average the coordinates **only after assigning every point**.
 
-| Iteration | Cluster 1 | Cluster 2 | New $c_1$ | New $c_2$ |
+| Iteration | Cluster 1 | Cluster 2 | New $\vec{c}_1$ | New $\vec{c}_2$ |
 |---|---|---|---|---|
 | 1 | A, B, C | D, E, F, G, H, I, J, K, L | $(1/3,8/3)$ | $(25/9,35/9)$ |
 | 2 | A, B, C, E, F | D, G, H, I, J, K, L | $(4/5,11/5)$ | $(22/7,32/7)$ |

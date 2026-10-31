@@ -15,22 +15,24 @@ Read it once now. Then whenever a lesson says "see Math toolkit", jump back to t
 
 | Symbol | Read it as | Example |
 |---|---|---|
-| $x_i$ | "x sub i": the $i$-th item in a list | if $x = (4, 7, 9)$ then $x_2 = 7$ |
+| $x_i$ | "x sub i": the $i$-th item in a list | if $\vec{x} = (4, 7, 9)$ then $x_2 = 7$ |
 | $x_{ij}$ | row $i$, column $j$ of a table | feature $j$ of example $i$ |
-| $\mathbf{x}$ (bold) | a **vector**: a list of numbers | $\mathbf{x} = (1, 2104, 5)$ |
+| $\vec{x}$ (arrow) | a **vector**: a list of numbers | $\vec{x} = (1, 2104, 5)$ |
 | $X$ (capital) | a **matrix**: a table of numbers, or a random variable | |
 | $m$ or $N$ | number of training examples | $m = 4$ data points |
 | $n$ or $d$ | number of features (columns) | |
 | $\in$ | "belongs to" / "is one of" | $y \in \{0, 1\}$: $y$ is 0 or 1 |
-| $\mathbb{R}$, $\mathbb{R}^n$ | real numbers; lists of $n$ real numbers | $\mathbf{x} \in \mathbb{R}^3$ |
+| $\mathbb{R}$, $\mathbb{R}^n$ | real numbers; lists of $n$ real numbers | $\vec{x} \in \mathbb{R}^3$ |
 | $:=$ | "becomes" (update the value) | $w := w - 0.1$ |
 | $\approx$ | approximately equal | $h(x) \approx f(x)$ |
 | $\sim$ | "is drawn from the distribution" | $x \sim \mathcal{N}(0, 1)$ |
 | $\hat{y}$, $\hat{f}$ ("hat") | an **estimate** or prediction | $\hat{y}$ = predicted $y$ |
-| $\theta$, $\mathbf{w}$ | the model's **parameters** (the numbers we learn) | |
+| $\theta$, $\vec{w}$ | the model's **parameters** (the numbers we learn) | |
 | $h(x)$ | the **hypothesis** = our model's prediction for input $x$ | $h(x) = 2 + 3x$ |
 | $P(A \mid B)$ | probability of $A$ **given** $B$ is known | |
-| $\lVert \mathbf{w} \rVert$ | length (norm) of the vector $\mathbf{w}$ | |
+| $\lVert \vec{w} \rVert$ | length (norm) of the vector $\vec{w}$ | |
+
+An **arrow marks a whole vector**, such as $\vec{x}$ or $\vec{w}$. A subscript on a scalar, such as $x_j$ or $w_j$, selects one number from that vector; $\vec{x}_i$ instead means the whole vector for example $i$. A capital $X$ denotes a matrix in the linear-algebra formulas. The coin probability $\theta$ is one number, while $\vec{\theta}$ is a vector of parameters.
 
 :::tip The single most useful habit
 When you meet a formula, say it out loud in words, symbol by symbol. "$J$ equals one over two $m$, times the sum for $i$ from 1 to $m$, of $h$ of $x_i$ minus $y_i$, squared." Once you can *say* it, you can compute it.
@@ -49,7 +51,7 @@ $$\sum_{i=1}^{m} a_i = a_1 + a_2 + \dots + a_m$$
 :::
 
 :::example Compute a sum
-Data: $x = (-1, 0, 1, 2)$, so $m = 4$.
+Data: $\vec{x} = (-1, 0, 1, 2)$, so $m = 4$.
 
 - $\sum_{i=1}^{4} x_i = -1 + 0 + 1 + 2 = 2$
 - $\sum_{i=1}^{4} x_i^2 = 1 + 0 + 1 + 4 = 6$ (square **first**, then add)
@@ -67,7 +69,7 @@ Three coin tosses H, T, H with $P(H) = 0.6$: $\prod P = 0.6 \times 0.4 \times 0.
 :::
 
 :::pitfall
-$\left(\sum x_i\right)^2 \ne \sum x_i^2$. With $x = (1, 2)$: $(1+2)^2 = 9$ but $1^2 + 2^2 = 5$. Look at where the bracket and the power are.
+$\left(\sum x_i\right)^2 \ne \sum x_i^2$. With $\vec{x} = (1, 2)$: $(1+2)^2 = 9$ but $1^2 + 2^2 = 5$. Look at where the bracket and the power are.
 :::
 
 ## Logarithms
@@ -182,14 +184,14 @@ The **gradient** $\nabla J$ ("nabla J") is the list of all partial derivatives: 
 
 ## Vectors and matrices
 
-**Vector:** a column of numbers, $\mathbf{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}$. Its **transpose** $\mathbf{w}^T = [w_0\ \ w_1]$ is the same numbers lying flat.
+**Vector:** a column of numbers, $\vec{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}$. Its **transpose** $\vec{w}^T = [w_0\ \ w_1]$ is the same numbers lying flat.
 
 :::formula @math-dot-product Dot product
-$$\mathbf{w}^T\mathbf{x} = \sum_j w_j x_j = w_0x_0 + w_1x_1 + \dots$$
+$$\vec{w}^T\vec{x} = \sum_j w_j x_j = w_0x_0 + w_1x_1 + \dots$$
 :::
 
 :::example
-$\mathbf{w} = (2, 3)$, $\mathbf{x} = (1, 4)$: $\mathbf{w}^T\mathbf{x} = 2\cdot1 + 3\cdot4 = 14$. With $x_0 = 1$, this is the linear model $h(x) = w_0 + w_1x$ evaluated at $x = 4$.
+$\vec{w} = (2, 3)$, $\vec{x} = (1, 4)$: $\vec{w}^T\vec{x} = 2\cdot1 + 3\cdot4 = 14$. With $x_0 = 1$, this is the linear model $h(x) = w_0 + w_1x$ evaluated at $x = 4$.
 :::
 
 **Matrix multiplication** $AB$: entry (row $i$, column $j$) of the result = dot product of **row $i$ of $A$** with **column $j$ of $B$**. Sizes must match: $(a \times b)(b \times c) = (a \times c)$.
@@ -198,15 +200,15 @@ $\mathbf{w} = (2, 3)$, $\mathbf{x} = (1, 4)$: $\mathbf{w}^T\mathbf{x} = 2\cdot1 
 $$[AB]_{ij}=\sum_k A_{ik}B_{kj}$$
 :::
 
-:::example Compute $X^TX$ and $X^T\mathbf{y}$ (used in every normal-equation question)
-$$X = \begin{bmatrix}1 & -1\\ 1 & 0\\ 1 & 1\\ 1 & 2\end{bmatrix},\quad \mathbf{y} = \begin{bmatrix}0\\2\\4\\5\end{bmatrix}$$
+:::example Compute $X^TX$ and $X^T\vec{y}$ (used in every normal-equation question)
+$$X = \begin{bmatrix}1 & -1\\ 1 & 0\\ 1 & 1\\ 1 & 2\end{bmatrix},\quad \vec{y} = \begin{bmatrix}0\\2\\4\\5\end{bmatrix}$$
 $X^T$ has rows $(1,1,1,1)$ and $(-1,0,1,2)$.
 - Top-left of $X^TX$: $(1,1,1,1)\cdot(1,1,1,1) = 4$ = number of points $m$.
 - Off-diagonal: $(1,1,1,1)\cdot(-1,0,1,2) = 2 = \sum x_i$.
 - Bottom-right: $(-1,0,1,2)\cdot(-1,0,1,2) = 6 = \sum x_i^2$.
-- $X^T\mathbf{y} = \big((1,1,1,1)\cdot\mathbf{y},\ (-1,0,1,2)\cdot\mathbf{y}\big) = (11,\ 14) = (\sum y_i, \sum x_iy_i)$.
-$$X^TX = \begin{bmatrix}4 & 2\\ 2 & 6\end{bmatrix},\qquad X^T\mathbf{y} = \begin{bmatrix}11\\ 14\end{bmatrix}$$
-**Shortcut:** for one feature, $X^TX = \begin{bmatrix} m & \sum x\\ \sum x & \sum x^2\end{bmatrix}$ and $X^T\mathbf{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix}$. Build a table of $x, y, x^2, xy$ and add the columns.
+- $X^T\vec{y} = \big((1,1,1,1)\cdot\vec{y},\ (-1,0,1,2)\cdot\vec{y}\big) = (11,\ 14) = (\sum y_i, \sum x_iy_i)$.
+$$X^TX = \begin{bmatrix}4 & 2\\ 2 & 6\end{bmatrix},\qquad X^T\vec{y} = \begin{bmatrix}11\\ 14\end{bmatrix}$$
+**Shortcut:** for one feature, $X^TX = \begin{bmatrix} m & \sum x\\ \sum x & \sum x^2\end{bmatrix}$ and $X^T\vec{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix}$. Build a table of $x, y, x^2, xy$ and add the columns.
 :::
 
 :::formula @math-matrix-inverse Inverse of a 2×2 matrix
@@ -224,24 +226,24 @@ $$\begin{bmatrix} a & b\\ c & d\end{bmatrix}^{-1} = \frac{1}{ad - bc}\begin{bmat
 
 ## Norms (length of a vector)
 
-| Name | Formula | Example $\mathbf{w} = (3, -4)$ | Priority |
+| Name | Formula | Example $\vec{w} = (3, -4)$ | Priority |
 |---|---|---|---|
-| L2 norm | $\lVert\mathbf{w}\rVert_2 = \sqrt{\sum w_j^2}$ | $\sqrt{9 + 16} = 5$ | {{priority:math-norm-l2}} |
-| squared L2 | $\lVert\mathbf{w}\rVert_2^2 = \sum w_j^2 = \mathbf{w}^T\mathbf{w}$ | $25$ | {{priority:math-norm-l2-squared}} |
-| L1 norm | $\lVert\mathbf{w}\rVert_1 = \sum \lvert w_j\rvert$ | $3 + 4 = 7$ | {{priority:math-norm-l1}} |
+| L2 norm | $\lVert\vec{w}\rVert_2 = \sqrt{\sum w_j^2}$ | $\sqrt{9 + 16} = 5$ | {{priority:math-norm-l2}} |
+| squared L2 | $\lVert\vec{w}\rVert_2^2 = \sum w_j^2 = \vec{w}^T\vec{w}$ | $25$ | {{priority:math-norm-l2-squared}} |
+| L1 norm | $\lVert\vec{w}\rVert_1 = \sum \lvert w_j\rvert$ | $3 + 4 = 7$ | {{priority:math-norm-l1}} |
 
-Ridge regression adds $\lambda\lVert\mathbf{w}\rVert_2^2$; Lasso adds $\lambda\lVert\mathbf{w}\rVert_1$ (Lecture 7). The SVM margin is $2/\lVert\mathbf{w}\rVert$ (Lecture 6).
+Ridge regression adds $\lambda\lVert\vec{w}\rVert_2^2$; Lasso adds $\lambda\lVert\vec{w}\rVert_1$ (Lecture 7). The SVM margin is $2/\lVert\vec{w}\rVert$ (Lecture 6).
 
 ## Distances and averages for clustering
 
 Lecture 8 compares points and replaces a group of points with its **centroid** (average point). A point such as $(2, 5)$ has two coordinates: first 2, then 5.
 
 :::formula @math-distance-manhattan Distance between two points
-$$d_1(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{d}|x_j-z_j|$$
+$$d_1(\vec{x},\vec{z}) = \sum_{j=1}^{d}|x_j-z_j|$$
 :::
 
 :::formula @math-distance-euclidean Euclidean / L2 distance
-$$d_2(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
+$$d_2(\vec{x},\vec{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
 :::
 
 :::read
@@ -251,15 +253,15 @@ $$d_2(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
 :::
 
 :::example
-For $\mathbf{x}=(1,2)$ and $\mathbf{z}=(4,6)$, the differences are $-3,-4$. L1 distance is $3+4=7$. L2 distance is $\sqrt{9+16}=5$. Squared L2 distance is $25$.
+For $\vec{x}=(1,2)$ and $\vec{z}=(4,6)$, the differences are $-3,-4$. L1 distance is $3+4=7$. L2 distance is $\sqrt{9+16}=5$. Squared L2 distance is $25$.
 :::
 
 :::formula @math-centroid A centroid is a coordinate-by-coordinate average
-$$\mu_j = \frac{1}{|C|}\sum_{\mathbf{x}\in C}x_j$$
+$$\mu_j = \frac{1}{|C|}\sum_{\vec{x}\in C}x_j$$
 :::
 
 :::read
-$C$ is a cluster (a group of points), $|C|$ counts its points, and $\mu_j$ is coordinate $j$ of its centroid. The notation $\mathbf{x}\in C$ means "for every point in this cluster". Add the first coordinates and divide by the number of points; then repeat for the second coordinates.
+$C$ is a cluster (a group of points), $|C|$ counts its points, and $\mu_j$ is coordinate $j$ of its centroid. The notation $\vec{x}\in C$ means "for every point in this cluster". Add the first coordinates and divide by the number of points; then repeat for the second coordinates.
 :::
 
 :::steps

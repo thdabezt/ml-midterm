@@ -11,7 +11,7 @@ Two of the most examinable calculations live here: the **Naive Bayes table probl
 - MAP vs MLE: definitions, and when they give the same answer (uniform prior).
 - Why minimising squared error = MLE under Gaussian noise (MAE ↔ Laplace noise).
 - **Naive Bayes by hand**: priors, conditional probabilities by counting, compare the two products, plus Laplace smoothing when a count is 0.
-- Sigmoid values, logistic regression prediction $P(y = 1 \mid x)$, the decision boundary $\mathbf{w}^T\mathbf{x} = 0$.
+- Sigmoid values, logistic regression prediction $P(y = 1 \mid x)$, the decision boundary $\vec{w}^T\vec{x} = 0$.
 - Generative vs discriminative models; Naive Bayes vs logistic regression.
 :::
 
@@ -68,14 +68,14 @@ $$h_{ML} = \arg\max_h \prod_{i=1}^m \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(y_i 
 A **generative** classifier models how each class *generates* data, then uses Bayes to classify (p15–17):
 
 :::formula @classification-generative-rule Generative classification rule
-$$p(\mathcal{C}_k \mid \mathbf{x}) \propto p(\mathbf{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k), \qquad k^* = \arg\max_k p(\mathbf{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k)$$
+$$p(\mathcal{C}_k \mid \vec{x}) \propto p(\vec{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k), \qquad k^* = \arg\max_k p(\vec{x} \mid \mathcal{C}_k)\,p(\mathcal{C}_k)$$
 :::
 
-- $p(\mathbf{x} \mid \mathcal{C}_k)$: **class-conditional density**, e.g. a Gaussian $\mathcal{N}(\mathbf{x} \mid \boldsymbol\mu_k, \Sigma_k)$.
+- $p(\vec{x} \mid \mathcal{C}_k)$: **class-conditional density**, e.g. a Gaussian $\mathcal{N}(\vec{x} \mid \vec{\mu}_k, \Sigma_k)$.
 - $p(\mathcal{C}_k)$: **class prior**.
 
 :::formula @classification-gaussian-estimates Gaussian class mean and covariance (p17)
-$$\boldsymbol\mu_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)\,\mathbf{x}_i}{\sum_i \delta(y_i, \mathcal{C}_k)}, \qquad \Sigma_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)(\mathbf{x}_i - \boldsymbol\mu_k)(\mathbf{x}_i - \boldsymbol\mu_k)^T}{\sum_i \delta(y_i, \mathcal{C}_k)}$$
+$$\vec{\mu}_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)\,\vec{x}_i}{\sum_i \delta(y_i, \mathcal{C}_k)}, \qquad \Sigma_k = \frac{\sum_i \delta(y_i, \mathcal{C}_k)(\vec{x}_i - \vec{\mu}_k)(\vec{x}_i - \vec{\mu}_k)^T}{\sum_i \delta(y_i, \mathcal{C}_k)}$$
 :::
 
 :::formula @classification-class-prior Class prior from counts (p17)
@@ -83,7 +83,7 @@ $$p(\mathcal{C}_k) = \frac{1}{n}\sum_i\delta(y_i, \mathcal{C}_k)$$
 :::
 
 :::read
-$\delta(y_i, \mathcal{C}_k)$ is 1 if example $i$ belongs to class $k$ and 0 otherwise, so it simply **selects** the examples of class $k$. In words: $\boldsymbol\mu_k$ = average of class-$k$ points; $\Sigma_k$ = their spread; prior = fraction of points in class $k$.
+$\delta(y_i, \mathcal{C}_k)$ is 1 if example $i$ belongs to class $k$ and 0 otherwise, so it simply **selects** the examples of class $k$. In words: $\vec{\mu}_k$ = average of class-$k$ points; $\Sigma_k$ = their spread; prior = fraction of points in class $k$.
 :::
 
 :::example 1-D Gaussian classifier
@@ -99,7 +99,7 @@ Class A: $x = 1, 2, 3$. Class B: $x = 6, 8$.
 ## Naive Bayes classifier
 
 :::formula @classification-naive-bayes Conditional independence and Naive Bayes classifier (p21, p26)
-$$p(\mathbf{x} \mid \mathcal{C}_k) \approx \prod_{j=1}^{d} p(x_j \mid \mathcal{C}_k) \qquad\Longrightarrow\qquad \mathcal{C}_{NB} = \arg\max_{\mathcal{C}_k}\; P(\mathcal{C}_k)\prod_j P(x_j \mid \mathcal{C}_k)$$
+$$p(\vec{x} \mid \mathcal{C}_k) \approx \prod_{j=1}^{d} p(x_j \mid \mathcal{C}_k) \qquad\Longrightarrow\qquad \mathcal{C}_{NB} = \arg\max_{\mathcal{C}_k}\; P(\mathcal{C}_k)\prod_j P(x_j \mid \mathcal{C}_k)$$
 :::
 
 :::read
@@ -119,7 +119,7 @@ $$p(\mathbf{x} \mid \mathcal{C}_k) \approx \prod_{j=1}^{d} p(x_j \mid \mathcal{C
 $$P(x_j=v\mid\mathcal{C}_k)=\frac{\#\{i:x_{ij}=v,\ y_i=\mathcal{C}_k\}}{\#\{i:y_i=\mathcal{C}_k\}}$$
 :::
 
-:::example Play Tennis (slides p27–29): $\mathbf{x}$ = (Sunny, Cool, High humidity, Strong wind)
+:::example Play Tennis (slides p27–29): $\vec{x}$ = (Sunny, Cool, High humidity, Strong wind)
 14 days: 9 Yes, 5 No.
 
 | | Yes (9 days) | No (5 days) |
@@ -131,7 +131,7 @@ $$P(x_j=v\mid\mathcal{C}_k)=\frac{\#\{i:x_{ij}=v,\ y_i=\mathcal{C}_k\}}{\#\{i:y_
 | Wind = Strong | 3/9 | 3/5 |
 | **Score** | $\frac{9}{14}\cdot\frac29\cdot\frac39\cdot\frac39\cdot\frac39 = 0.0053$ | $\frac{5}{14}\cdot\frac35\cdot\frac15\cdot\frac45\cdot\frac35 = 0.0206$ |
 
-$0.0206 > 0.0053$ → **PlayTennis = No**. Normalised: $P(\text{No} \mid \mathbf{x}) = 0.0206/(0.0206 + 0.0053) = 0.795$.
+$0.0206 > 0.0053$ → **PlayTennis = No**. Normalised: $P(\text{No} \mid \vec{x}) = 0.0206/(0.0206 + 0.0053) = 0.795$.
 :::
 
 ### Zero counts and Laplace smoothing
@@ -152,10 +152,10 @@ Homework 4 says "use MLE", which means **no smoothing**: a zero count really giv
 
 ### Naive Bayes for text
 
-A document is a **bag of words**: word order is ignored, $x_j$ = number of times word $w_j$ occurs (p22). Then $p(\mathbf{x} \mid \mathcal{C}_k) \propto \prod_j p(w_j \mid \mathcal{C}_k)^{x_j}$, and $p(w_j \mid \mathcal{C}_k)$ = frequency of $w_j$ in the "mega-document" made by joining all class-$k$ documents (p23).
+A document is a **bag of words**: word order is ignored, $x_j$ = number of times word $w_j$ occurs (p22). Then $p(\vec{x} \mid \mathcal{C}_k) \propto \prod_j p(w_j \mid \mathcal{C}_k)^{x_j}$, and $p(w_j \mid \mathcal{C}_k)$ = frequency of $w_j$ in the "mega-document" made by joining all class-$k$ documents (p23).
 
 :::formula @classification-text-naive-bayes Bag-of-words likelihood (p22–23)
-$$p(\mathbf{x}\mid\mathcal{C}_k)\propto\prod_j p(w_j\mid\mathcal{C}_k)^{x_j}$$
+$$p(\vec{x}\mid\mathcal{C}_k)\propto\prod_j p(w_j\mid\mathcal{C}_k)^{x_j}$$
 :::
 
 ### Naive Bayes gives a linear decision boundary
@@ -163,29 +163,29 @@ $$p(\mathbf{x}\mid\mathcal{C}_k)\propto\prod_j p(w_j\mid\mathcal{C}_k)^{x_j}$$
 Taking the log of the ratio of the two class scores (p31):
 
 :::formula @classification-naive-bayes-log-odds Text Naive Bayes log-odds
-$$\ln\frac{p(\mathcal{C}_1 \mid \mathbf{x})}{p(\mathcal{C}_2 \mid \mathbf{x})} = \ln\frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)} + \sum_j x_j\underbrace{\ln\frac{p(w_j \mid \mathcal{C}_1)}{p(w_j \mid \mathcal{C}_2)}}_{\text{weight of word } j}$$
+$$\ln\frac{p(\mathcal{C}_1 \mid \vec{x})}{p(\mathcal{C}_2 \mid \vec{x})} = \ln\frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)} + \sum_j x_j\underbrace{\ln\frac{p(w_j \mid \mathcal{C}_1)}{p(w_j \mid \mathcal{C}_2)}}_{\text{weight of word } j}$$
 :::
-This is **linear in $\mathbf{x}$**: a constant plus a weighted sum. Gaussian class-conditionals with a **shared** covariance also give a linear boundary (p32). So why not learn the linear boundary directly? That is logistic regression (p33).
+This is **linear in $\vec{x}$**: a constant plus a weighted sum. Gaussian class-conditionals with a **shared** covariance also give a linear boundary (p32). So why not learn the linear boundary directly? That is logistic regression (p33).
 
 ## Logistic regression (a discriminative model)
 
 :::formula @classification-logistic-log-odds Log-odds model (p35–36), labels $y\in\{-1,+1\}$
-$$\ln\frac{p(y=1\mid\mathbf{x})}{p(y=-1\mid\mathbf{x})}=\mathbf{w}^T\mathbf{x}$$
+$$\ln\frac{p(y=1\mid\vec{x})}{p(y=-1\mid\vec{x})}=\vec{w}^T\vec{x}$$
 :::
 
 :::formula @classification-logistic-model Logistic probability model (p35–36)
-$$p(y\mid\mathbf{x})=\sigma(y\,\mathbf{w}^T\mathbf{x})\quad\text{for }y\in\{-1,+1\},\qquad P(y=1\mid\mathbf{x})=\sigma(\mathbf{w}^T\mathbf{x})\quad\text{for 0/1 labels}$$
+$$p(y\mid\vec{x})=\sigma(y\,\vec{w}^T\vec{x})\quad\text{for }y\in\{-1,+1\},\qquad P(y=1\mid\vec{x})=\sigma(\vec{w}^T\vec{x})\quad\text{for 0/1 labels}$$
 :::
 
 :::read
-- $\mathbf{w}^T\mathbf{x}$ (with $x_0 = 1$ for the bias) is a **score**. The left side, the log of the odds, says the score measures how much more likely class $+1$ is than class $-1$.
+- $\vec{w}^T\vec{x}$ (with $x_0 = 1$ for the bias) is a **score**. The left side, the log of the odds, says the score measures how much more likely class $+1$ is than class $-1$.
 - The sigmoid turns the score into a probability.
-- **0/1 convention** (used in Homework 4 and most textbooks): $P(y = 1 \mid \mathbf{x}) = \sigma(\mathbf{w}^T\mathbf{x})$ and $P(y = 0 \mid \mathbf{x}) = 1 - \sigma(\mathbf{w}^T\mathbf{x})$. It is the same model written differently.
-- **Decision rule**: predict class 1 when $P \ge 0.5$, i.e. when $\mathbf{w}^T\mathbf{x} \ge 0$. The **decision boundary** is $\mathbf{w}^T\mathbf{x} = 0$.
+- **0/1 convention** (used in Homework 4 and most textbooks): $P(y = 1 \mid \vec{x}) = \sigma(\vec{w}^T\vec{x})$ and $P(y = 0 \mid \vec{x}) = 1 - \sigma(\vec{w}^T\vec{x})$. It is the same model written differently.
+- **Decision rule**: predict class 1 when $P \ge 0.5$, i.e. when $\vec{w}^T\vec{x} \ge 0$. The **decision boundary** is $\vec{w}^T\vec{x} = 0$.
 :::
 
 :::formula @classification-linear-score Linear score and binary decision boundary
-$$z=\mathbf{w}^T\mathbf{x}=w_0+\sum_{j=1}^{d}w_jx_j\quad(x_0=1),\qquad z=0\text{ at the }P=0.5\text{ boundary}$$
+$$z=\vec{w}^T\vec{x}=w_0+\sum_{j=1}^{d}w_jx_j\quad(x_0=1),\qquad z=0\text{ at the }P=0.5\text{ boundary}$$
 :::
 
 :::formula @classification-sigmoid Sigmoid value (p37)
@@ -206,22 +206,22 @@ Feature $x$ = age group (1..8), fitted weights $w_1 = 0.58$, $w_0 = -3.34$.
 ### Training: maximum likelihood
 
 :::formula @classification-logistic-loss Loss to minimise (p38)
-$$\mathcal{L}(\mathbf{w}) = \prod_i p(y_i \mid \mathbf{x}_i; \mathbf{w}) \;\;\Longrightarrow\;\; \mathbf{w}^* = \arg\min_{\mathbf{w}}\sum_{i=1}^N \ln\big(1 + \exp(-y_i\,\mathbf{w}^T\mathbf{x}_i)\big)$$
+$$\mathcal{L}(\vec{w}) = \prod_i p(y_i \mid \vec{x}_i; \vec{w}) \;\;\Longrightarrow\;\; \vec{w}^* = \arg\min_{\vec{w}}\sum_{i=1}^N \ln\big(1 + \exp(-y_i\,\vec{w}^T\vec{x}_i)\big)$$
 :::
 
 :::read
-Maximise the log-likelihood $\sum_i\ln\sigma(y_i\mathbf{w}^T\mathbf{x}_i)$, which is the same as minimising its negative. Since $-\ln\sigma(z) = \ln(1 + e^{-z})$, each example costs $\ln(1 + e^{-y_i\mathbf{w}^T\mathbf{x}_i})$: almost 0 when the example is confidently correct ($y_i\mathbf{w}^T\mathbf{x}_i \gg 0$), large when it is confidently wrong. With 0/1 labels this is the **cross-entropy** loss $-\sum_i[y_i\ln p_i + (1 - y_i)\ln(1 - p_i)]$.
+Maximise the log-likelihood $\sum_i\ln\sigma(y_i\vec{w}^T\vec{x}_i)$, which is the same as minimising its negative. Since $-\ln\sigma(z) = \ln(1 + e^{-z})$, each example costs $\ln(1 + e^{-y_i\vec{w}^T\vec{x}_i})$: almost 0 when the example is confidently correct ($y_i\vec{w}^T\vec{x}_i \gg 0$), large when it is confidently wrong. With 0/1 labels this is the **cross-entropy** loss $-\sum_i[y_i\ln p_i + (1 - y_i)\ln(1 - p_i)]$.
 :::
 
 - The loss is **convex**, so there is one global optimum (p39–40), but **no closed-form solution**: use gradient descent.
 
 :::formula @classification-logistic-gradient Gradient and update (p40)
-$$\nabla\mathcal{L}(\mathbf{w}) = -\sum_{i=1}^N y_i\,\mathbf{x}_i\big(1 - p(y_i \mid \mathbf{x}_i)\big), \qquad \mathbf{w}_{t+1} = \mathbf{w}_t - \eta_t\nabla\mathcal{L}(\mathbf{w}_t)$$
-With 0/1 labels: $\nabla = \sum_i \big(\sigma(\mathbf{w}^T\mathbf{x}_i) - y_i\big)\mathbf{x}_i$, the same "error × input" shape as linear regression.
+$$\nabla\mathcal{L}(\vec{w}) = -\sum_{i=1}^N y_i\,\vec{x}_i\big(1 - p(y_i \mid \vec{x}_i)\big), \qquad \vec{w}_{t+1} = \vec{w}_t - \eta_t\nabla\mathcal{L}(\vec{w}_t)$$
+With 0/1 labels: $\nabla = \sum_i \big(\sigma(\vec{w}^T\vec{x}_i) - y_i\big)\vec{x}_i$, the same "error × input" shape as linear regression.
 :::
 
 :::read
-$1 - p(y_i \mid \mathbf{x}_i)$ is the "classification error" of example $i$: examples that are already predicted well barely move the weights.
+$1 - p(y_i \mid \vec{x}_i)$ is the "classification error" of example $i$: examples that are already predicted well barely move the weights.
 :::
 
 :::formula @classification-decaying-step Decreasing step-size example (p40)
@@ -247,19 +247,19 @@ If one threshold separates the classes perfectly (as in Homework 4 Exercise 3: f
 For $K$ classes (p47–48), give each class its own weight vector:
 
 :::formula @classification-softmax Multi-class softmax
-$$p(\mathcal{C}_k \mid \mathbf{x}) = \frac{\exp(\mathbf{w}_k^T\mathbf{x})}{\sum_{k'=1}^{K}\exp(\mathbf{w}_{k'}^T\mathbf{x})}$$
+$$p(\mathcal{C}_k \mid \vec{x}) = \frac{\exp(\vec{w}_k^T\vec{x})}{\sum_{k'=1}^{K}\exp(\vec{w}_{k'}^T\vec{x})}$$
 :::
-The denominator $Z(\mathbf{x})$ (partition function) makes the $K$ probabilities sum to 1. Train by maximising $\sum_i\ln p(y_i \mid \mathbf{x}_i)$.
+The denominator $Z(\vec{x})$ (partition function) makes the $K$ probabilities sum to 1. Train by maximising $\sum_i\ln p(y_i \mid \vec{x}_i)$.
 
 :::example
-Scores $\mathbf{w}_k^T\mathbf{x} = (2, 1, 0)$: $e^2 = 7.389$, $e^1 = 2.718$, $e^0 = 1$, sum $= 11.107$ → probabilities $(0.665, 0.245, 0.090)$.
+Scores $\vec{w}_k^T\vec{x} = (2, 1, 0)$: $e^2 = 7.389$, $e^1 = 2.718$, $e^0 = 1$, sum $= 11.107$ → probabilities $(0.665, 0.245, 0.090)$.
 :::
 
 ## Generative vs discriminative
 
 | | Discriminative (logistic regression) | Generative (Naive Bayes, Gaussian) |
 |---|---|---|
-| Models | $P(y \mid \mathbf{x})$ directly | $P(\mathbf{x} \mid y)$ (and $P(y)$) |
+| Models | $P(y \mid \vec{x})$ directly | $P(\vec{x} \mid y)$ (and $P(y)$) |
 | Pros | usually better accuracy; robust to noisy data | fast convergence; cheap (Naive Bayes is just counting) |
 | Cons | slow convergence (gradient descent); more computation | sensitive to noise; usually worse accuracy |
 

@@ -3,7 +3,7 @@ slug: l3-linear-regression
 num: 3
 title: Linear Regression
 short: Linear regression
-summary: Fit a straight line (or plane) to data. The cost function J (mean squared error), gradient descent step by step, the learning rate, multivariate regression, and the normal equation w = (XᵀX)⁻¹Xᵀy.
+summary: Fit a straight line (or plane) to data. The cost function J (mean squared error), gradient descent step by step, the learning rate, multivariate regression, and the normal equation w⃗ = (XᵀX)⁻¹Xᵀy⃗.
 ---
 Linear regression is the most "calculation-heavy" topic before the midterm. Homework 2 (file `HW03-ML.pdf`) asks for **both** solution methods on a 4-point dataset, ridge regression, and multi-output regression. Homework 4 Exercise 1 applies the normal equation to a classification dataset. Expect at least one practical exam question here.
 
@@ -17,7 +17,7 @@ Linear regression is the most "calculation-heavy" topic before the midterm. Home
 
 ## The supervised learning setup
 
-Recap of the formal setting (p4): input $\mathbf{x} \in \mathcal{X} \subseteq \mathbb{R}^n$; output $y \in \mathcal{Y}$, which is $\mathbb{R}$ for **regression**, $\{+1, -1\}$ for binary classification, $\{1, \dots, K\}$ for multi-class. There is an unknown **target function** $f: \mathcal{X} \to \mathcal{Y}$. We get training data $D = \{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_m, y_m)\}$ and look for a **hypothesis** $h \approx f$ inside a **hypothesis space** $\mathcal{H}$.
+Recap of the formal setting (p4): input $\vec{x} \in \mathcal{X} \subseteq \mathbb{R}^n$; output $y \in \mathcal{Y}$, which is $\mathbb{R}$ for **regression**, $\{+1, -1\}$ for binary classification, $\{1, \dots, K\}$ for multi-class. There is an unknown **target function** $f: \mathcal{X} \to \mathcal{Y}$. We get training data $D = \{(\vec{x}_1, y_1), \dots, (\vec{x}_m, y_m)\}$ and look for a **hypothesis** $h \approx f$ inside a **hypothesis space** $\mathcal{H}$.
 
 The lecture repeats the statistical learning framework of Lecture 2 (p6–8): true error $L_{\mathcal{D},c}(h)$ is unknown, so **Empirical Risk Minimisation** minimises the training error $L_S(h)$ instead.
 
@@ -141,32 +141,32 @@ If $J$ increases from one iteration to the next, the fix is a **smaller** $\alph
 
 ## Multivariate linear regression
 
-With several features (size, bedrooms, floors, age; p42): $n$ = number of features, $\mathbf{x}_i$ = feature vector of example $i$, $x_{ij}$ = feature $j$ of example $i$.
+With several features (size, bedrooms, floors, age; p42): $n$ = number of features, $\vec{x}_i$ = feature vector of example $i$, $x_{ij}$ = feature $j$ of example $i$.
 
 :::formula @regression-multivariate-model Hypothesis with n features (p43)
-$$h(\mathbf{x}) = w_0 + w_1x_1 + \dots + w_nx_n = \sum_{j=0}^{n} w_jx_j = \mathbf{w}^T\mathbf{x}\qquad (x_0 = 1)$$
+$$h(\vec{x}) = w_0 + w_1x_1 + \dots + w_nx_n = \sum_{j=0}^{n} w_jx_j = \vec{w}^T\vec{x}\qquad (x_0 = 1)$$
 :::
 
 :::read
-The trick $x_0 = 1$ lets the intercept $w_0$ join the dot product, so $\mathbf{x}, \mathbf{w} \in \mathbb{R}^{n+1}$. In a data matrix this is the **column of 1s** on the left.
+The trick $x_0 = 1$ lets the intercept $w_0$ join the dot product, so $\vec{x}, \vec{w} \in \mathbb{R}^{n+1}$. In a data matrix this is the **column of 1s** on the left.
 :::
 
 :::formula @regression-vector-gradient Vector gradient descent (p44–45)
-$$\mathbf{w} := \mathbf{w} - \alpha\nabla J(\mathbf{w}), \qquad \frac{\partial J}{\partial w_j} = \frac{1}{m}\sum_{i=1}^{m}\big(h(\mathbf{x}_i) - y_i\big)x_{ij}, \qquad \nabla J(\mathbf{w}) = \frac1m X^T(X\mathbf{w} - \mathbf{y})$$
+$$\vec{w} := \vec{w} - \alpha\nabla J(\vec{w}), \qquad \frac{\partial J}{\partial w_j} = \frac{1}{m}\sum_{i=1}^{m}\big(h(\vec{x}_i) - y_i\big)x_{ij}, \qquad \nabla J(\vec{w}) = \frac1m X^T(X\vec{w} - \vec{y})$$
 :::
 
 ## Normal equation (analytical solution)
 
 Instead of walking downhill, jump straight to the bottom: the minimum is where the gradient is **zero** (p48). In 1-D, $J(w) = aw^2 + bw + c$ is a parabola and you solve $J'(w) = 0$.
 
-Stack the data into a matrix (p49): $X$ is $m \times (n+1)$ (one row per example, first column all 1s), $\mathbf{y}$ is $m \times 1$. Then
+Stack the data into a matrix (p49): $X$ is $m \times (n+1)$ (one row per example, first column all 1s), $\vec{y}$ is $m \times 1$. Then
 
 :::formula @regression-matrix-cost Squared-error cost in matrix form
-$$J(\mathbf{w}) = \frac{1}{2m}(X\mathbf{w} - \mathbf{y})^T(X\mathbf{w} - \mathbf{y})$$
+$$J(\vec{w}) = \frac{1}{2m}(X\vec{w} - \vec{y})^T(X\vec{w} - \vec{y})$$
 :::
 
 :::formula @regression-normal-equation Normal equation (p50–51)
-$$\nabla J = 0 \;\Longrightarrow\; X^TX\,\mathbf{w} = X^T\mathbf{y} \;\Longrightarrow\; \mathbf{w} = (X^TX)^{-1}X^T\mathbf{y} = X^\dagger\mathbf{y}$$
+$$\nabla J = 0 \;\Longrightarrow\; X^TX\,\vec{w} = X^T\vec{y} \;\Longrightarrow\; \vec{w} = (X^TX)^{-1}X^T\vec{y} = X^\dagger\vec{y}$$
 :::
 
 :::read
@@ -178,16 +178,16 @@ $$\nabla J = 0 \;\Longrightarrow\; X^TX\,\mathbf{w} = X^T\mathbf{y} \;\Longright
 
 :::steps Solving the normal equation with one feature
 1. Make a table with $x_i, y_i, x_i^2, x_iy_i$ and add each column.
-2. $X^TX = \begin{bmatrix} m & \sum x\\ \sum x & \sum x^2\end{bmatrix}$, $X^T\mathbf{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix}$.
+2. $X^TX = \begin{bmatrix} m & \sum x\\ \sum x & \sum x^2\end{bmatrix}$, $X^T\vec{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix}$.
 3. Invert the $2\times2$ matrix: swap the diagonal, negate the off-diagonal, divide by the determinant $m\sum x^2 - (\sum x)^2$.
-4. Multiply: $\mathbf{w} = (X^TX)^{-1}X^T\mathbf{y}$.
+4. Multiply: $\vec{w} = (X^TX)^{-1}X^T\vec{y}$.
 5. Check: the errors $h(x_i) - y_i$ should **add up to 0** (a property of the least-squares line with an intercept).
 :::
 
 :::example Data (1,2), (2,3), (3,5)
 Sums: $m = 3$, $\sum x = 6$, $\sum x^2 = 14$, $\sum y = 10$, $\sum xy = 2 + 6 + 15 = 23$.
 $$X^TX = \begin{bmatrix}3 & 6\\ 6 & 14\end{bmatrix},\quad \det = 42 - 36 = 6,\quad (X^TX)^{-1} = \frac16\begin{bmatrix}14 & -6\\ -6 & 3\end{bmatrix}$$
-$$\mathbf{w} = \frac16\begin{bmatrix}14\cdot10 - 6\cdot23\\ -6\cdot10 + 3\cdot23\end{bmatrix} = \frac16\begin{bmatrix}2\\ 9\end{bmatrix} = \begin{bmatrix}0.333\\ 1.5\end{bmatrix}$$
+$$\vec{w} = \frac16\begin{bmatrix}14\cdot10 - 6\cdot23\\ -6\cdot10 + 3\cdot23\end{bmatrix} = \frac16\begin{bmatrix}2\\ 9\end{bmatrix} = \begin{bmatrix}0.333\\ 1.5\end{bmatrix}$$
 So $h(x) = 0.333 + 1.5x$. Predictions 1.833, 3.333, 4.833; errors $-0.167 + 0.333 - 0.167 = 0$ ✓.
 :::
 
@@ -215,11 +215,11 @@ Example above: $w_1 = \frac{3\cdot23 - 6\cdot10}{3\cdot14 - 36} = \frac{9}{6} = 
 **Ridge regression** (Exercise 2) adds an L2 penalty to $J$. Full details are in Lecture 7; the results to remember:
 
 :::formula @regression-ridge-cost Ridge objective
-$$J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i (h(\mathbf{x}_i) - y_i)^2 + \lambda\sum_{j\ge1}w_j^2\Big]$$
+$$J(\vec{w}) = \frac{1}{2m}\Big[\sum_i (h(\vec{x}_i) - y_i)^2 + \lambda\sum_{j\ge1}w_j^2\Big]$$
 :::
 
 :::formula @regression-ridge-solution Ridge analytical solution
-$$\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y},\qquad L = \mathrm{diag}(0, 1, \dots, 1)$$
+$$\vec{w} = (X^TX + \lambda L)^{-1}X^T\vec{y},\qquad L = \mathrm{diag}(0, 1, \dots, 1)$$
 :::
 
 :::formula @regression-ridge-update Ridge gradient-descent update (weight decay)
@@ -228,7 +228,7 @@ $$w_j := w_j\left(1 - \frac{\alpha\lambda}{m}\right) - \frac{\alpha}{m}\sum_i e_
 
 As $\lambda \to \infty$, all $w_j$ ($j \ge 1$) shrink to 0 and the model becomes the flat line $h(x) = \bar y$ (**underfitting**). {{priority:regression-ridge-limit}}
 
-**Multi-output regression** (Exercise 3): with $\mathbf{y}_i \in \mathbb{R}^2$ and $h(x) = W^T\phi(x)$, the MSE splits into one ordinary regression per output column.
+**Multi-output regression** (Exercise 3): with $\vec{y}_i \in \mathbb{R}^2$ and $h(x) = W^T\phi(x)$, the MSE splits into one ordinary regression per output column.
 
 :::formula @regression-multi-output Multi-output least-squares solution
 $$W = (\Phi^T\Phi)^{-1}\Phi^TY$$

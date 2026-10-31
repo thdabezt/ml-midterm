@@ -149,7 +149,7 @@
       <p class="visual-equation" data-svm-equation></p>
       <div class="visual-results" data-svm-results aria-live="polite" aria-atomic="true"></div>
       <p class="visual-note" data-svm-geometry></p>
-      <p class="visual-note">This explores the geometry of weights you choose. The strip width 2/‖w‖ belongs to the canonical score lines ±1; it is not automatically a learned maximum-margin SVM. Scaling w and b together preserves the decision boundary but changes this strip width.</p>`;
+      <p class="visual-note">This explores the geometry of weights you choose. The strip width 2/‖w⃗‖ belongs to the canonical score lines ±1; it is not automatically a learned maximum-margin SVM. Scaling w⃗ and b together preserves the decision boundary but changes this strip width.</p>`;
     const inputs = Object.fromEntries(controls.map(({ name }) => [name, host.querySelector(`[name="${name}"]`)]));
     const chart = host.querySelector('[data-svm-chart]');
     const results = host.querySelector('[data-svm-results]');
@@ -183,9 +183,9 @@
       }
       const labelText = state.label === 0 ? 'On boundary' : state.label === 1 ? '+1' : '−1';
       results.innerHTML = `<div><span>Predicted label${state.label === 0 ? ' (no sign assigned)' : ''}</span><strong data-svm-label>${labelText}</strong></div>
-        <div><span>Distance = |score| / ‖w‖</span><strong data-svm-distance>${fmt(state.distance)}</strong></div>
-        <div><span>Canonical ±1 width = 2 / ‖w‖</span><strong data-svm-width>${fmt(state.fullMargin)}</strong></div>`;
-      host.querySelector('[data-svm-geometry]').textContent = `Weight length ‖w‖ = √(w₁² + w₂²) = ${fmt(state.norm)}. Distance = ${fmt(Math.abs(state.score))} / ${fmt(state.norm)} = ${fmt(state.distance)}. Perpendicular foot H = (${fmt(state.foot.x)}, ${fmt(state.foot.y)}).`;
+        <div><span>Distance = |score| / ‖w⃗‖</span><strong data-svm-distance>${fmt(state.distance)}</strong></div>
+        <div><span>Canonical ±1 width = 2 / ‖w⃗‖</span><strong data-svm-width>${fmt(state.fullMargin)}</strong></div>`;
+      host.querySelector('[data-svm-geometry]').textContent = `Weight length ‖w⃗‖ = √(w₁² + w₂²) = ${fmt(state.norm)}. Distance = ${fmt(Math.abs(state.score))} / ${fmt(state.norm)} = ${fmt(state.distance)}. Perpendicular foot H = (${fmt(state.foot.x)}, ${fmt(state.foot.y)}).`;
     }
     controls.forEach(({ name }) => inputs[name].addEventListener('input', draw));
     host.querySelector('[data-svm-reset]').addEventListener('click', () => {

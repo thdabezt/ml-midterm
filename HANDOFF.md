@@ -2,7 +2,7 @@
 
 State as of 2026-10-31. Read this before changing anything.
 
-- **Live site:** https://thdabezt.github.io/ml-midterm/ (version 1.4.0)
+- **Live site:** https://thdabezt.github.io/ml-midterm/ (version 1.4.1)
 - **Repo:** https://github.com/thdabezt/ml-midterm (`main`; every push deploys via GitHub Actions)
 - **Course:** INT3405 Machine Learning, VNU-UET. Midterm = 10 MCQs + 2–3 practical questions (Lecture 0), week 9.
 
@@ -29,6 +29,7 @@ npm run build     # writes dist/
 npm start         # http://127.0.0.1:4174
 ```
 
+- **Vector notation:** use `\vec{x}`, `\vec{w}`, `\vec{\theta}`, etc. for whole vectors throughout lessons, questions and drills. Keep scalar components (`x_j`, `w_j`), scalar parameters (coin `\theta`, penalty `\lambda`) and matrices (`X`, covariance `\boldsymbol\Sigma`) distinct. `\mathbf{1}` in the classification-error formula is an indicator, not a vector. Plain-text full-vector labels use a combining arrow, e.g. w⃗.
 - **Writing math in practice files:** use `String.raw` template strings (`r\`...\``). A plain `'...'` string silently drops LaTeX backslashes. The build has a guard for this.
 - **New question:** add an object to the lecture's file in `content/practice/` with `id`, `type` (`mcq` | `numeric` | `written`), `source` (`hw` | `variant` | `slide` | `quiz`), `prompt`, `solution`, and `options`+`answer` or `fields`. For any new numeric homework answer, add an independent recomputation in `tests/bank.test.js`.
 - **Formula priority:** write `:::formula @formula-key Optional title` for a formula box, or `{{priority:formula-key}}` in a table/prose definition. Define the key in `content/formula-priorities.json` with `grade`, a concise plain-English `reason`, and `homework` IDs. P1/P2 must cite original `source.kind = 'hw'` IDs; P3 must have an empty homework array. The renderer rejects missing/unknown keys. `tests/priorities.test.js` checks full coverage and evidence IDs. Review grades when new homework arrives; a variant or slide question alone does not establish homework use.

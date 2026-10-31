@@ -65,9 +65,9 @@ A new day is **Outlook = Overcast, Temperature = Medium, Humidity = High, Wind =
 - Yes: $\frac{6}{10}\cdot\frac26\cdot\frac26\cdot\frac36\cdot\frac46 = 0.6\cdot\frac{48}{1296} = 0.0222$.
 - No: $\frac{4}{10}\cdot\frac04\cdot\frac14\cdot\frac34\cdot\frac24 = 0$.
 
-$0.0222 > 0$ → **Yes, the day is suitable for badminton.** Normalised: $P(\text{Yes} \mid \mathbf{x}) = 1$.
+$0.0222 > 0$ → **Yes, the day is suitable for badminton.** Normalised: $P(\text{Yes} \mid \vec{x}) = 1$.
 
-**Remark.** The No score is exactly 0 only because "Overcast" never occurred on a No day (an MLE zero count). With Laplace smoothing ($+1$ to each count, $+$number of values to each denominator) the scores are Yes $= 0.6\cdot\frac38\cdot\frac39\cdot\frac48\cdot\frac58 = 0.0208$ and No $= 0.4\cdot\frac17\cdot\frac27\cdot\frac46\cdot\frac36 = 0.0054$: still **Yes**, now with $P(\text{Yes} \mid \mathbf{x}) = 0.79$.`,
+**Remark.** The No score is exactly 0 only because "Overcast" never occurred on a No day (an MLE zero count). With Laplace smoothing ($+1$ to each count, $+$number of values to each denominator) the scores are Yes $= 0.6\cdot\frac38\cdot\frac39\cdot\frac48\cdot\frac58 = 0.0208$ and No $= 0.4\cdot\frac17\cdot\frac27\cdot\frac46\cdot\frac36 = 0.0054$: still **Yes**, now with $P(\text{Yes} \mid \vec{x}) = 0.79$.`,
     },
     {
       id: 'hw04-ex2-laplace',
@@ -87,7 +87,7 @@ Score $= 0.6\cdot\frac39\cdot\frac39\cdot\frac48\cdot\frac58 = 0.6\cdot0.0347 = 
 No (4 days): Overcast $\frac{0+1}{4+3} = \frac17$, Medium $\frac{1+1}{4+3} = \frac27$, High $\frac{3+1}{4+2} = \frac46$, Wind No $\frac{2+1}{4+2} = \frac36$.
 Score $= 0.4\cdot\frac17\cdot\frac27\cdot\frac46\cdot\frac36 = 0.005442$.
 
-$P(\text{Yes} \mid \mathbf{x}) = \frac{0.02083}{0.02083 + 0.00544} = 0.793$ → Yes.`,
+$P(\text{Yes} \mid \vec{x}) = \frac{0.02083}{0.02083 + 0.00544} = 0.793$ → Yes.`,
     },
     {
       id: 'hw04-ex2-v1',
@@ -107,7 +107,7 @@ Score $= 0.6\cdot\frac16\cdot\frac36\cdot\frac36\cdot\frac26 = 0.6\cdot\frac{18}
 No (4 days: 1, 2, 6, 8): Sunny 3/4 (1, 2, 8), Low temp 1/4 (6), Low humidity 1/4 (6), Wind Yes 2/4 (2, 6).
 Score $= 0.4\cdot\frac34\cdot\frac14\cdot\frac14\cdot\frac24 = 0.4\cdot\frac{6}{256} = 0.009375$.
 
-$0.009375 > 0.00833$ → **No** (close call: $P(\text{No} \mid \mathbf{x}) = 0.53$).`,
+$0.009375 > 0.00833$ → **No** (close call: $P(\text{No} \mid \vec{x}) = 0.53$).`,
     },
     {
       id: 'hw04-ex2-v2',
@@ -134,7 +134,7 @@ Score $= 0.4\cdot\frac14\cdot\frac24\cdot\frac34\cdot\frac24 = 0.4\cdot\frac{12}
       id: 'l4-quiz-p27',
       type: 'numeric',
       source: { kind: 'quiz', label: 'L4 p27 & p29' },
-      prompt: r`Based on the table, classify $\mathbf{x}$ = (Outlook = Sunny, Temp = Cool, Humidity = High, Wind = Strong) with Naive Bayes.
+      prompt: r`Based on the table, classify $\vec{x}$ = (Outlook = Sunny, Temp = Cool, Humidity = High, Wind = Strong) with Naive Bayes.
 
 ${TENNIS}`,
       fields: [
@@ -160,7 +160,7 @@ Yes: $\frac{9}{14}\cdot\frac29\cdot\frac39\cdot\frac39\cdot\frac39 = 0.0053$. No
       id: 'l4-quiz-p28',
       type: 'numeric',
       source: { kind: 'quiz', label: 'L4 p28' },
-      prompt: r`Based on the same table, classify $\mathbf{x}$ = (Outlook = Overcast, Temp = Hot, Humidity = High, Wind = Weak). (The slides ask this but do not solve it.)
+      prompt: r`Based on the same table, classify $\vec{x}$ = (Outlook = Overcast, Temp = Hot, Humidity = High, Wind = Weak). (The slides ask this but do not solve it.)
 
 ${TENNIS}`,
       fields: [
@@ -193,7 +193,7 @@ Score $= \frac{9}{14}\cdot\frac39\cdot\frac49\cdot\frac69\cdot\frac69 = 0.0423$.
 No: Rain 2/5 (6, 14), Mild 2/5 (8, 14), Normal 1/5 (6), Weak 2/5 (1, 8).
 Score $= \frac{5}{14}\cdot\frac25\cdot\frac25\cdot\frac15\cdot\frac25 = 0.00457$.
 
-→ **Yes** ($P(\text{Yes} \mid \mathbf{x}) = 0.90$).`,
+→ **Yes** ($P(\text{Yes} \mid \vec{x}) = 0.90$).`,
     },
     // ---------- Homework 4 Exercise 3: logistic regression ----------
     {
@@ -208,10 +208,10 @@ Score $= \frac{5}{14}\cdot\frac25\cdot\frac25\cdot\frac15\cdot\frac25 = 0.00457$
 
 Using logistic regression, predict the probability that a student who studies **5 hours** passes.`,
       solution: r`**Model.** $P(\text{pass} \mid x) = \sigma(w_0 + w_1x) = \dfrac{1}{1 + e^{-(w_0 + w_1x)}}$, trained by maximum likelihood, i.e. minimising the cross-entropy
-$$\mathcal{L}(\mathbf{w}) = -\sum_{i=1}^{10}\big[y_i\ln p_i + (1 - y_i)\ln(1 - p_i)\big],\qquad p_i = \sigma(w_0 + w_1x_i).$$
-There is no closed form (L4 p40), so use gradient descent: $\nabla\mathcal{L} = \sum_i(p_i - y_i)\,(1, x_i)^T$, $\mathbf{w} := \mathbf{w} - \eta\nabla\mathcal{L}$.
+$$\mathcal{L}(\vec{w}) = -\sum_{i=1}^{10}\big[y_i\ln p_i + (1 - y_i)\ln(1 - p_i)\big],\qquad p_i = \sigma(w_0 + w_1x_i).$$
+There is no closed form (L4 p40), so use gradient descent: $\nabla\mathcal{L} = \sum_i(p_i - y_i)\,(1, x_i)^T$, $\vec{w} := \vec{w} - \eta\nabla\mathcal{L}$.
 
-**First step by hand** ($\mathbf{w} = 0$, all $p_i = 0.5$, averaged gradient, $\eta = 0.1$): $p_i - y_i = 0.5$ for 3 fails and $-0.5$ for 7 passes.
+**First step by hand** ($\vec{w} = 0$, all $p_i = 0.5$, averaged gradient, $\eta = 0.1$): $p_i - y_i = 0.5$ for 3 fails and $-0.5$ for 7 passes.
 - $g_0 = \frac{1}{10}(3\cdot0.5 - 7\cdot0.5) = -0.2$
 - $g_1 = \frac{1}{10}\big(0.5(1+2+3) - 0.5(4+\dots+10)\big) = \frac{1}{10}(3 - 24.5) = -2.15$
 - $w_0 = 0.02$, $w_1 = 0.215$; already $P(\text{pass} \mid 5) = \sigma(1.095) = 0.75$.
@@ -288,13 +288,13 @@ The probability crosses 0.5 between groups 5 and 6 ($x = 3.34/0.58 = 5.76$): the
       id: 'l4-logloss',
       type: 'numeric',
       source: { kind: 'slide', label: 'L4 p38–39' },
-      prompt: r`With labels $y \in \{-1, +1\}$, each example costs $\ln(1 + \exp(-y\,\mathbf{w}^T\mathbf{x}))$. Compute the cost for (a) $y = +1$, $\mathbf{w}^T\mathbf{x} = 2$ and (b) $y = -1$, $\mathbf{w}^T\mathbf{x} = 1$.`,
+      prompt: r`With labels $y \in \{-1, +1\}$, each example costs $\ln(1 + \exp(-y\,\vec{w}^T\vec{x}))$. Compute the cost for (a) $y = +1$, $\vec{w}^T\vec{x} = 2$ and (b) $y = -1$, $\vec{w}^T\vec{x} = 1$.`,
       fields: [
         { label: '(a)', answer: 0.1269, tol: 0.002 },
         { label: '(b)', answer: 1.3133, tol: 0.002 },
       ],
-      solution: r`- (a) $y\mathbf{w}^T\mathbf{x} = 2$ (correct and confident): $\ln(1 + e^{-2}) = \ln 1.1353 = 0.127$.
-- (b) $y\mathbf{w}^T\mathbf{x} = -1$ (wrong side): $\ln(1 + e^{1}) = \ln 3.718 = 1.313$.
+      solution: r`- (a) $y\vec{w}^T\vec{x} = 2$ (correct and confident): $\ln(1 + e^{-2}) = \ln 1.1353 = 0.127$.
+- (b) $y\vec{w}^T\vec{x} = -1$ (wrong side): $\ln(1 + e^{1}) = \ln 3.718 = 1.313$.
 
 Correct confident predictions cost almost nothing; mistakes cost roughly linearly in how wrong they are (L4 p39 plots).`,
     },
@@ -302,10 +302,10 @@ Correct confident predictions cost almost nothing; mistakes cost roughly linearl
       id: 'l4-softmax',
       type: 'numeric',
       source: { kind: 'slide', label: 'L4 p47' },
-      prompt: r`A 3-class conditional exponential (softmax) model gives scores $\mathbf{w}_k^T\mathbf{x} = 1, 2, 3$ for classes 1, 2, 3. Compute $p(\mathcal{C}_1 \mid \mathbf{x})$ and $p(\mathcal{C}_3 \mid \mathbf{x})$.`,
+      prompt: r`A 3-class conditional exponential (softmax) model gives scores $\vec{w}_k^T\vec{x} = 1, 2, 3$ for classes 1, 2, 3. Compute $p(\mathcal{C}_1 \mid \vec{x})$ and $p(\mathcal{C}_3 \mid \vec{x})$.`,
       fields: [
-        { label: r`$p(\mathcal{C}_1 \mid \mathbf{x})$`, answer: 0.0900, tol: 0.002 },
-        { label: r`$p(\mathcal{C}_3 \mid \mathbf{x})$`, answer: 0.6652, tol: 0.002 },
+        { label: r`$p(\mathcal{C}_1 \mid \vec{x})$`, answer: 0.0900, tol: 0.002 },
+        { label: r`$p(\mathcal{C}_3 \mid \vec{x})$`, answer: 0.6652, tol: 0.002 },
       ],
       solution: r`$e^1 = 2.718$, $e^2 = 7.389$, $e^3 = 20.086$; $Z = 30.193$.
 $p_1 = 2.718/30.193 = 0.090$, $p_2 = 0.245$, $p_3 = 20.086/30.193 = 0.665$.`,
@@ -375,7 +375,7 @@ $p_1 = 2.718/30.193 = 0.090$, $p_2 = 0.245$, $p_3 = 20.086/30.193 = 0.665$.`,
         'Each feature is Gaussian',
       ],
       answer: 1,
-      solution: r`**Conditional independence**: $p(\mathbf{x} \mid \mathcal{C}_k) = \prod_j p(x_j \mid \mathcal{C}_k)$. It is seldom true in practice (features are often correlated), but it makes estimation easy and classification accuracy is often good.`,
+      solution: r`**Conditional independence**: $p(\vec{x} \mid \mathcal{C}_k) = \prod_j p(x_j \mid \mathcal{C}_k)$. It is seldom true in practice (features are often correlated), but it makes estimation easy and classification accuracy is often good.`,
     },
     {
       id: 'l4-zero-count',
@@ -395,10 +395,10 @@ $p_1 = 2.718/30.193 = 0.090$, $p_2 = 0.245$, $p_3 = 20.086/30.193 = 0.665$.`,
       id: 'l4-boundary',
       type: 'mcq',
       source: { kind: 'slide', label: 'L4 p33–36' },
-      prompt: r`The decision boundary of logistic regression $P(y = 1 \mid \mathbf{x}) = \sigma(\mathbf{w}^T\mathbf{x} + b)$ is:`,
-      options: [r`$\mathbf{w}^T\mathbf{x} + b = 0.5$`, r`$\mathbf{w}^T\mathbf{x} + b = 0$, a hyperplane`, r`$\sigma(\mathbf{w}^T\mathbf{x} + b) = 0$`, 'A curve that depends on the data density'],
+      prompt: r`The decision boundary of logistic regression $P(y = 1 \mid \vec{x}) = \sigma(\vec{w}^T\vec{x} + b)$ is:`,
+      options: [r`$\vec{w}^T\vec{x} + b = 0.5$`, r`$\vec{w}^T\vec{x} + b = 0$, a hyperplane`, r`$\sigma(\vec{w}^T\vec{x} + b) = 0$`, 'A curve that depends on the data density'],
       answer: 1,
-      solution: r`$P = 0.5 \iff \sigma(z) = 0.5 \iff z = 0$. So the boundary is the **linear** set $\mathbf{w}^T\mathbf{x} + b = 0$ (equivalently the log-odds $\ln\frac{p(y=1|\mathbf{x})}{p(y=-1|\mathbf{x})} = 0$).`,
+      solution: r`$P = 0.5 \iff \sigma(z) = 0.5 \iff z = 0$. So the boundary is the **linear** set $\vec{w}^T\vec{x} + b = 0$ (equivalently the log-odds $\ln\frac{p(y=1|\vec{x})}{p(y=-1|\vec{x})} = 0$).`,
     },
     {
       id: 'l4-gen-disc',
@@ -412,7 +412,7 @@ $p_1 = 2.718/30.193 = 0.090$, $p_2 = 0.245$, $p_3 = 20.086/30.193 = 0.665$.`,
         'Both always give the same accuracy',
       ],
       answer: 1,
-      solution: r`L4 p50: discriminative (e.g. logistic regression) model $P(y \mid \mathbf{x})$, usually better and robust to noise, but slower to train. Generative (e.g. Naive Bayes) model $P(\mathbf{x} \mid y)$, fast and cheap, but sensitive to noise and usually worse.`,
+      solution: r`L4 p50: discriminative (e.g. logistic regression) model $P(y \mid \vec{x})$, usually better and robust to noise, but slower to train. Generative (e.g. Naive Bayes) model $P(\vec{x} \mid y)$, fast and cheap, but sensitive to noise and usually worse.`,
     },
     {
       id: 'l4-sigmoid-deriv',

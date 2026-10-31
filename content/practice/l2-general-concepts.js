@@ -61,12 +61,12 @@ Any other $\theta$ gives a smaller (more negative) value, e.g. $\theta = 0.5$: $
       solution: r`Let $N_k = \sum_n \mathbb{1}[y_n = k]$ be how many times face $k$ appeared, so $\sum_k N_k = N$.
 
 **1. Likelihood.** One roll: $P(y_n) = \theta_{y_n} = \prod_k\theta_k^{\mathbb{1}[y_n = k]}$. All rolls (independent):
-$$L(\boldsymbol\theta) = \prod_{n=1}^{N}\theta_{y_n} = \prod_{k=1}^{C}\theta_k^{N_k}.$$
+$$L(\vec{\theta}) = \prod_{n=1}^{N}\theta_{y_n} = \prod_{k=1}^{C}\theta_k^{N_k}.$$
 
-**2. Log-likelihood:** $\ell(\boldsymbol\theta) = \sum_{k=1}^{C}N_k\log\theta_k$.
+**2. Log-likelihood:** $\ell(\vec{\theta}) = \sum_{k=1}^{C}N_k\log\theta_k$.
 
 **3. Constraint** $\sum_k\theta_k = 1$ → Lagrangian:
-$$\mathcal{L}(\boldsymbol\theta, \lambda) = \sum_k N_k\log\theta_k + \lambda\Big(1 - \sum_k\theta_k\Big).$$
+$$\mathcal{L}(\vec{\theta}, \lambda) = \sum_k N_k\log\theta_k + \lambda\Big(1 - \sum_k\theta_k\Big).$$
 
 **4. Derivatives = 0:** $\dfrac{\partial\mathcal{L}}{\partial\theta_k} = \dfrac{N_k}{\theta_k} - \lambda = 0 \Rightarrow \theta_k = \dfrac{N_k}{\lambda}$.
 

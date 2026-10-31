@@ -40,14 +40,14 @@ These descriptions can overlap. A mixture model, for example, can give soft memb
 
 ## Distance and feature scaling
 
-A point is a list of numbers. For $\mathbf{x}=(x_1,x_2)$, $x_1$ is its first coordinate and $x_2$ its second. A **distance** is a number expressing how far apart two points are; smaller means closer (p14).
+A point is a list of numbers. For $\vec{x}=(x_1,x_2)$, $x_1$ is its first coordinate and $x_2$ its second. A **distance** is a number expressing how far apart two points are; smaller means closer (p14).
 
 :::formula @clustering-euclidean-distance Euclidean distance (p14)
-$$d_2(\mathbf{x},\mathbf{y})=\sqrt{\sum_{j=1}^{d}(x_j-y_j)^2}$$
+$$d_2(\vec{x},\vec{y})=\sqrt{\sum_{j=1}^{d}(x_j-y_j)^2}$$
 :::
 
 :::formula @clustering-manhattan-distance Manhattan distance (p14)
-$$d_1(\mathbf{x},\mathbf{y})=\sum_{j=1}^{d}|x_j-y_j|$$
+$$d_1(\vec{x},\vec{y})=\sum_{j=1}^{d}|x_j-y_j|$$
 :::
 
 :::read
@@ -66,7 +66,7 @@ $$d_1(\mathbf{x},\mathbf{y})=\sum_{j=1}^{d}|x_j-y_j|$$
 :::
 
 :::formula @clustering-minkowski-distance Minkowski distance (p14)
-$$d_p(\mathbf{x},\mathbf{y})=\left(\sum_{j=1}^{d}|x_j-y_j|^p\right)^{1/p},\qquad p\ge1$$
+$$d_p(\vec{x},\vec{y})=\left(\sum_{j=1}^{d}|x_j-y_j|^p\right)^{1/p},\qquad p\ge1$$
 :::
 
 :::read
@@ -74,18 +74,18 @@ This is one family containing Manhattan ($p=1$) and Euclidean ($p=2$). The outsi
 :::
 
 :::formula @clustering-cosine-similarity Cosine similarity and cosine distance (p14)
-$$\operatorname{cosim}(\mathbf{x},\mathbf{y})=\frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2},\qquad d_{\cos}=1-\operatorname{cosim}(\mathbf{x},\mathbf{y})$$
+$$\operatorname{cosim}(\vec{x},\vec{y})=\frac{\vec{x}^T\vec{y}}{\|\vec{x}\|_2\|\vec{y}\|_2},\qquad d_{\cos}=1-\operatorname{cosim}(\vec{x},\vec{y})$$
 :::
 
 :::read
-- The dot product $\mathbf{x}^T\mathbf{y}$ multiplies matching coordinates and adds them.
-- $\|\mathbf{x}\|_2$ is the Euclidean length of $\mathbf{x}$ from the origin. Both vectors must have nonzero length.
+- The dot product $\vec{x}^T\vec{y}$ multiplies matching coordinates and adds them.
+- $\|\vec{x}\|_2$ is the Euclidean length of $\vec{x}$ from the origin. Both vectors must have nonzero length.
 - Cosine compares **directions**. Similarity 1 means the same direction, 0 means perpendicular, and -1 means opposite directions.
 - The picture on p14 labels cosine as $D$, but the displayed cosine formula is a **similarity**: larger is more similar. Subtracting from 1 turns it into the usual cosine dissimilarity.
 :::
 
 :::example Cosine ignores overall size
-For $\mathbf{x}=(1,0)$ and $\mathbf{y}=(2,0)$, the dot product is 2 and the lengths are 1 and 2: similarity $2/(1\cdot2)=1$, cosine distance 0. Their Euclidean distance is nevertheless 1. For $(1,0)$ and $(0,1)$, similarity is 0 and cosine distance is 1.
+For $\vec{x}=(1,0)$ and $\vec{y}=(2,0)$, the dot product is 2 and the lengths are 1 and 2: similarity $2/(1\cdot2)=1$, cosine distance 0. Their Euclidean distance is nevertheless 1. For $(1,0)$ and $(0,1)$, similarity is 0 and cosine distance is 1.
 :::
 
 **Scale matters** (p12). If age changes by 1 year but income by 10,000 currency units, raw Euclidean distance can be dominated by income. Normalize or standardize appropriate numeric features before comparing them. For categories such as colours, arbitrary codes 1, 2, 3 do not automatically define meaningful distances. Mixed or binary features may need different representations or distances.
@@ -97,16 +97,16 @@ High dimensionality, dataset size, noise, outliers, cluster shape, unequal sizes
 Choose the number of groups $K$ **before** running ordinary K-means. Each group has a **centroid**, its coordinate-wise mean. Alternate between assigning points to their closest centroid and recomputing the centroids (p24-25).
 
 :::formula @clustering-centroid Centroid (p25)
-$$\boldsymbol{\mu}_k=\frac1{|C_k|}\sum_{\mathbf{x}\in C_k}\mathbf{x}$$
+$$\vec{\mu}_k=\frac1{|C_k|}\sum_{\vec{x}\in C_k}\vec{x}$$
 :::
 
 :::formula @clustering-sse Sum of squared errors, SSE (p25)
-$$\operatorname{SSE}=\sum_{k=1}^{K}\sum_{\mathbf{x}\in C_k}\|\mathbf{x}-\boldsymbol{\mu}_k\|_2^2$$
+$$\operatorname{SSE}=\sum_{k=1}^{K}\sum_{\vec{x}\in C_k}\|\vec{x}-\vec{\mu}_k\|_2^2$$
 :::
 
 :::read
 - $C_k$ is the set of points in cluster $k$; $|C_k|$ is the **number** of points in that set, not an absolute value of a coordinate.
-- $\boldsymbol{\mu}_k$ ("mu k") is its centroid. Add the first coordinates and divide by the number of points; do the same for every other coordinate.
+- $\vec{\mu}_k$ ("mu k") is its centroid. Add the first coordinates and divide by the number of points; do the same for every other coordinate.
 - The inner SSE sum adds squared point-to-centroid distances within one cluster; the outer sum adds the results across all $K$ clusters. **Smaller SSE is better for fixed $K$.** WCSS (within-cluster sum of squares) is another name used on p27.
 - A centroid can lie between data points; it need not be an observed point.
 :::
@@ -147,7 +147,7 @@ To do the slide exercise by hand: make a table with one row per point, its two L
 Different initial centroids can lead to different **local** optima (p28-30). Several restarts and retaining the lowest-SSE result can help. They do not prove that the global optimum has been found.
 
 :::formula @clustering-kmeanspp K-means++ seeding (p31)
-$$P(\text{choose }\mathbf{x})=\frac{D(\mathbf{x})^2}{\sum_{\mathbf{z}}D(\mathbf{z})^2},\qquad D(\mathbf{x})=\min_{\text{chosen centre }\boldsymbol{\mu}}\|\mathbf{x}-\boldsymbol{\mu}\|_2$$
+$$P(\text{choose }\vec{x})=\frac{D(\vec{x})^2}{\sum_{\vec{z}}D(\vec{z})^2},\qquad D(\vec{x})=\min_{\text{chosen centre }\vec{\mu}}\|\vec{x}-\vec{\mu}\|_2$$
 :::
 
 :::read
@@ -271,7 +271,7 @@ The p55 map distinguishes **internal** evaluation (data and predicted groups onl
 ### Davies-Bouldin index: smaller is better
 
 :::formula @clustering-davies-bouldin Standard centroid-based Davies-Bouldin definition (p56)
-$$S_i=\frac1{|C_i|}\sum_{\mathbf{x}\in C_i}\|\mathbf{x}-\boldsymbol{\mu}_i\|_2,\qquad M_{ij}=\|\boldsymbol{\mu}_i-\boldsymbol{\mu}_j\|_2$$
+$$S_i=\frac1{|C_i|}\sum_{\vec{x}\in C_i}\|\vec{x}-\vec{\mu}_i\|_2,\qquad M_{ij}=\|\vec{\mu}_i-\vec{\mu}_j\|_2$$
 $$R_{ij}=\frac{S_i+S_j}{M_{ij}},\qquad \operatorname{DB}=\frac1K\sum_{i=1}^{K}\max_{j\ne i}R_{ij}$$
 :::
 

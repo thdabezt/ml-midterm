@@ -25,14 +25,14 @@ export default {
 
 ${HW2_TABLE}
 
-**Normal equation** $X^TX\mathbf{w} = X^T\mathbf{y}$ (L3 p50), with
-$$X = \begin{bmatrix}1 & -1\\ 1 & 0\\ 1 & 1\\ 1 & 2\end{bmatrix},\quad X^TX = \begin{bmatrix}m & \sum x\\ \sum x & \sum x^2\end{bmatrix} = \begin{bmatrix}4 & 2\\ 2 & 6\end{bmatrix},\quad X^T\mathbf{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix} = \begin{bmatrix}11\\ 14\end{bmatrix}$$
+**Normal equation** $X^TX\vec{w} = X^T\vec{y}$ (L3 p50), with
+$$X = \begin{bmatrix}1 & -1\\ 1 & 0\\ 1 & 1\\ 1 & 2\end{bmatrix},\quad X^TX = \begin{bmatrix}m & \sum x\\ \sum x & \sum x^2\end{bmatrix} = \begin{bmatrix}4 & 2\\ 2 & 6\end{bmatrix},\quad X^T\vec{y} = \begin{bmatrix}\sum y\\ \sum xy\end{bmatrix} = \begin{bmatrix}11\\ 14\end{bmatrix}$$
 
 **Invert** (determinant $4\cdot6 - 2\cdot2 = 20$):
 $$(X^TX)^{-1} = \frac{1}{20}\begin{bmatrix}6 & -2\\ -2 & 4\end{bmatrix}$$
 
 **Multiply:**
-$$\mathbf{w} = \frac{1}{20}\begin{bmatrix}6\cdot11 - 2\cdot14\\ -2\cdot11 + 4\cdot14\end{bmatrix} = \frac{1}{20}\begin{bmatrix}38\\ 34\end{bmatrix} = \begin{bmatrix}1.9\\ 1.7\end{bmatrix}$$
+$$\vec{w} = \frac{1}{20}\begin{bmatrix}6\cdot11 - 2\cdot14\\ -2\cdot11 + 4\cdot14\end{bmatrix} = \frac{1}{20}\begin{bmatrix}38\\ 34\end{bmatrix} = \begin{bmatrix}1.9\\ 1.7\end{bmatrix}$$
 
 $$\boxed{h(x) = 1.9 + 1.7x}$$
 
@@ -80,42 +80,42 @@ $w_0 = 0.0275 + 0.01\cdot\frac{10.82}{4} = 0.05455$, $\quad w_1 = 0.035 + 0.01\c
 
 $$h(x) \approx 0.0546 + 0.0693x$$
 
-**Vector shortcut:** $\nabla J = \frac1m(X^TX\mathbf{w} - X^T\mathbf{y})$ with $X^TX = \begin{bmatrix}4&2\\2&6\end{bmatrix}$, $X^T\mathbf{y} = (11, 14)$ from part a. Epoch 2: $X^TX\mathbf{w} = (0.18, 0.265)$, so $\nabla J = \frac14(0.18 - 11,\ 0.265 - 14) = (-2.705, -3.43375)$ → same update.
+**Vector shortcut:** $\nabla J = \frac1m(X^TX\vec{w} - X^T\vec{y})$ with $X^TX = \begin{bmatrix}4&2\\2&6\end{bmatrix}$, $X^T\vec{y} = (11, 14)$ from part a. Epoch 2: $X^TX\vec{w} = (0.18, 0.265)$, so $\nabla J = \frac14(0.18 - 11,\ 0.265 - 14) = (-2.705, -3.43375)$ → same update.
 
-**Comment:** $J$ goes $5.625 \to 5.429 \to 5.239$: decreasing but far from the minimum 0.0375, and $\mathbf{w}$ is far from $(1.9, 1.7)$, because $\alpha = 0.01$ is small (the "too small" case on L3 p47). If your class drops the $\frac12$ (uses $\frac1m\sum$), every gradient doubles, so the weights become $(0.055, 0.07)$ after epoch 1 and $(0.1082, 0.13735)$ after epoch 2.`,
+**Comment:** $J$ goes $5.625 \to 5.429 \to 5.239$: decreasing but far from the minimum 0.0375, and $\vec{w}$ is far from $(1.9, 1.7)$, because $\alpha = 0.01$ is small (the "too small" case on L3 p47). If your class drops the $\frac12$ (uses $\frac1m\sum$), every gradient doubles, so the weights become $(0.055, 0.07)$ after epoch 1 and $(0.1082, 0.13735)$ after epoch 2.`,
     },
     {
       id: 'hw02-ex2',
       type: 'written',
       source: { kind: 'hw', label: 'HW02 Exercise 2 (ridge)', note: 'File HW03-ML.pdf' },
-      prompt: r`**Ridge regression.** Write the gradient-descent approach and the analytical solution for ridge regression in detail (L2 penalty added to $J(\mathbf{w})$, where $J$ is the MSE). Explain what happens when $\lambda \to \infty$.`,
+      prompt: r`**Ridge regression.** Write the gradient-descent approach and the analytical solution for ridge regression in detail (L2 penalty added to $J(\vec{w})$, where $J$ is the MSE). Explain what happens when $\lambda \to \infty$.`,
       solution: r`**Cost** (do not penalise the intercept $w_0$):
-$$J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_{i=1}^{m}(\mathbf{w}^T\mathbf{x}_i - y_i)^2 + \lambda\sum_{j=1}^{n}w_j^2\Big] = \frac{1}{2m}\Big[(X\mathbf{w} - \mathbf{y})^T(X\mathbf{w} - \mathbf{y}) + \lambda\,\mathbf{w}^TL\mathbf{w}\Big],\quad L = \mathrm{diag}(0, 1, \dots, 1)$$
+$$J(\vec{w}) = \frac{1}{2m}\Big[\sum_{i=1}^{m}(\vec{w}^T\vec{x}_i - y_i)^2 + \lambda\sum_{j=1}^{n}w_j^2\Big] = \frac{1}{2m}\Big[(X\vec{w} - \vec{y})^T(X\vec{w} - \vec{y}) + \lambda\,\vec{w}^TL\vec{w}\Big],\quad L = \mathrm{diag}(0, 1, \dots, 1)$$
 
 **Gradient.** The MSE part gives the usual terms; $\frac{\lambda}{2m}w_j^2$ differentiates to $\frac{\lambda}{m}w_j$:
-$$\frac{\partial J}{\partial w_0} = \frac1m\sum_i e_i,\qquad \frac{\partial J}{\partial w_j} = \frac1m\sum_i e_ix_{ij} + \frac{\lambda}{m}w_j\ (j \ge 1),\qquad e_i = \mathbf{w}^T\mathbf{x}_i - y_i$$
-Vector form: $\nabla J = \frac1m\big[X^T(X\mathbf{w} - \mathbf{y}) + \lambda L\mathbf{w}\big]$.
+$$\frac{\partial J}{\partial w_0} = \frac1m\sum_i e_i,\qquad \frac{\partial J}{\partial w_j} = \frac1m\sum_i e_ix_{ij} + \frac{\lambda}{m}w_j\ (j \ge 1),\qquad e_i = \vec{w}^T\vec{x}_i - y_i$$
+Vector form: $\nabla J = \frac1m\big[X^T(X\vec{w} - \vec{y}) + \lambda L\vec{w}\big]$.
 
 **Gradient descent:**
-- initialise $\mathbf{w}$ (e.g. zeros); repeat until $J$ decreases by less than $10^{-3}$:
+- initialise $\vec{w}$ (e.g. zeros); repeat until $J$ decreases by less than $10^{-3}$:
 - $w_0 := w_0 - \frac{\alpha}{m}\sum_i e_i$
 - $w_j := w_j\big(1 - \frac{\alpha\lambda}{m}\big) - \frac{\alpha}{m}\sum_i e_ix_{ij}$ for $j = 1..n$, all updated **simultaneously**.
 
 The factor $1 - \frac{\alpha\lambda}{m} < 1$ shrinks every weight each step (**weight decay**). Large $\lambda$ needs a smaller $\alpha$ (if $\frac{\alpha\lambda}{m} > 1$ the weights oscillate).
 
 **Analytical solution.** Set $\nabla J = 0$:
-$$X^TX\mathbf{w} + \lambda L\mathbf{w} = X^T\mathbf{y} \;\Rightarrow\; \boxed{\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y}}$$
+$$X^TX\vec{w} + \lambda L\vec{w} = X^T\vec{y} \;\Rightarrow\; \boxed{\vec{w} = (X^TX + \lambda L)^{-1}X^T\vec{y}}$$
 ($\lambda = 0$ gives back the normal equation; penalising $w_0$ too replaces $L$ by $I$.) For $\lambda > 0$ the matrix is always invertible, even when $X^TX$ is singular (e.g. L3 p52 with $m < n + 1$).
 
-**When $\lambda \to \infty$:** any non-zero $w_j$ ($j \ge 1$) costs $\frac{\lambda}{2m}w_j^2 \to \infty$, so all $w_j \to 0$. The model becomes $h(\mathbf{x}) = w_0$, and minimising $\sum(w_0 - y_i)^2$ gives $w_0 = \bar y$: a **flat line at the mean** (→ 0 if $w_0$ is penalised too). The model ignores its inputs: **underfitting** (high bias, low variance). Numerically on the Exercise 1 data: $w_1 = \frac{17}{10 + 2\lambda}$, giving $1.7, 0.85, 0.34, 0.081$ for $\lambda = 0, 5, 20, 100$, and $w_0 \to \bar y = 2.75$. Choose $\lambda$ by cross-validation.`,
+**When $\lambda \to \infty$:** any non-zero $w_j$ ($j \ge 1$) costs $\frac{\lambda}{2m}w_j^2 \to \infty$, so all $w_j \to 0$. The model becomes $h(\vec{x}) = w_0$, and minimising $\sum(w_0 - y_i)^2$ gives $w_0 = \bar y$: a **flat line at the mean** (→ 0 if $w_0$ is penalised too). The model ignores its inputs: **underfitting** (high bias, low variance). Numerically on the Exercise 1 data: $w_1 = \frac{17}{10 + 2\lambda}$, giving $1.7, 0.85, 0.34, 0.081$ for $\lambda = 0, 5, 20, 100$, and $w_0 \to \bar y = 2.75$. Choose $\lambda$ by cross-validation.`,
     },
     {
       id: 'hw02-ex3',
       type: 'numeric',
       source: { kind: 'hw', label: 'HW02 Exercise 3 (multi-output)', note: 'File HW03-ML.pdf' },
-      prompt: r`Linear regression with 2-dimensional responses $\mathbf{y}_i \in \mathbb{R}^2$ and binary inputs $x_i \in \{0, 1\}$:
+      prompt: r`Linear regression with 2-dimensional responses $\vec{y}_i \in \mathbb{R}^2$ and binary inputs $x_i \in \{0, 1\}$:
 
-| $x$ | $\mathbf{y}$ |
+| $x$ | $\vec{y}$ |
 |---|---|
 | 0 | $(-1, -1)^T$ |
 | 0 | $(-1, -2)^T$ |
@@ -151,16 +151,16 @@ Each row of $W$ is the **average response** of its group, because $\phi$ is one-
       source: { kind: 'hw', label: 'HW04 Exercise 1' },
       prompt: r`A two-class dataset has feature matrix and labels
 $$X = \begin{bmatrix}1 & 2\\ 1 & 3\\ 1 & 4\\ 1 & 5\end{bmatrix},\qquad y = \begin{bmatrix}0\\0\\1\\1\end{bmatrix}.$$
-Use the **normal equation** to compute the weight vector $\mathbf{w}$ for the hypothesis $h(X) = X\mathbf{w}$.`,
+Use the **normal equation** to compute the weight vector $\vec{w}$ for the hypothesis $h(X) = X\vec{w}$.`,
       fields: [
         { label: r`$w_0$ (intercept)`, answer: -0.9, tol: 0.005 },
         { label: r`$w_1$`, answer: 0.4, tol: 0.005 },
       ],
       solution: r`The first column is already the column of 1s.
 
-1. $X^TX = \begin{bmatrix}4 & 2+3+4+5\\ 14 & 4+9+16+25\end{bmatrix} = \begin{bmatrix}4 & 14\\ 14 & 54\end{bmatrix}$, $\quad X^T\mathbf{y} = \begin{bmatrix}0+0+1+1\\ 0+0+4+5\end{bmatrix} = \begin{bmatrix}2\\ 9\end{bmatrix}$.
+1. $X^TX = \begin{bmatrix}4 & 2+3+4+5\\ 14 & 4+9+16+25\end{bmatrix} = \begin{bmatrix}4 & 14\\ 14 & 54\end{bmatrix}$, $\quad X^T\vec{y} = \begin{bmatrix}0+0+1+1\\ 0+0+4+5\end{bmatrix} = \begin{bmatrix}2\\ 9\end{bmatrix}$.
 2. $\det = 4\cdot54 - 14^2 = 216 - 196 = 20$, so $(X^TX)^{-1} = \frac{1}{20}\begin{bmatrix}54 & -14\\ -14 & 4\end{bmatrix}$.
-3. $\mathbf{w} = \frac{1}{20}\begin{bmatrix}54\cdot2 - 14\cdot9\\ -14\cdot2 + 4\cdot9\end{bmatrix} = \frac{1}{20}\begin{bmatrix}-18\\ 8\end{bmatrix} = \begin{bmatrix}-0.9\\ 0.4\end{bmatrix}$.
+3. $\vec{w} = \frac{1}{20}\begin{bmatrix}54\cdot2 - 14\cdot9\\ -14\cdot2 + 4\cdot9\end{bmatrix} = \frac{1}{20}\begin{bmatrix}-18\\ 8\end{bmatrix} = \begin{bmatrix}-0.9\\ 0.4\end{bmatrix}$.
 
 $$\boxed{h(x) = -0.9 + 0.4x}$$
 
@@ -178,8 +178,8 @@ $$\boxed{h(x) = -0.9 + 0.4x}$$
       ],
       solution: r`Sums: $m = 4$, $\sum x = 12$, $\sum x^2 = 1 + 4 + 16 + 25 = 46$, $\sum y = 12$, $\sum xy = 1 + 6 + 12 + 25 = 44$.
 
-$X^TX = \begin{bmatrix}4 & 12\\ 12 & 46\end{bmatrix}$, $\det = 184 - 144 = 40$, $X^T\mathbf{y} = (12, 44)^T$.
-$$\mathbf{w} = \frac{1}{40}\begin{bmatrix}46\cdot12 - 12\cdot44\\ -12\cdot12 + 4\cdot44\end{bmatrix} = \frac{1}{40}\begin{bmatrix}24\\ 32\end{bmatrix} = \begin{bmatrix}0.6\\ 0.8\end{bmatrix}$$
+$X^TX = \begin{bmatrix}4 & 12\\ 12 & 46\end{bmatrix}$, $\det = 184 - 144 = 40$, $X^T\vec{y} = (12, 44)^T$.
+$$\vec{w} = \frac{1}{40}\begin{bmatrix}46\cdot12 - 12\cdot44\\ -12\cdot12 + 4\cdot44\end{bmatrix} = \frac{1}{40}\begin{bmatrix}24\\ 32\end{bmatrix} = \begin{bmatrix}0.6\\ 0.8\end{bmatrix}$$
 Shortcut: $w_1 = \frac{4\cdot44 - 12\cdot12}{4\cdot46 - 144} = \frac{32}{40} = 0.8$, $w_0 = \bar y - w_1\bar x = 3 - 2.4 = 0.6$.`,
     },
     {
@@ -193,7 +193,7 @@ Shortcut: $w_1 = \frac{4\cdot44 - 12\cdot12}{4\cdot46 - 144} = \frac{32}{40} = 0
         { label: r`$w_0$ after epoch 2`, answer: 0.40375, tol: 0.0005 },
         { label: r`$w_1$ after epoch 2`, answer: 0.74625, tol: 0.0005 },
       ],
-      solution: r`**Epoch 1** (all $h = 0$): errors $e = (-1, -3, -2, -4)$, $\sum e = -10$; $e\cdot x = (0, -3, -4, -12)$, $\sum ex = -19$.
+      solution: r`**Epoch 1** (all $h = 0$): errors $\vec{e} = (-1, -3, -2, -4)$, $\sum e = -10$; elementwise products $(e_ix_i)_i = (0, -3, -4, -12)$, $\sum ex = -19$.
 $w_0 = 0 - 0.1\cdot\frac{-10}{4} = 0.25$, $w_1 = 0 - 0.1\cdot\frac{-19}{4} = 0.475$.
 
 **Epoch 2** ($h = 0.25 + 0.475x$): predictions $0.25, 0.725, 1.2, 1.675$; errors $-0.75, -2.275, -0.8, -2.325$, $\sum e = -6.15$; $\sum ex = 0 - 2.275 - 1.6 - 6.975 = -10.85$.
@@ -247,29 +247,29 @@ Both negative → GD will **increase** both weights (towards 1.9 and 1.7).`,
       id: 'l3-ridge-v1',
       type: 'numeric',
       source: { kind: 'variant', label: 'like HW02 Ex 2' },
-      prompt: r`Ridge regression on the HW02 data $\{(-1, 0), (0, 2), (1, 4), (2, 5)\}$ with $\lambda = 5$, penalising only $w_1$: $\mathbf{w} = (X^TX + \lambda L)^{-1}X^T\mathbf{y}$, $L = \mathrm{diag}(0, 1)$. Find $w_0$ and $w_1$.`,
+      prompt: r`Ridge regression on the HW02 data $\{(-1, 0), (0, 2), (1, 4), (2, 5)\}$ with $\lambda = 5$, penalising only $w_1$: $\vec{w} = (X^TX + \lambda L)^{-1}X^T\vec{y}$, $L = \mathrm{diag}(0, 1)$. Find $w_0$ and $w_1$.`,
       fields: [
         { label: r`$w_0$`, answer: 2.325, tol: 0.003 },
         { label: r`$w_1$`, answer: 0.85, tol: 0.003 },
       ],
-      solution: r`$X^TX + 5L = \begin{bmatrix}4 & 2\\ 2 & 6 + 5\end{bmatrix} = \begin{bmatrix}4 & 2\\ 2 & 11\end{bmatrix}$, $\det = 44 - 4 = 40$, $X^T\mathbf{y} = (11, 14)$.
-$$\mathbf{w} = \frac{1}{40}\begin{bmatrix}11\cdot11 - 2\cdot14\\ -2\cdot11 + 4\cdot14\end{bmatrix} = \frac{1}{40}\begin{bmatrix}93\\ 34\end{bmatrix} = \begin{bmatrix}2.325\\ 0.85\end{bmatrix}$$
+      solution: r`$X^TX + 5L = \begin{bmatrix}4 & 2\\ 2 & 6 + 5\end{bmatrix} = \begin{bmatrix}4 & 2\\ 2 & 11\end{bmatrix}$, $\det = 44 - 4 = 40$, $X^T\vec{y} = (11, 14)$.
+$$\vec{w} = \frac{1}{40}\begin{bmatrix}11\cdot11 - 2\cdot14\\ -2\cdot11 + 4\cdot14\end{bmatrix} = \frac{1}{40}\begin{bmatrix}93\\ 34\end{bmatrix} = \begin{bmatrix}2.325\\ 0.85\end{bmatrix}$$
 Compared with $\lambda = 0$ ($w_1 = 1.7$) the slope is halved and the intercept moves towards $\bar y = 2.75$.`,
     },
     {
       id: 'l3-predict-multi',
       type: 'numeric',
       source: { kind: 'slide', label: 'L3 p42–43' },
-      prompt: r`A multivariate model is $h(\mathbf{x}) = 80 + 0.1x_1 + 20x_2 - 5x_3 - 1x_4$ with $x_1$ = size, $x_2$ = bedrooms, $x_3$ = floors, $x_4$ = age. Predict the price (in \$1000s) of the first house on L3 p42: size 2104, 5 bedrooms, 1 floor, 45 years.`,
-      fields: [{ label: r`$h(\mathbf{x})$`, answer: 340.4, tol: 0.05 }],
-      solution: r`$h = \mathbf{w}^T\mathbf{x}$ with $x_0 = 1$: $80 + 0.1(2104) + 20(5) - 5(1) - 1(45) = 80 + 210.4 + 100 - 5 - 45 = 340.4$.`,
+      prompt: r`A multivariate model is $h(\vec{x}) = 80 + 0.1x_1 + 20x_2 - 5x_3 - 1x_4$ with $x_1$ = size, $x_2$ = bedrooms, $x_3$ = floors, $x_4$ = age. Predict the price (in \$1000s) of the first house on L3 p42: size 2104, 5 bedrooms, 1 floor, 45 years.`,
+      fields: [{ label: r`$h(\vec{x})$`, answer: 340.4, tol: 0.05 }],
+      solution: r`$h = \vec{w}^T\vec{x}$ with $x_0 = 1$: $80 + 0.1(2104) + 20(5) - 5(1) - 1(45) = 80 + 210.4 + 100 - 5 - 45 = 340.4$.`,
     },
     // ---------- concept MCQs ----------
     {
       id: 'l3-lr-large',
       type: 'mcq',
       source: { kind: 'slide', label: 'L3 p46–47' },
-      prompt: r`While running gradient descent, $J(\mathbf{w})$ goes **up** from one iteration to the next and keeps growing. What is the most likely cause and fix?`,
+      prompt: r`While running gradient descent, $J(\vec{w})$ goes **up** from one iteration to the next and keeps growing. What is the most likely cause and fix?`,
       options: ['α is too small; increase it', 'α is too large; decrease it', 'Too few iterations; run longer', 'The normal equation must be used instead'],
       answer: 1,
       solution: r`A too-large learning rate overshoots the minimum and can diverge (middle plot of L3 p47). For small enough $\alpha$, $J$ decreases every iteration (p46). Too small an $\alpha$ only makes convergence **slow**, never increasing.`,
@@ -309,7 +309,7 @@ Compared with $\lambda = 0$ ($w_1 = 1.7$) the slope is halved and the intercept 
       prompt: r`With $m = 100$ examples and $n = 5$ features (plus $x_0 = 1$), what are the sizes of $X$, $X^TX$ and the pseudo-inverse $X^\dagger$?`,
       options: [r`$100\times5$, $5\times5$, $5\times100$`, r`$100\times6$, $6\times6$, $6\times100$`, r`$6\times100$, $100\times100$, $100\times6$`, r`$100\times6$, $100\times100$, $6\times6$`],
       answer: 1,
-      solution: r`$X$ is $m\times(n+1) = 100\times6$. $X^TX$ is $(n+1)\times(n+1) = 6\times6$. $X^\dagger = (X^TX)^{-1}X^T$ is $(n+1)\times m = 6\times100$, so $\mathbf{w} = X^\dagger\mathbf{y}$ is $6\times1$.`,
+      solution: r`$X$ is $m\times(n+1) = 100\times6$. $X^TX$ is $(n+1)\times(n+1) = 6\times6$. $X^\dagger = (X^TX)^{-1}X^T$ is $(n+1)\times m = 6\times100$, so $\vec{w} = X^\dagger\vec{y}$ is $6\times1$.`,
     },
     {
       id: 'l3-singular',
@@ -317,8 +317,8 @@ Compared with $\lambda = 0$ ($w_1 = 1.7$) the slope is halved and the intercept 
       source: { kind: 'slide', label: 'L3 p52' },
       prompt: r`The normal-equation example on L3 p52 has 4 houses and 4 features plus an intercept. What goes wrong?`,
       options: [
-        r`Nothing, $\mathbf{w}$ is unique`,
-        r`$X^TX$ ($5\times5$) is singular because $m = 4 < n + 1 = 5$, so $(X^TX)^{-1}$ does not exist and infinitely many $\mathbf{w}$ fit perfectly`,
+        r`Nothing, $\vec{w}$ is unique`,
+        r`$X^TX$ ($5\times5$) is singular because $m = 4 < n + 1 = 5$, so $(X^TX)^{-1}$ does not exist and infinitely many $\vec{w}$ fit perfectly`,
         'Gradient descent diverges',
         'The cost function is not convex',
       ],
@@ -332,12 +332,12 @@ Compared with $\lambda = 0$ ($w_1 = 1.7$) the slope is halved and the intercept 
       prompt: r`Why do we define $x_0 = 1$ in multivariate linear regression?`,
       options: [
         'To normalise the features',
-        r`So that the intercept $w_0$ fits into the dot product: $h(\mathbf{x}) = \sum_{j=0}^n w_jx_j = \mathbf{w}^T\mathbf{x}$`,
+        r`So that the intercept $w_0$ fits into the dot product: $h(\vec{x}) = \sum_{j=0}^n w_jx_j = \vec{w}^T\vec{x}$`,
         'To avoid division by zero',
         'Because the first feature is always 1 in real data',
       ],
       answer: 1,
-      solution: r`$w_0\cdot1 + w_1x_1 + \dots = \mathbf{w}^T\mathbf{x}$ with $\mathbf{x}, \mathbf{w} \in \mathbb{R}^{n+1}$. In the matrix $X$ it is the column of ones.`,
+      solution: r`$w_0\cdot1 + w_1x_1 + \dots = \vec{w}^T\vec{x}$ with $\vec{x}, \vec{w} \in \mathbb{R}^{n+1}$. In the matrix $X$ it is the column of ones.`,
     },
     {
       id: 'l3-batch',
@@ -354,13 +354,13 @@ Compared with $\lambda = 0$ ($w_1 = 1.7$) the slope is halved and the intercept 
       source: { kind: 'slide', label: 'L3 p46' },
       prompt: r`Which automatic convergence test is suggested on the slides?`,
       options: [
-        r`Stop when $J(\mathbf{w}) = 0$`,
-        r`Stop when $J(\mathbf{w})$ decreases by less than $10^{-3}$ in one iteration`,
+        r`Stop when $J(\vec{w}) = 0$`,
+        r`Stop when $J(\vec{w})$ decreases by less than $10^{-3}$ in one iteration`,
         'Stop after exactly 100 iterations',
         'Stop when the learning rate reaches 0',
       ],
       answer: 1,
-      solution: r`"Declare convergence if $J(\mathbf{w})$ decreases by less than $10^{-3}$ in one iteration." $J$ rarely reaches exactly 0 on real data.`,
+      solution: r`"Declare convergence if $J(\vec{w})$ decreases by less than $10^{-3}$ in one iteration." $J$ rarely reaches exactly 0 on real data.`,
     },
     {
       id: 'l3-hypothesis-space',

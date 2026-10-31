@@ -92,7 +92,7 @@ export default {
       prompt: r`A photo can be tagged with several labels at once (e.g. "beach", "dog", "sunset"). This setting is called:`,
       options: ['Binary classification', 'Multiclass classification', 'Multi-label classification', 'Regression'],
       answer: 2,
-      solution: r`When one input $\mathbf{x}_i$ may have **multiple labels**, it is multi-label classification (L1 p25). Multiclass means exactly one label out of $C > 2$.`,
+      solution: r`When one input $\vec{x}_i$ may have **multiple labels**, it is multi-label classification (L1 p25). Multiclass means exactly one label out of $C > 2$.`,
     },
     {
       id: 'l1-dimred',
@@ -128,9 +128,9 @@ export default {
       type: 'mcq',
       source: { kind: 'slide', label: 'L1 p24, p29' },
       prompt: r`In probabilistic terms, supervised learning models ______ while unsupervised learning models ______.`,
-      options: [r`$p(\mathbf{x}_i \mid \theta)$; $p(y \mid \mathbf{x}, D, \theta)$`, r`$p(y \mid \mathbf{x}, D, \theta)$; $p(\mathbf{x}_i \mid \theta)$`, r`$p(\theta)$; $p(y)$`, r`$p(y)$; $p(\mathbf{x})$ only`],
+      options: [r`$p(\vec{x}_i \mid \theta)$; $p(y \mid \vec{x}, D, \theta)$`, r`$p(y \mid \vec{x}, D, \theta)$; $p(\vec{x}_i \mid \theta)$`, r`$p(\theta)$; $p(y)$`, r`$p(y)$; $p(\vec{x})$ only`],
       answer: 1,
-      solution: r`Supervised: predict the response, $p(y \mid \mathbf{x}, D, \theta)$ (L1 p24). Unsupervised: no response variable, learn a density $p(\mathbf{x}_i \mid \theta)$ (L1 p29).`,
+      solution: r`Supervised: predict the response, $p(y \mid \vec{x}, D, \theta)$ (L1 p24). Unsupervised: no response variable, learn a density $p(\vec{x}_i \mid \theta)$ (L1 p29).`,
     },
     {
       id: 'l1-stats-ml',

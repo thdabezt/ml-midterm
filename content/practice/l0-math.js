@@ -8,7 +8,7 @@ export default {
       id: 'm-sum',
       type: 'numeric',
       source: { kind: 'slide', label: 'Math toolkit · sums' },
-      prompt: r`Data $x = (-1, 0, 1, 2)$ and $y = (0, 2, 4, 5)$ (the Homework 2 dataset). Compute $\sum x_i^2$ and $\sum x_iy_i$.`,
+      prompt: r`Data $\vec{x} = (-1, 0, 1, 2)$ and $\vec{y} = (0, 2, 4, 5)$ (the Homework 2 dataset). Compute $\sum x_i^2$ and $\sum x_iy_i$.`,
       fields: [
         { label: r`$\sum x_i^2$`, answer: 6, tol: 0.001 },
         { label: r`$\sum x_iy_i$`, answer: 14, tol: 0.001 },
@@ -93,11 +93,11 @@ This exact matrix appears in Homework 4 Exercise 1.`,
       id: 'm-norms',
       type: 'numeric',
       source: { kind: 'slide', label: 'Math toolkit · norms' },
-      prompt: r`For $\mathbf{w} = (3, -4)$ compute $\lVert\mathbf{w}\rVert_2$, $\lVert\mathbf{w}\rVert_2^2$ and $\lVert\mathbf{w}\rVert_1$.`,
+      prompt: r`For $\vec{w} = (3, -4)$ compute $\lVert\vec{w}\rVert_2$, $\lVert\vec{w}\rVert_2^2$ and $\lVert\vec{w}\rVert_1$.`,
       fields: [
-        { label: r`$\lVert\mathbf{w}\rVert_2$`, answer: 5, tol: 0.001 },
-        { label: r`$\lVert\mathbf{w}\rVert_2^2$`, answer: 25, tol: 0.001 },
-        { label: r`$\lVert\mathbf{w}\rVert_1$`, answer: 7, tol: 0.001 },
+        { label: r`$\lVert\vec{w}\rVert_2$`, answer: 5, tol: 0.001 },
+        { label: r`$\lVert\vec{w}\rVert_2^2$`, answer: 25, tol: 0.001 },
+        { label: r`$\lVert\vec{w}\rVert_1$`, answer: 7, tol: 0.001 },
       ],
       solution: r`- L2: $\sqrt{3^2 + (-4)^2} = \sqrt{25} = 5$.
 - Squared L2: $25$ (the ridge penalty uses this).
