@@ -260,6 +260,43 @@ button.priority-badge { cursor: pointer; }
 .box-exam .box-kind { color: var(--warn); }
 .box .box { box-shadow: none; }
 
+/* ---------- interactive lesson calculations ---------- */
+.lesson-visual { padding: 1rem; border-left-color: var(--accent); min-width: 0; }
+.lesson-visual h3 { margin: 0 0 .45rem; }
+.lesson-visual > p { margin: .5rem 0 .9rem; }
+.visual-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .8rem 1rem; margin: 1rem 0; }
+.visual-controls label { display: block; min-width: 0; font-size: .88rem; font-weight: 600; }
+.visual-controls input, .visual-controls select { display: block; width: 100%; min-width: 0; margin-top: .35rem; }
+.visual-controls input[type="number"], .visual-controls select { border: 1px solid var(--line); background: var(--bg); padding: .4rem .5rem; border-radius: 5px; font-size: 1rem; }
+.visual-controls input[type="range"] { accent-color: var(--accent); min-height: 28px; }
+.visual-controls output { font-variant-numeric: tabular-nums; font-weight: 400; }
+.visual-actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .75rem 0; }
+.visual-chart { width: 100%; min-width: 0; margin: .75rem 0; }
+.visual-plot { display: block; max-width: 100%; }
+.visual-plot text { fill: var(--ink-2); font: 12px var(--sans); }
+.visual-results { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; margin: .8rem 0; }
+.visual-results > div, .visual-results > dl { min-width: 110px; margin: 0; }
+.visual-results span, .visual-results dt { display: block; font-size: .8rem; color: var(--ink-2); }
+.visual-results strong, .visual-results dd { display: block; margin: .15rem 0 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.visual-equation { font-family: var(--mono); font-size: .85rem; line-height: 1.8; overflow-wrap: anywhere; }
+.visual-table-wrap { max-width: 100%; overflow-x: auto; }
+.visual-table { width: 100%; margin: .8rem 0; font-size: .85rem; }
+.visual-table th, .visual-table td { padding: .35rem .45rem; font-variant-numeric: tabular-nums; }
+.visual-note { font-size: .85rem; color: var(--ink-2); }
+.visual-distributions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0; font-size: .82rem; }
+.visual-prob-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) 32px; gap: .4rem; align-items: center; margin-top: .4rem; }
+.visual-prob-track { display: block; height: 12px; background: var(--panel-2); border-radius: 2px; overflow: hidden; }
+.visual-prob-track > span { display: block; height: 100%; }
+@media (max-width: 520px) {
+  .lesson-visual { padding: .8rem; }
+  .visual-controls, .visual-distributions { grid-template-columns: minmax(0, 1fr); }
+  .visual-actions .btn { min-height: 44px; }
+}
+@media print {
+  .lesson-visual { break-inside: avoid; box-shadow: none; }
+  .visual-controls, .visual-actions { display: none; }
+}
+
 /* ---------- practice ---------- */
 .toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1rem 0 1.4rem; }
 .chip-btn {

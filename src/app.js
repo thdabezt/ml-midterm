@@ -5,6 +5,8 @@
 
   const DATA = window.ML_DATA;
   const GEN = window.MLGen;
+  const VIS = window.MLVisuals;
+  let cleanupVisuals = () => {};
   const main = document.getElementById('main');
   const lectures = DATA.lectures;
   const questions = DATA.questions;
@@ -566,12 +568,14 @@
     else out = notFound();
     if (exam && !exam.submitted && a !== 'exam') { /* keep exam state; timer keeps running */ }
     const page = typeof out === 'string' ? { html: out } : out;
+    cleanupVisuals();
     main.innerHTML = page.html;
     const key = a === 'theory' && (b === 'math-toolkit' || b === 'formula-sheet') ? `theory/${b}` : (a || 'home');
     $$('.sidebar nav a').forEach((el) => el.classList.toggle('active', el.dataset.nav === key));
     const title = $('h1', main);
     document.title = title && a ? `${title.textContent} · ML Studyroom` : 'ML Studyroom';
     if (!(a === 'theory' && c)) window.scrollTo(0, 0);
+    cleanupVisuals = VIS.mountVisuals(main);
     if (page.after) page.after();
     closeMenu();
   }

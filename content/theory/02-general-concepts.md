@@ -221,6 +221,8 @@ $P = (0.5, 0.5)$, $Q = (0.9, 0.1)$, base-2 logs.
 If $P(x) > 0$ somewhere that $Q(x) = 0$, the term $P(x)\log\frac{P(x)}{0}$ is infinite. So $D_{KL}(P\|Q) = +\infty$: KL "explodes" when the distributions do not overlap.
 :::
 
+{{visual:information}}
+
 :::formula @prob-mutual-information Mutual information (p45)
 $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y)$$
 :::

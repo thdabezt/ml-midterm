@@ -99,7 +99,7 @@ async function build() {
   writeFileSync(join(dist, 'data.js'), `window.ML_DATA = ${JSON.stringify(data)};\n`);
   const html = readFileSync(join(root, 'src', 'index.html'), 'utf8').replaceAll('__VERSION__', pkg.version);
   writeFileSync(join(dist, 'index.html'), html);
-  for (const f of ['styles.css', 'app.js', 'generators.js', 'favicon.svg']) copyFileSync(join(root, 'src', f), join(dist, f));
+  for (const f of ['styles.css', 'app.js', 'generators.js', 'visuals.js', 'visuals-regression.js', 'visuals-models.js', 'visuals-clustering.js', 'favicon.svg']) copyFileSync(join(root, 'src', f), join(dist, f));
   const katexDist = join(root, 'node_modules', 'katex', 'dist');
   mkdirSync(join(dist, 'katex'), { recursive: true });
   copyFileSync(join(katexDist, 'katex.min.js'), join(dist, 'katex', 'katex.min.js'));

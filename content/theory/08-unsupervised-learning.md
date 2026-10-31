@@ -130,6 +130,8 @@ One-dimensional data: $0,2,8,10$. Let $K=2$ and initial centres be 0 and 10.
 Final SSE $=(0-1)^2+(2-1)^2+(8-9)^2+(10-9)^2=4$. In two dimensions, the centroid of $(0,2)$ and $(2,4)$ is $((0+2)/2,(2+4)/2)=(1,3)$.
 :::
 
+{{visual:kmeans}}
+
 ### The L1 exercise on p26 and p51
 
 :::note State the convention before calculating
@@ -239,6 +241,8 @@ Points $A=0$, $B=0.5$, $C=1$, $D=1.8$, $E=5$. Use distance $|x-y|$, Eps $=1$, Mi
 
 The connected core points A, B, C form one cluster; attach D. Final result: cluster $\{A,B,C,D\}$ and noise E.
 :::
+
+{{visual:dbscan}}
 
 **Choosing parameters** (p47): sort each point's distance to its chosen $k$-th nearest neighbour and look for a bend in the distance plot. Dense regions have small such distances; isolated points have large ones. Match the neighbour-count convention to whether self is included. Increasing Eps generally expands neighbourhoods; increasing MinPts makes the core criterion stricter.
 

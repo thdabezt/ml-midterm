@@ -1,6 +1,6 @@
 # ML Studyroom
 
-Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures 1–8. Current version: **1.3.0**.
+Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures 1–8. Current version: **1.4.0**.
 
 **Website:** https://thdabezt.github.io/ml-midterm/
 
@@ -11,6 +11,7 @@ Study site for the INT3405 Machine Learning midterm (VNU-UET), covering Lectures
 - One page per lecture (L1 Introduction, L2 General concepts, L3 Linear regression, L4 Bayes / Naive Bayes / logistic regression, L5 Decision trees, L6 SVM, L7 Feature selection & model optimization, L8 Unsupervised learning). Every formula has a "how to read it" box (symbol by symbol) and a "how to compute it" box with a small worked example. Slide page numbers are cited so you can cross-check. L8 covers clustering types, distances, k-means and its variants, HAC/linkages, DBSCAN, and Davies–Bouldin, Dunn and silhouette scores.
 - **Formula sheet**: a printable reference grouped by lecture, including clustering and the HW07 Lasso and majority-vote formulas.
 - **Formula priorities** on the lesson definitions and formula-sheet rows: **P1** = used in homework and supports other homework or follow-on calculations; **P2** = used in a standalone homework task without a follow-on dependency identified; **P3** = not used in the supplied homework. Each lesson formula gives its reason; formula-sheet badges reveal that same reason when selected. Grades use original HW01–HW08 tasks and their required calculations, with slide-only examples and added variants kept separate.
+- **Seven interactive visuals** inside the relevant lessons: entropy/cross-entropy/KL with adjustable P and Q and bits/nats; line fitting, residuals and batch gradient descent; sigmoid and binary cross-entropy; information gain on the HW07 table; SVM distance/margin geometry; and HW08 k-means and DBSCAN. Pictures, numeric substitutions and result tables update together. All run locally in the browser without chart-library dependencies.
 
 **Practice**
 - **209 questions**: all 20 supplied homework exercises restated and solved step by step (HW01, HW02 = `HW03-ML.pdf`, HW04 including the shorter `HW4 (1).pdf` variant, HW05, HW06 = `HW_week06.pdf`, HW07 = `HW_07.pdf`, HW08 = `HW_Cluster.pdf`), 48 practice variants, the in-slide quizzes, and multiple-choice questions on the slide content. L8 has 27 questions, including HW08's k-means/DBSCAN exercises and the three-iteration clustering and DBSCAN slide exercises.
@@ -51,6 +52,7 @@ content/theory/*.md      lesson pages (Markdown + LaTeX, ":::formula" style boxe
 content/practice/*.js    question bank, one file per lecture
 content/formula-priorities.json  shared formula grades, reasons and homework references
 src/                     page shell, styles, app (router, practice, exam), drill generators
+src/visuals*.js          interactive lesson panels and independently tested numerical models
 tools/                   build, render (Markdown + KaTeX), local server
 tests/                   answer and generator checks
 ```

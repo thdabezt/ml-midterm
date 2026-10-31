@@ -44,6 +44,21 @@ const BLOCK_TYPES = {
   note: 'Note',
 };
 
+export const LESSON_VISUALS = {
+  information: 'Entropy, cross-entropy and KL',
+  regression: 'Regression predictions, residuals and gradient descent',
+  logistic: 'Sigmoid probability and binary cross-entropy',
+  'information-gain': 'Information gain from the homework table',
+  'svm-geometry': 'SVM score, distance and margin',
+  kmeans: 'K-means assignments and centroid updates',
+  dbscan: 'DBSCAN neighbourhoods and clusters',
+};
+
+function visualPlaceholder(key, where) {
+  if (!Object.hasOwn(LESSON_VISUALS, key)) throw new Error(`Unknown lesson visual ${key} in ${where}`);
+  return `<section class="lesson-visual box" data-visual="${key}" aria-label="${escapeHtml(LESSON_VISUALS[key])}"><p>Interactive example: ${escapeHtml(LESSON_VISUALS[key])}.</p></section>`;
+}
+
 function renderMath(tex, displayMode, where) {
   try {
     return katex.renderToString(tex, {
@@ -70,6 +85,8 @@ export function md(src, where = 'content', { inline = false } = {}) {
   let html = inline ? marked.parseInline(text) : marked.parse(text);
   html = html.replace(/<p>\s*(MATHPH\d+XEND)\s*<\/p>/g, '$1');
   html = html.replace(/MATHPH(\d+)XEND/g, (_, i) => math[Number(i)]);
+  html = html.replace(/<p>\s*\{\{visual:([a-z][a-z0-9-]*)\}\}\s*<\/p>/g, (_, key) => visualPlaceholder(key, where));
+  if (/\{\{visual:/.test(html)) throw new Error(`Lesson visual must be a valid standalone paragraph in ${where}`);
   html = html.replace(/\{\{priority:([a-z][a-z0-9-]*)\}\}/g, (_, key) => priorityBadge(key, where, true));
   if (/\{\{priority:/.test(html)) throw new Error(`Malformed formula priority in ${where}`);
   return html.replace(/DOLLARPHX/g, '$');

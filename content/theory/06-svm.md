@@ -119,6 +119,8 @@ $\mathbf{x}_1 = (1, 1)$, $y_1 = +1$ and $\mathbf{x}_2 = (-1, -1)$, $y_2 = -1$. B
 $2a + b = 1$ and $-2a + b = -1$ → $b = 0$, $a = 0.5$. So $\mathbf{w} = (0.5, 0.5)$, boundary $x_1 + x_2 = 0$, margin $2/\lVert\mathbf{w}\rVert = 2/0.7071 = 2.83$, exactly the distance between the two points ✓.
 :::
 
+{{visual:svm-geometry}}
+
 ## Soft-margin SVM
 
 Real data is often **not** linearly separable (p20), so the hard-margin constraints cannot all hold.
@@ -174,7 +176,9 @@ Then learn $f(\mathbf{x}) = \mathbf{w}^T\Phi(\mathbf{x}) + b$ with the same SVM 
 $$f(\mathbf{x})=\mathbf{w}^T\Phi(\mathbf{x})+b=\sum_i\alpha_iy_i\Phi(\mathbf{x}_i)^T\Phi(\mathbf{x})+b$$
 :::
 
-**Problem** (p33): explicit feature maps get huge. A degree-2 polynomial map of $\mathbf{x} \in \mathbb{R}^3$ already has 10 coordinates, $(1, \sqrt2x_1, \sqrt2x_2, \sqrt2x_3, x_1^2, x_2^2, x_3^2, \sqrt2x_1x_2, \sqrt2x_1x_3, \sqrt2x_2x_3)$; high degrees are far worse.
+**Problem** (p33): explicit feature maps get huge. A degree-2 polynomial map of $\mathbf{x} \in \mathbb{R}^3$ already has 10 coordinates:
+$$\left(1, \sqrt2x_1, \sqrt2x_2, \sqrt2x_3, x_1^2, x_2^2, x_3^2, \sqrt2x_1x_2, \sqrt2x_1x_3, \sqrt2x_2x_3\right).$$
+High degrees are far worse.
 
 ## The kernel trick
 

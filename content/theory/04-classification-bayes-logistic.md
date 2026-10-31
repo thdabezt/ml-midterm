@@ -240,6 +240,8 @@ Data: $(x, y) = (1, 0), (2, 0), (3, 1), (4, 1)$, start $w_0 = w_1 = 0$, step siz
 If one threshold separates the classes perfectly (as in Homework 4 Exercise 3: fail for ≤ 3 hours, pass for ≥ 4 hours), the likelihood keeps increasing as the weights grow, so pure MLE has **no finite solution**. The boundary settles between the classes ($x = 3.5$) and the sigmoid becomes a step. In practice we stop gradient descent early or add regularisation (Lecture 7). Points far from the boundary then get probabilities near 1 or 0.
 :::
 
+{{visual:logistic}}
+
 ### Multi-class: softmax
 
 For $K$ classes (p47–48), give each class its own weight vector:

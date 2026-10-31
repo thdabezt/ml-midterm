@@ -157,6 +157,8 @@ Parent (7 No, 3 Yes): $H = -0.7\log_2 0.7 - 0.3\log_2 0.3 = 0.881$.
 Marital Status has the higher information gain, so ID3 would put it at the root. (Hunt's illustration happened to start with Home Owner; any attribute is allowed there.)
 :::
 
+{{visual:information-gain}}
+
 ## The many-values problem and gain ratio
 
 Impurity measures prefer splits into **many small pure partitions** (p39). Customer ID has the highest information gain (every child has entropy 0), but it cannot generalise.

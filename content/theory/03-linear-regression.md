@@ -126,6 +126,8 @@ Both weights moved up, because the line $h = 0$ was below every point.
 On a bumpy cost surface, different starting points can lead gradient descent to different **local minima**. The linear-regression cost is a convex bowl, so it has only one (global) minimum.
 :::
 
+{{visual:regression}}
+
 ## Learning rate and convergence
 
 - **Convergence test** (p46): stop when $J$ decreases by less than $10^{-3}$ in one iteration. Plot $J$ against the number of iterations: it should go down every time.
