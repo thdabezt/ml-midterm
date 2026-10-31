@@ -61,7 +61,7 @@ test('clustering drills: numerical answers at the random range endpoints', () =>
     [0.999999, 'dbscan-neighbourhoods', [2, 4, 1, 2]],
   ];
   for (const [randomValue, id, expected] of cases) {
-    assert.equal(byId[id].lesson, 'l8-clustering');
+    assert.equal(byId[id].lesson, 'l8-unsupervised-learning');
     const actual = byId[id].make(() => randomValue).fields.map((f) => f.answer);
     actual.forEach((answer, i) => assert.ok(Math.abs(answer - expected[i]) < 1e-9, `${id}: ${answer} vs ${expected[i]}`));
     assert.equal(actual.length, expected.length);

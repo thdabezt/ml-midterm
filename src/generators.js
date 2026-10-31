@@ -399,7 +399,7 @@
   // ---------------- Lecture 8 ----------------
   list.push({
     id: 'kmeans-epoch',
-    lesson: 'l8-clustering',
+    lesson: 'l8-unsupervised-learning',
     title: 'One K-means epoch and SSE',
     blurb: 'Assign 1-D points to fixed seeds, update the means, compute SSE.',
     make(rng) {
@@ -420,7 +420,7 @@
 
   list.push({
     id: 'hac-linkage',
-    lesson: 'l8-clustering',
+    lesson: 'l8-unsupervised-learning',
     title: 'HAC linkage scores',
     blurb: 'Single, complete, average and Ward for two small clusters.',
     make(rng) {
@@ -441,7 +441,7 @@
 
   list.push({
     id: 'dbscan-neighbourhoods',
-    lesson: 'l8-clustering',
+    lesson: 'l8-unsupervised-learning',
     title: 'DBSCAN core, border, noise',
     blurb: 'Count epsilon-neighbours including self, then find core components.',
     make(rng) {

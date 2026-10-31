@@ -3,6 +3,139 @@ const r = String.raw;
 export default {
   lesson: 'l7-model-optimization',
   questions: [
+    // ---------- Homework 7 (supplied filename HW_07.pdf) ----------
+    {
+      id: 'hw07-ex1',
+      type: 'numeric',
+      source: { kind: 'hw', label: 'HW_07.pdf Exercise 1 (p1)' },
+      prompt: r`Rank the four features for predicting Heart Disease using information gain (base-2 logs):
+
+| Patient | Age | Blood Pressure | Cholesterol | Smoker | Heart Disease |
+|---|---|---|---|---|---|
+| 1 | Young | High | Normal | Yes | Yes |
+| 2 | Old | High | High | No | No |
+| 3 | Middle | Normal | Normal | Yes | Yes |
+| 4 | Old | Normal | High | No | No |
+| 5 | Young | High | High | Yes | Yes |
+| 6 | Old | Normal | High | No | No |
+| 7 | Middle | Normal | Normal | Yes | Yes |
+| 8 | Middle | High | High | No | No |
+
+Enter the gain of each feature in bits and identify the largest in your explanation. Patient ID is an identifier, not a candidate feature.
+
+**Source note:** we use the supplied filename $\texttt{HW\_07.pdf}$ to identify this sheet; its printed header instead says "Homework 01" and "INT3424, AIT3007".`,
+      fields: [
+        { label: 'Gain(Age), bits', answer: 0.6556390622295665, tol: 0.002 },
+        { label: 'Gain(Blood Pressure), bits', answer: 0, tol: 0.002 },
+        { label: 'Gain(Cholesterol), bits', answer: 0.5487949406953986, tol: 0.002 },
+        { label: 'Gain(Smoker), bits', answer: 1, tol: 0.002 },
+      ],
+      solution: r`There are 4 Yes and 4 No targets, so the parent entropy is $H(Y)=-0.5\log_2(0.5)-0.5\log_2(0.5)=1$ bit. For each feature, subtract its weighted child entropy:
+
+| Feature | Child counts (Yes, No) | Weighted child entropy | Gain |
+|---|---|---|---|
+| Age | Young (2,0), Old (0,3), Middle (2,1) | $\frac38H(2/3,1/3)=0.344361$ | $0.655639$ |
+| Blood Pressure | High (2,2), Normal (2,2) | $\frac48(1)+\frac48(1)=1$ | $0$ |
+| Cholesterol | Normal (3,0), High (1,4) | $\frac58H(1/5,4/5)=0.451205$ | $0.548795$ |
+| Smoker | Yes (4,0), No (0,4) | $0$ | $1$ |
+
+For example, $H(2/3,1/3)=-\frac23\log_2\frac23-\frac13\log_2\frac13\approx0.918296$. Pure children such as (2,0) have entropy 0; use the convention $0\log_2 0=0$.
+
+Ranking: **Smoker > Age > Cholesterol > Blood Pressure**. Smoker perfectly separates this tiny table. That is a statement about these eight rows, not evidence of a perfect medical rule for new patients; feature selection and evaluation must use separate training/validation data.`,
+    },
+    {
+      id: 'hw07-ex1-v1',
+      type: 'mcq',
+      source: { kind: 'variant', label: 'like HW_07.pdf Ex 1' },
+      prompt: r`An 8-row binary dataset has 4 Yes and 4 No targets. Candidate feature branches have counts (Yes, No):
+- Age: Young (2,0), Middle (2,1), Old (0,3).
+- Blood Pressure: High (2,2), Normal (2,2).
+- Cholesterol: Normal (3,0), High (1,4).
+
+If these are the only available features, which has the largest information gain?`,
+      options: ['Age', 'Blood Pressure', 'Cholesterol', 'All three tie'],
+      answer: 0,
+      solution: r`Parent entropy is 1. Age has gain $1-\frac38H(2/3,1/3)\approx0.6556$. Cholesterol has gain $1-\frac58H(1/5,4/5)\approx0.5488$. Blood Pressure has gain 0. Thus **Age** is the best of the available features.`,
+    },
+    {
+      id: 'hw07-ex2',
+      type: 'written',
+      source: { kind: 'hw', label: 'HW_07.pdf Exercise 2 (pp1–2, L1 regularization)' },
+      prompt: r`For $X\in\mathbb{R}^{n\times p}$, $\mathbf{y}\in\mathbb{R}^n$ and $\lambda>0$, consider
+$$R_{\mathrm{reg}}(\boldsymbol\theta)=\frac12\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2+\lambda\lVert\boldsymbol\theta\rVert_1.$$
+1. Why is this objective not differentiable everywhere?
+2. Show that it is convex.
+3. With all coordinates except $\theta_j$ held fixed, find $\rho_j,z_j$ such that
+$$\frac12\frac{\partial}{\partial\theta_j}\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2=-\rho_j+\theta_jz_j.$$
+Explain how these quantities can give a coordinate update.`,
+      solution: r`First unpack the norms: $\lVert X\boldsymbol\theta-\mathbf{y}\rVert_2^2=\sum_i(\sum_kx_{ik}\theta_k-y_i)^2$, and $\lVert\boldsymbol\theta\rVert_1=\sum_k|\theta_k|$. Here $x_{ik}$ is row $i$, feature $k$ of $X$.
+
+**1. Non-differentiability.** The slope of $|\theta_j|$ is $-1$ to the left of 0 and $+1$ to the right; at 0 there is no single derivative. With $\lambda>0$, adding a smooth squared-error term does not remove this corner. The objective is differentiable when every penalised coordinate is nonzero, but not at a zero coordinate.
+
+**2. Convexity.** The squared-error term has Hessian $X^TX$, and for every vector $\mathbf{v}$,
+$$\mathbf{v}^TX^TX\mathbf{v}=\lVert X\mathbf{v}\rVert_2^2\ge0.$$
+Thus the quadratic is convex. Absolute value is convex because $|ta+(1-t)b|\le t|a|+(1-t)|b|$ for $0\le t\le1$ (triangle inequality). Summing these absolute values and multiplying by $\lambda>0$ preserves convexity. The sum of the two convex terms is convex; it need not be strictly convex, so a minimiser need not be unique.
+
+**3. Coordinate quantities.** Define the partial residual $r_i^{(j)}=y_i-\sum_{k\ne j}x_{ik}\theta_k$: what remains of target $i$ after accounting for all other features. Differentiating the squared-error term gives
+$$\sum_i x_{ij}(x_{ij}\theta_j-r_i^{(j)})=-\underbrace{\sum_ix_{ij}r_i^{(j)}}_{\rho_j}+\theta_j\underbrace{\sum_ix_{ij}^2}_{z_j}.$$
+Therefore $\rho_j=\sum_i x_{ij}(y_i-\sum_{k\ne j}x_{ik}\theta_k)$ and $z_j=\sum_i x_{ij}^2$.
+
+For fixed other coordinates, discard terms not depending on $\theta_j$; the objective becomes $\frac12z_j\theta_j^2-\rho_j\theta_j+\lambda|\theta_j|+\text{constant}$. If $z_j>0$, minimise the positive and negative branches and check 0:
+$$\theta_j\leftarrow\begin{cases}(\rho_j-\lambda)/z_j&\rho_j>\lambda,\\0&|\rho_j|\le\lambda,\\(\rho_j+\lambda)/z_j&\rho_j<-\lambda.\end{cases}$$
+This **soft-thresholding** update sets weak coordinates exactly to zero. Cycle through coordinates, recomputing the partial residuals, until convergence. If $z_j=0$, column $j$ is all zeros; choose $\theta_j=0$ to minimise its L1 penalty instead of dividing by zero.`,
+    },
+    {
+      id: 'hw07-ex2-v1',
+      type: 'numeric',
+      source: { kind: 'variant', label: 'like HW_07.pdf Ex 2 (one Lasso coordinate)' },
+      prompt: r`For a single feature without an intercept, $X=(1,2)^T$, $\mathbf{y}=(3,5)^T$, minimise $\frac12\lVert X\theta-\mathbf{y}\rVert_2^2+\lambda|\theta|$ with $\lambda=1$. Compute $\rho=\sum_ix_iy_i$, $z=\sum_ix_i^2$ and the minimising $\theta$.`,
+      fields: [
+        { label: r`$\rho$`, answer: 13, tol: 0.001 },
+        { label: r`$z$`, answer: 5, tol: 0.001 },
+        { label: r`$\theta$`, answer: 2.4, tol: 0.002 },
+      ],
+      solution: r`$\rho=1(3)+2(5)=13$, $z=1^2+2^2=5$. Since $13>\lambda=1$, the positive branch gives $\theta=(13-1)/5=2.4$.
+
+Check: the smooth derivative is $5\theta-13=-1$ at 2.4 and the L1 derivative is $+1$, so the total is 0. Convexity makes this the global minimum. Ordinary least squares would give $13/5=2.6$; Lasso shrinks it towards 0.`,
+    },
+    {
+      id: 'hw07-ex3',
+      type: 'numeric',
+      source: { kind: 'hw', label: 'HW_07.pdf Exercise 3 (p2, majority voting)' },
+      prompt: r`For an example whose true class is 1, each of $M$ binary classifiers predicts 1 with probability $\theta$. A **strict** majority (more than $M/2$ votes for 1) predicts class 1; a tie does not. Under the independent, identically distributed voter assumption needed for a binomial model, derive the probability of a correct ensemble prediction.
+
+Enter that probability for $\theta=0.51$ with $M=1000$ and $M=10000$. Explain what happens as $M$ becomes very large and why the independence assumption matters.`,
+      fields: [
+        { label: r`$P(\text{correct}),\ M=1000$`, answer: 0.726098555730504, tol: 0.0005 },
+        { label: r`$P(\text{correct}),\ M=10000$`, answer: 0.976718287480731, tol: 0.0005 },
+      ],
+      solution: r`Let $V_m=1$ when voter $m$ predicts 1. For a true class-1 example, assume $V_1,\ldots,V_M$ are independent Bernoulli variables with the same success probability $\theta$. The number of correct votes is $S=\sum_mV_m\sim\mathrm{Binomial}(M,\theta)$.
+
+A strict majority needs at least $\lfloor M/2\rfloor+1$ correct votes, so
+$$p=P(S>M/2)=\sum_{k=\lfloor M/2\rfloor+1}^{M}\binom{M}{k}\theta^k(1-\theta)^{M-k}=1-F_{\mathrm{Binomial}(M,\theta)}(\lfloor M/2\rfloor).$$
+For $M=1000$, sum from 501: $p\approx0.726099$ (**72.61%**). For $M=10000$, sum from 5001: $p\approx0.976718$ (**97.67%**). Do not include the tie terms $k=500$ or $5000$.
+
+Use a binomial survival function or a numerically stable recurrence; factorials such as $10000!$ overflow ordinary calculators. A normal approximation gives intuition: the vote count has mean $M\theta$ and standard deviation $\sqrt{M\theta(1-\theta)}$, so the mean's advantage above the halfway mark grows relative to the noise like $\sqrt M$.
+
+As $M\to\infty$, the fraction $S/M$ approaches $\theta=0.51>0.5$ and $p\to1$. More generally the limit is 1 for $\theta>0.5$, 0 for $\theta<0.5$, and $1/2$ for $\theta=0.5$. Finite even/odd changes and ties mean accuracy need not increase at every single increment of $M$.
+
+The source gives an accuracy but does not explicitly state independence; it is an **extra assumption** required by the suggested binomial calculation. Perfectly correlated classifiers all make the same prediction, so their majority remains only 51% accurate however large $M$ is. This calculation is conditional on true class 1; it does not specify accuracy on class 0 or overall accuracy across both classes.`,
+    },
+    {
+      id: 'hw07-ex3-v1',
+      type: 'numeric',
+      source: { kind: 'variant', label: 'like HW_07.pdf Ex 3 (small ensemble and ties)' },
+      prompt: r`Independent voters each predict the correct class 1 with probability $\theta=0.6$. Compute the probability of a strict-majority prediction of class 1 for $M=4$ and for $M=5$. A tie is not a class-1 prediction.`,
+      fields: [
+        { label: r`$P(\text{correct}),\ M=4$`, answer: 0.4752, tol: 0.0005 },
+        { label: r`$P(\text{correct}),\ M=5$`, answer: 0.68256, tol: 0.0005 },
+      ],
+      solution: r`For 4 voters a strict majority needs 3 or 4 successes:
+$$\binom43(0.6)^3(0.4)+(0.6)^4=0.3456+0.1296=0.4752.$$
+For 5 voters it needs 3, 4 or 5:
+$$\binom53(0.6)^3(0.4)^2+\binom54(0.6)^4(0.4)+(0.6)^5=0.3456+0.2592+0.07776=0.68256.$$
+Counting ties as failures makes the 4-voter accuracy lower than a single voter's 0.6. This does not contradict the large-ensemble limit; it shows why finite-ensemble tie rules matter.`,
+    },
     // ---------- Homework 5 ----------
     {
       id: 'hw05-ex1',

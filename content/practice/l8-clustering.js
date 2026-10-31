@@ -23,7 +23,7 @@ const NEIGHBOURS = r`| Point | Neighbours at $\epsilon=2$ | Neighbours at $\epsi
 | $A_8$ | $A_4,A_8$ | $A_1,A_4,A_8$ |`;
 
 export default {
-  lesson: 'l8-clustering',
+  lesson: 'l8-unsupervised-learning',
   questions: [
     {
       id: 'hw08-ex1',
@@ -216,15 +216,6 @@ If “2” means two **other** neighbours instead, use MinPts = 3 counting self:
       solution: 'K-means can converge to a local solution. Multiple restarts or K-means++ improve the initialisation, but do not certify the global optimum.',
     },
     {
-      id: 'l8-elbow',
-      type: 'mcq',
-      source: { kind: 'slide', label: 'Clustering p27' },
-      prompt: 'Why use an elbow in the SSE-versus-K plot instead of just picking the K with the smallest SSE?',
-      options: ['SSE is always maximised by useful clusters', 'More centres can reduce SSE even by splitting a useful group, so seek diminishing returns', 'The elbow guarantees the true number of classes', 'The optimal SSE increases whenever K increases'],
-      answer: 1,
-      solution: 'The globally optimal SSE is non-increasing with K; K equal to the number of distinct data points can make it zero. The elbow is a heuristic trade-off and may be ambiguous. Local runs can fluctuate because of initialisation.',
-    },
-    {
       id: 'l8-bisecting',
       type: 'mcq',
       source: { kind: 'slide', label: 'Clustering p32' },
@@ -259,15 +250,6 @@ If “2” means two **other** neighbours instead, use MinPts = 3 counting self:
       options: ['Core', 'Border only', 'Noise', 'Impossible to tell without K'],
       answer: 0,
       solution: 'The neighbourhood contains 3 other points plus the point itself: size 4. The core test is at least MinPts, including equality.',
-    },
-    {
-      id: 'l8-dbscan-border-bridge',
-      type: 'mcq',
-      source: { kind: 'slide', label: 'Clustering p44–45' },
-      prompt: 'Two separate components of core points both touch the same non-core border point. Must DBSCAN merge the two components?',
-      options: ['Yes, any chain through any points merges clusters', 'No; expansion is through core points, and the border point is assigned to one adjacent cluster', 'Yes, because border points are always core', 'Neither component can be a cluster'],
-      answer: 1,
-      solution: 'A border point does not expand a cluster. It cannot bridge two disconnected core components. Its assignment can depend on traversal order when both clusters can reach it.',
     },
     {
       id: 'l8-dbscan-epsilon',

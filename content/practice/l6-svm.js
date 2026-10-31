@@ -3,6 +3,108 @@ const r = String.raw;
 export default {
   lesson: 'l6-svm',
   questions: [
+    // ---------- Homework 6 (HW_week06.pdf) ----------
+    {
+      id: 'hw06-ex1',
+      type: 'written',
+      source: { kind: 'hw', label: 'HW06 Exercise 1 (HW_week06.pdf p1)' },
+      prompt: r`For two-dimensional vectors $\mathbf{x},\mathbf{z}$, let $K(\mathbf{x},\mathbf{z})=(\mathbf{x}^T\mathbf{z}+1)^2$ and
+$$\phi(\mathbf{x})=(1,\sqrt2x_1,\sqrt2x_2,x_1^2,x_2^2,\sqrt2x_1x_2).$$
+Show by expansion that $K(\mathbf{x},\mathbf{z})=\phi(\mathbf{x})^T\phi(\mathbf{z})$.
+
+**Source correction:** the PDF writes $\phi:\mathbb{R}^2\to\mathbb{R}^5$, but lists **six** coordinates, so the target space is $\mathbb{R}^6$.`,
+      solution: r`A dot product means multiply matching coordinates and add:
+$$\phi(\mathbf{x})^T\phi(\mathbf{z})=1+2x_1z_1+2x_2z_2+x_1^2z_1^2+x_2^2z_2^2+2x_1x_2z_1z_2.$$
+Set $a=x_1z_1$, $b=x_2z_2$. The expression is $1+2a+2b+a^2+b^2+2ab=(a+b+1)^2$. Since $a+b=\mathbf{x}^T\mathbf{z}$, this is exactly $K(\mathbf{x},\mathbf{z})$.
+
+Why $\sqrt2$? Each matching pair multiplies to $\sqrt2\sqrt2=2$, producing the cross terms in the square. The kernel computes a six-dimensional dot product directly from two-dimensional inputs.`,
+    },
+    {
+      id: 'hw06-ex1-v1',
+      type: 'numeric',
+      source: { kind: 'variant', label: 'like HW06 Ex 1 (different kernel offset)' },
+      prompt: r`Let $\mathbf{x}=(1,2)$, $\mathbf{z}=(-1,1)$ and $K(\mathbf{x},\mathbf{z})=(\mathbf{x}^T\mathbf{z}+2)^2$. Compute the ordinary dot product and the kernel value. Use the feature map $(2,2x_1,2x_2,x_1^2,x_2^2,\sqrt2x_1x_2)$ to check the latter.`,
+      fields: [
+        { label: r`$\mathbf{x}^T\mathbf{z}$`, answer: 1, tol: 0.001 },
+        { label: r`$K(\mathbf{x},\mathbf{z})$`, answer: 9, tol: 0.001 },
+      ],
+      solution: r`Dot product $=1(-1)+2(1)=1$, so $K=(1+2)^2=9$.
+
+The feature vectors are $(2,2,4,1,4,2\sqrt2)$ and $(2,-2,2,1,1,-\sqrt2)$. Their dot product is $4-4+8+1+4-4=9$. The offset 2 changes the constant and linear coordinates as well as the kernel value.`,
+    },
+    {
+      id: 'hw06-ex2',
+      type: 'numeric',
+      source: { kind: 'hw', label: 'HW06 Exercise 2 (HW_week06.pdf p1)' },
+      prompt: r`Positive training points are $(1,1),(2,2),(2,0)$; negative points are $(0,0),(1,0),(0,1)$.
+1. Sketch the points and decide whether one line can separate the classes.
+2. Find the maximum-margin hard-margin SVM in canonical form $\mathbf{w}^T\mathbf{x}+b=0$, with $y_i(\mathbf{w}^T\mathbf{x}_i+b)\ge1$. Enter $w_1,w_2,b$ and the **full** margin $2/\lVert\mathbf{w}\rVert$.
+3. Identify the points on the margin lines. If one is removed, must the optimal margin decrease, stay the same, or increase? Explain the possibilities for this dataset.`,
+      fields: [
+        { label: r`$w_1$`, answer: 2, tol: 0.002 },
+        { label: r`$w_2$`, answer: 2, tol: 0.002 },
+        { label: r`$b$`, answer: -3, tol: 0.002 },
+        { label: 'full margin', answer: 1 / Math.SQRT2, tol: 0.003 },
+      ],
+      solution: r`**Sketch** (row = $x_2$, column = $x_1$; dots mean no point):
+
+| $x_2\backslash x_1$ | 0 | 1 | 2 |
+|---|---|---|---|
+| 2 | . | . | + |
+| 1 | - | + | . |
+| 0 | - | - | + |
+
+All positive points have $x_1+x_2\ge2$ and all negative points have $x_1+x_2\le1$, so the classes are **linearly separable**. Put the decision line halfway between: $x_1+x_2=1.5$.
+
+Canonical scores must be $+1$ on the positive margin $x_1+x_2=2$, and $-1$ on the negative margin $x_1+x_2=1$. Write $a(x_1+x_2)+b$: subtracting $2a+b=1$ and $a+b=-1$ gives $a=2$, $b=-3$. Thus $\mathbf{w}=(2,2)$ and the full margin is $2/\sqrt8=1/\sqrt2\approx0.7071$ (distance from the boundary to one margin is half of this).
+
+**Why maximal?** The positive convex hull contains $(1,1)$ and the negative hull contains $(0.5,0.5)$, their midpoint of $(1,0),(0,1)$. These two hull points are only $1/\sqrt2$ apart. No separating strip can be wider, and our line achieves that width.
+
+**Margin points:** positive $(1,1),(2,0)$ and negative $(1,0),(0,1)$. These are the geometric support points; with redundant constraints, dual multipliers need not be uniquely assigned to every margin point.
+
+**Removal:** deleting a training constraint cannot shrink the best margin: the previous separator is still allowed. It can **stay the same or increase**. Here deleting $(1,1)$ or $(1,0)$ increases the full margin to 1; deleting $(2,0)$ or $(0,1)$ leaves it at $1/\sqrt2$. A margin point can be redundant, so saying it must always increase would be wrong.`,
+    },
+    {
+      id: 'hw06-ex2-v1',
+      type: 'mcq',
+      source: { kind: 'variant', label: 'like HW06 Ex 2(c)' },
+      prompt: r`After removing one training point from a feasible hard-margin SVM problem, with both classes still present, what can happen to the optimal geometric margin?`,
+      options: ['It must decrease', 'It must increase', 'It can stay the same or increase', 'It must stay the same even if the point is a support vector'],
+      answer: 2,
+      solution: r`Removing a point removes a constraint. Every previously feasible separator remains feasible, so the minimum possible $\lVert\mathbf{w}\rVert$ cannot rise and $2/\lVert\mathbf{w}\rVert$ cannot fall. A redundant constraint has no effect; removing a necessary support constraint may allow a wider margin.`,
+    },
+    {
+      id: 'hw06-ex3',
+      type: 'numeric',
+      source: { kind: 'hw', label: 'HW06 Exercise 3 (HW_week06.pdf p2)' },
+      prompt: r`Train a maximum-margin linear hard-margin SVM on positive points $(1,4),(2,3)$ and negative points $(4,5),(5,6)$. Using scores $\mathbf{w}^T\mathbf{x}+b$ with canonical margin constraints, find $w_1,w_2,b$ and state the decision-boundary equation. Also enter the full margin.`,
+      fields: [
+        { label: r`$w_1$`, answer: -0.5, tol: 0.002 },
+        { label: r`$w_2$`, answer: -0.5, tol: 0.002 },
+        { label: r`$b$`, answer: 3.5, tol: 0.002 },
+        { label: 'full margin', answer: 2 * Math.SQRT2, tol: 0.005 },
+      ],
+      solution: r`The closest positive and negative hull points are $(2,3)$ and $(4,5)$. Their difference is $(-2,-2)$ and distance is $\sqrt8$; a maximal strip is perpendicular to this difference. Its centre passes through their midpoint $(3,4)$.
+
+Let $\mathbf{w}=(a,a)$. Enforce scores $+1$ at $(2,3)$ and $-1$ at $(4,5)$:
+$$5a+b=1,\qquad9a+b=-1.$$
+Subtract: $4a=-2$, so $a=-0.5$ and $b=3.5$.
+
+The boundary is $-0.5x_1-0.5x_2+3.5=0$, equivalently **$x_1+x_2=7$**. Scores of the four points in the stated order are $(1,1,-1,-2)$, so every margin constraint holds. The full margin is $2/\sqrt{0.5}=2\sqrt2\approx2.8284$. It equals the closest hull distance, proving optimality. Multiplying the boundary equation by a positive constant preserves the line but loses the canonical $\pm1$ score scale used to compute this margin.`,
+    },
+    {
+      id: 'hw06-ex3-v1',
+      type: 'numeric',
+      source: { kind: 'variant', label: 'like HW06 Ex 3 (vertical separator)' },
+      prompt: r`Positive points are $(3,0),(3,2)$ and negative points are $(1,0),(1,2)$. Find the canonical maximum-margin SVM $w_1,w_2,b$ and its full margin.`,
+      fields: [
+        { label: r`$w_1$`, answer: 1, tol: 0.001 },
+        { label: r`$w_2$`, answer: 0, tol: 0.001 },
+        { label: r`$b$`, answer: -2, tol: 0.001 },
+        { label: 'full margin', answer: 2, tol: 0.002 },
+      ],
+      solution: r`The margin lines are $x_1=3$ and $x_1=1$, with boundary halfway at $x_1=2$. Scores $3w_1+b=1$ and $w_1+b=-1$ give $w_1=1,b=-2$; $x_2$ does not affect class, so $w_2=0$. Full margin $=2/\sqrt{1^2+0^2}=2$, equal to the distance between the parallel class segments.`,
+    },
     {
       id: 'l6-quiz-and-or-xor',
       type: 'written',

@@ -204,7 +204,7 @@
       <section class="hero">
         <p class="eyebrow">INT3405 · Machine Learning · midterm prep</p>
         <h1>ML Studyroom</h1>
-        <p class="lede">Every lecture from L1 to L8, including clustering, explained in plain language. Each formula is taken apart symbol by symbol and then worked through with small numbers. The practice questions copy the style of the homework and slide quizzes.</p>
+        <p class="lede">Every lecture from L1 to L8, explained in plain language. Each formula is taken apart symbol by symbol and then worked through with small numbers. The practice questions copy the style of the homework and slide quizzes.</p>
       </section>
       <div class="split">
         <a class="big-card" href="#/theory">
@@ -234,7 +234,7 @@
       ${startCards()}
       ${lessonList()}
       <h2>About the midterm</h2>
-      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. Clustering is covered in L8, including both HW08 exercises; you can include it in the mock exam using the lesson checkboxes.</p>
+      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. The lessons cover L1–L8, including unsupervised learning, and the question bank includes the supplied homework through HW08. Both HW08 clustering exercises are worked in L8.</p>
     </div>`;
   }
 
@@ -270,7 +270,7 @@
     };
     return `<div class="start-cards">
       ${card('math-toolkit', 'Start here', 'Notation, sums, logs, derivatives and matrices explained from zero, with small examples you can check on a calculator.')}
-      ${card('formula-sheet', 'Night before', 'A printable reference for L2–L8, including clustering, with a short reminder of what each formula means.')}
+      ${card('formula-sheet', 'Night before', 'Key formulas from L2–L8 in one printable reference, each with a one-line reminder of what it means.')}
     </div>`;
   }
 

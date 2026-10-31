@@ -2,8 +2,8 @@
 
 State as of 2026-10-31. Read this before changing anything.
 
-- **Live site:** https://thdabezt.github.io/ml-midterm/ (last recorded deployed version: 1.1.1; this update has not been deployed)
-- **Local source version:** 1.2.0. Added clustering/HW08, 24 questions total and 3 drills; tests and static build pass.
+- **Live site:** https://thdabezt.github.io/ml-midterm/ (deployment version not rechecked for this update)
+- **Source version:** 1.3.0. Adds HW08, supplementary clustering practice, three drills and introduction/application guidance.
 - **Repo:** https://github.com/thdabezt/ml-midterm (`main`; every push deploys via GitHub Actions)
 - **Course:** INT3405 Machine Learning, VNU-UET. Midterm = 10 MCQs + 2–3 practical questions (Lecture 0), week 9.
 
@@ -12,12 +12,12 @@ State as of 2026-10-31. Read this before changing anything.
 | Part | Where | Notes |
 |---|---|---|
 | **Math for idiots** (the "Math toolkit" page) | `content/theory/00-math-toolkit.md` | Math from zero for a reader with almost no math background: reading notation, Σ/Π, logs (and how to do log₂ on a calculator), e and the sigmoid, probability, derivatives and partial derivatives, vectors/matrices and the 2×2 inverse, norms, argmax, combinations, Lagrange multipliers, English–Vietnamese glossary. Seven warm-up questions in `content/practice/l0-math.js`. **This page is the backbone of the site.** Every lesson assumes the reader may not know the math, so keep that standard for any new content. |
-| Theory, L1–L8 | `content/theory/01…08-*.md` | Each formula gets a `:::formula` box, a `:::read` box (explained symbol by symbol, "how to read it") and a `:::steps` / `:::example` box with small numbers. Clustering includes both HW08 worked solutions. The introduction now includes when ML is useful and the full application workflow/costs. |
-| Formula sheet | `content/theory/99-formula-sheet.md` | Printable reference including clustering; do not promise a single printed page. |
-| Question bank | `content/practice/l*.js` | 194 questions: 14 homework exercise entries (HW01, HW02 = `HW03-ML.pdf` / `HW-1.pdf`, HW04 incl. `HW4 (1).pdf`, HW05, HW08), 36 homework-style variants, slide quizzes, MCQs. Clustering has 22 questions. |
+| Theory, L1–L8 | `content/theory/01…08-*.md` | Each formula gets a `:::formula` box, a `:::read` box (explained symbol by symbol, "how to read it") and a `:::steps` / `:::example` box with small numbers. Slide page refs like "(p34)". L8 covers clustering through evaluation metrics; L7 now explains the HW07 Lasso coordinate update. L8 also contains both HW08 worked solutions; L1 includes when to choose ML and its application workflow/costs. |
+| Formula sheet | `content/theory/99-formula-sheet.md` | Printable reference including L8 and HW07. |
+| Question bank | `content/practice/l*.js` | 229 questions: all 20 supplied homework exercise entries (HW01, HW02 = `HW03-ML.pdf`, HW04 incl. `HW4 (1).pdf`, HW05, HW06 = `HW_week06.pdf`, HW07 = `HW_07.pdf`, HW08 = `HW_Cluster.pdf`), 55 variants, slide quizzes, MCQs. L8 has 45 questions, including 20 supplementary HW08/clustering entries. |
 | Drills | `src/generators.js` | 18 random-number generators with worked solutions, including K-means/SSE, HAC linkage and DBSCAN. |
 | App | `src/app.js`, `src/styles.css`, `src/index.html` | Hash router, practice/answer checking, mock midterm, review list, localStorage progress. |
-| Build / tests | `tools/build.mjs`, `tools/render.mjs`, `tests/` | KaTeX renders at build time, so a broken formula fails the build. The tests recompute homework answers from raw data and render 300 drills per generator. |
+| Build / tests | `tools/build.mjs`, `tools/render.mjs`, `tests/` | KaTeX renders at build time, so a broken formula fails the build. The tests recompute homework and clustering answers from raw data and render 300 drills per generator. New homework checks are in `tests/new-homework.test.js`; clustering checks are in `tests/unsupervised.test.js`. |
 
 ## How to work on it
 
@@ -40,17 +40,24 @@ npm start         # http://127.0.0.1:4174
 - Public repo, original write-ups only; the course PDFs are not committed.
 - Slide typos are corrected with a visible note where they would mislead (e.g. margin 2/‖w‖, the multivariate Gaussian sign, the L5 p37 entropy example).
 - HW04 Ex 3 (logistic regression, study hours) has perfectly separable data, so the MLE does not exist. The model answer explains this and gives ≈ 0.85 (L2-regularised). Keep that explanation.
-- Keep existing lesson slugs/question IDs stable so links and browser progress survive. The new clustering lesson is `l8-clustering`, following the title slide inside the supplied file; filenames/title-slide numbering vary across source versions. See `SOURCE_COVERAGE.md`.
-- DBSCAN counts self and includes points exactly at epsilon. HW08 Ex 2 uses squared-distance thresholds 4 and 10; the solution also gives the alternative interpretation of two other neighbours. Do not silently change the convention or assume cluster count always decreases with epsilon.
+- L8 p14's cosine formula is a similarity, not a distance. The lesson distinguishes it from cosine distance.
+- L8 p26/p51's L1-distance k-means exercise uses **Manhattan assignment + arithmetic-mean update**, ties to cluster 1, with each iteration meaning assignment then update. This is a stated convention for the source's hybrid instruction; standard squared-Euclidean k-means uses means, while a true L1 objective uses coordinate medians. Do not silently change that convention or the answers.
+- L8 p51 DBSCAN follows its L1-distance heading, with self included in MinPts: 2 clusters, 4 core, 6 border, 2 noise. If Euclidean distance was intended, the same groups/noise arise but all 10 non-noise points are core. Both interpretations are checked.
+- L8 p56/p58 are corrected visibly: Davies–Bouldin uses mean distance to the centroid and the maximum scatter/separation ratio over other clusters; silhouette's within-cluster mean excludes self and divides by **cluster size minus 1**.
+- HW06 Ex1 lists a six-coordinate feature map, so its printed target space $\mathbb{R}^5$ is corrected to $\mathbb{R}^6$. SVM deletion can leave the optimal margin unchanged or increase it; all four margin-point deletions are independently checked.
+- `HW_07.pdf` has a mismatched "Homework 01 / INT3424, AIT3007" header. Identify it by filename. The ensemble solution requires independent, identically distributed votes conditional on true class 1; use **strict** majority (ties fail). For accuracy 0.51: probabilities ≈0.726099 at M=1000 and ≈0.976718 at M=10000. These do not establish overall two-class accuracy.
+
+Keep the existing upstream L8 slug `l8-unsupervised-learning` and question IDs stable. The supplementary bank in `l8-clustering.js` belongs to that same lesson. Reuse the existing elbow and border-bridge MCQs rather than duplicating their IDs.
+
+HW08 uses Euclidean distance, counts self for DBSCAN and includes points exactly at epsilon. Compare squared distances to 4 and 10; explain the alternative interpretation of two other neighbours. Its cluster count rises from 2 to 3 because former noise forms a new cluster.
 
 ## Open items / ideas
 
-1. **Clustering is now covered.** Its theory, 22 questions, 3 drills and HW08 answers are in the source. Further enrichment could include interactive centroid/dendrogram diagrams.
-2. KNN has no slides (listed in the L4/L5 outlines only). It is covered only via HW05 and L7.
-3. Possible extras: a link from each formula to its Math-toolkit section; more drills (Gini split on a table, perceptron run); progress sync across devices (currently browser-only).
+1. KNN has no slides (listed in the L4/L5 outlines only). It is covered only via HW05 and L7.
+2. Possible extras: a link from each formula to its Math-toolkit section; more drills (Gini split on a table, perceptron run); progress sync across devices (currently browser-only).
 
 ## Source material (local, not in the repo)
 
-Original source set: `C:\Users\Admin\Downloads\Y3S1\ML\`: lecture PDFs L0–L7, homework PDFs, plus older Vietnamese notes `HW03_LoiGiai.md` and `Tuan3_TomTat.md`. Slide formulas are images, so inspect relevant PDF pages visually rather than relying on text extraction alone.
+`C:\Users\Admin\Downloads\Y3S1\ML\`: lecture PDFs L0–L8, homework PDFs through the supplied `HW_07.pdf`, plus older Vietnamese notes `HW03_LoiGiai.md` and `Tuan3_TomTat.md`. The new L7 copy has the same topic coverage already present. Slide formulas are images, so read the PDFs page by page as images rather than relying on text extraction. The 1.2.0 update reviewed all 59 L8 pages and both pages of each new homework sheet visually.
 
-The 2026-10-31 update also uses the 11 PDFs explicitly supplied in `C:\Users\Admin\Downloads\`. `SOURCE_COVERAGE.md` maps each to existing/new content and records differences in numbering and pagination. Course PDFs remain outside the repository.
+The HW08 update also uses the 11 PDFs supplied in `C:\Users\Admin\Downloads\`. `SOURCE_COVERAGE.md` maps these to the source, distinguishes the 50-page clustering deck from the existing 59-page L8 deck, and records numbering/pagination caveats. Course PDFs remain outside the repository.
