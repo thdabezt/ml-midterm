@@ -39,6 +39,8 @@ npm start
 
 Then open http://127.0.0.1:4174. `npm run build` renders all Markdown and LaTeX to static HTML in `dist/` (KaTeX runs at build time, so a broken formula fails the build). `npm test` recomputes every key homework answer from the raw data and checks that 300 random problems per drill render valid math.
 
+See [HANDOFF.md](HANDOFF.md) for current state, conventions and open items.
+
 ## Layout
 
 ```
