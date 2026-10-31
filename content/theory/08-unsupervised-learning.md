@@ -3,7 +3,8 @@ slug: l8-unsupervised-learning
 num: 8
 title: Unsupervised Learning - Clustering
 short: Clustering, K-means, HAC, DBSCAN
-summary: Clustering without labels; distance and scaling; K-means, K-means++ and bisecting K-means; hierarchical clustering and linkage; DBSCAN core, border and noise points; evaluating clusters with Davies-Bouldin, Dunn and silhouette scores.
+summary: Clustering without labels; distance and scaling; K-means, K-means++ and bisecting K-means; hierarchical clustering and linkage; DBSCAN core, border and noise points; evaluating clusters with Davies-Bouldin, Dunn and silhouette scores. Includes both HW08 exercises worked by hand.
+sourceNote: Main lesson page references use the original 59-page L8 deck. The HW08 supplement uses HW_Cluster.pdf and the separately supplied 50-page Lecture 7_Clustering.pdf; see SOURCE_COVERAGE.md.
 ---
 Clustering discovers groups in **unlabelled data**. You have the inputs (customers, documents, pixels), but no teacher has supplied the correct group for each one. This lecture covers clustering; the title does not mean that every unsupervised method, such as PCA, is taught here.
 
@@ -322,4 +323,67 @@ Exact silhouette evaluation uses pairwise distances: ordinarily $O(n^2)$ distanc
 
 :::tip Direction to remember
 **SSE and Davies-Bouldin: lower is better. Dunn and silhouette: higher is better.** SSE should be compared carefully across different $K$; compactness-based scores may underrate valid curved or density-based groups.
+:::
+
+
+## HW08 supplement: Euclidean clustering
+
+These exercises come from **HW_Cluster.pdf (Homework 08)**, supplied with the 50-page **Lecture 7_Clustering.pdf**, whose title slide calls it Lecture 8. They use eight points and **Euclidean distance**; keep them separate from the 12-point L1-distance slide exercises above. The practice bank places both source sets in this same L8 lesson.
+
+## HW08 Exercise 1: one epoch by hand
+
+The eight points are $A_1=(2,10)$, $A_2=(2,5)$, $A_3=(8,4)$, $A_4=(5,8)$, $A_5=(7,5)$, $A_6=(6,4)$, $A_7=(1,2)$, $A_8=(4,9)$. Initial centres: $\mu_1=A_1$, $\mu_2=A_4$, $\mu_3=A_7$.
+
+:::steps Compare squared distances, then average
+For example, $d^2(A_2,A_7)=(2-1)^2+(5-2)^2=10$.
+
+| Point | to $A_1$ | to $A_4$ | to $A_7$ | Assigned cluster |
+|---|---|---|---|---|
+| $A_1$ | 0 | 13 | 65 | 1 |
+| $A_2$ | 25 | 18 | 10 | 3 |
+| $A_3$ | 72 | 25 | 53 | 2 |
+| $A_4$ | 13 | 0 | 52 | 2 |
+| $A_5$ | 50 | 13 | 45 | 2 |
+| $A_6$ | 52 | 17 | 29 | 2 |
+| $A_7$ | 65 | 52 | 0 | 3 |
+| $A_8$ | 5 | 2 | 58 | 2 |
+
+- $C_1=\{A_1\}$, so $\mu_1=(2,10)$.
+- $C_2=\{A_3,A_4,A_5,A_6,A_8\}$, so $\mu_2=((8+5+7+6+4)/5,(4+8+5+4+9)/5)=(6,6)$.
+- $C_3=\{A_2,A_7\}$, so $\mu_3=((2+1)/2,(5+2)/2)=(1.5,3.5)$.
+
+Optional check: SSE with these new centres and these assignments is $0+32+5=37$.
+:::
+
+:::pitfall One epoch is not convergence
+Do not move a centre after assigning just one point. Do not reassign $A_8$ to a new centre after the update when the question asks for **one epoch only**. That reassignment belongs to the next epoch.
+:::
+
+## HW08 Exercise 2: DBSCAN at two radii
+
+Use the same eight points as Exercise 1, Euclidean distance, MinPts $=2$, **counting self**, and $d\le\epsilon$.
+
+:::steps Neighbourhood table
+| Point | $N_2$ | $N_{\sqrt{10}}$ |
+|---|---|---|
+| $A_1$ | $\{A_1\}$ | $\{A_1,A_8\}$ |
+| $A_2$ | $\{A_2\}$ | $\{A_2,A_7\}$ |
+| $A_3$ | $\{A_3,A_5,A_6\}$ | $\{A_3,A_5,A_6\}$ |
+| $A_4$ | $\{A_4,A_8\}$ | $\{A_4,A_8\}$ |
+| $A_5$ | $\{A_3,A_5,A_6\}$ | $\{A_3,A_5,A_6\}$ |
+| $A_6$ | $\{A_3,A_5,A_6\}$ | $\{A_3,A_5,A_6\}$ |
+| $A_7$ | $\{A_7\}$ | $\{A_2,A_7\}$ |
+| $A_8$ | $\{A_4,A_8\}$ | $\{A_1,A_4,A_8\}$ |
+
+**At $\epsilon=2$:** core points are $A_3,A_4,A_5,A_6,A_8$. There are two clusters, $\{A_3,A_5,A_6\}$ and $\{A_4,A_8\}$; noise is $\{A_1,A_2,A_7\}$. There are no border points.
+
+**At $\epsilon=\sqrt{10}$:** all eight points are core. There are three clusters: $\{A_1,A_4,A_8\}$, $\{A_2,A_7\}$ and $\{A_3,A_5,A_6\}$. There is no noise.
+
+Checks: $d^2(A_2,A_7)=10$, so those points become neighbours exactly at the larger radius. $d^2(A_1,A_8)=5$, so $A_1$ joins the $A_4,A_8$ component through $A_8$. $d^2(A_1,A_4)=13>10$, but **every pair in a density-connected cluster need not be direct neighbours**.
+:::
+
+:::pitfall State the counting convention
+The homework says “min sample is 2” without expanding the convention. The answers above count self. If an instructor instead requires **two other points**, that is MinPts $=3$ under our convention: at radius 2 only $\{A_3,A_5,A_6\}$ remains a cluster; at radius $\sqrt{10}$ the clusters are $\{A_1,A_4,A_8\}$ and $\{A_3,A_5,A_6\}$, with $A_2,A_7$ noise.
+
+The number of clusters can **increase** when epsilon grows: previously isolated noise can become a new cluster. In the main answer, it changes from two to three.
 :::

@@ -67,6 +67,20 @@ Machine learning is a branch of **artificial intelligence**. It focuses on progr
 
 **History highlights** (p22): least squares / linear regression (1805), perceptron (1957), reinforcement learning (1959), SVMs (1964), backpropagation (1986), boosting/AdaBoost (1990), random forests (1995), LSTM (1997), deep CNNs (2012), GANs (2014), Transformers (2017).
 
+## When machine learning is a useful choice
+
+The supplied 38-page introduction deck adds a practical checklist (PDF p30–31):
+
+- Explicit rules would be too complex to write, as in recognising objects in images.
+- The patterns or task change often, so a fixed rule set would need frequent updates.
+- Inputs involve perception, such as text, images, audio or video.
+- The underlying phenomenon is not fully understood, but useful data is available.
+- The target is clear and measurable, such as a yes/no decision or a numerical prediction.
+
+:::example Account for the whole workflow
+For a medical-imaging system (supplied PDF p36), collect representative data, clean and normalise it, obtain annotations when needed, incorporate clinical knowledge, train and evaluate a model, then integrate it into the actual use setting. Data collection, preparation, training, deployment, monitoring and maintenance all have costs. A promising model score alone does not complete the application.
+:::
+
 ## Types of machine learning
 
 | Type | Data you get | Goal | Sub-tasks and examples |

@@ -3,7 +3,7 @@ slug: formula-sheet
 num: 99
 title: Formula sheet
 short: Formula sheet
-summary: Key midterm formulas grouped by lecture, each with a one-line reminder of what it means.
+summary: A printable midterm formula reference, grouped by lecture, including HW07, clustering evaluation and HW08 calculations.
 ---
 Print this page (Ctrl+P hides the menus) or read it the night before. Each line links a formula to the idea behind it; the lesson pages explain how to compute each one.
 
@@ -109,6 +109,7 @@ Print this page (Ctrl+P hides the menus) or read it the night before. Each line 
 | Formula | Meaning |
 |---|---|
 | $d_1(\mathbf{x},\mathbf{z})=\sum_j|x_j-z_j|$; $d_2(\mathbf{x},\mathbf{z})=\sqrt{\sum_j(x_j-z_j)^2}$ | Manhattan / Euclidean distance |
+| $d_p=(\sum_j|x_j-y_j|^p)^{1/p}$, $p\ge1$ | Minkowski; $p=1$ Manhattan, $p=2$ Euclidean |
 | $\cos(\mathbf{x},\mathbf{z})=\frac{\mathbf{x}^T\mathbf{z}}{\|\mathbf{x}\|_2\|\mathbf{z}\|_2}$ | similarity: larger means more aligned; nonzero vectors |
 | $c(i)=\arg\min_k\|\mathbf{x}_i-\boldsymbol{\mu}_k\|_2^2$, $\boldsymbol{\mu}_k=\frac{1}{|C_k|}\sum_{i\in C_k}\mathbf{x}_i$ | k-means: assign, then average; handle ties/empty clusters explicitly |
 | $\mathrm{SSE}=\sum_k\sum_{i\in C_k}\|\mathbf{x}_i-\boldsymbol{\mu}_k\|_2^2$ | k-means objective / WCSS; lower for the same data and K |
@@ -124,3 +125,5 @@ Print this page (Ctrl+P hides the menus) or read it the night before. Each line 
 | $s(i)=\frac{b(i)-a(i)}{\max\{a(i),b(i)\}}\in[-1,1]$ | near 1 is good; singleton or zero denominator: use 0 |
 
 For the L1-distance exercise on L8 p26/p51, follow its stated distance and specify ties; the usual squared-Euclidean k-means objective above has a mean update. A pure L1 objective uses coordinate medians instead. The lesson also explains the corrected silhouette divisor and Davies–Bouldin definition from p56/p58.
+
+HW08 check: one K-means epoch gives centres $(2,10),(6,6),(1.5,3.5)$ and SSE 37. DBSCAN with MinPts 2 counting self: epsilon 2 gives 2 clusters / 3 noise; epsilon $\sqrt{10}$ gives 3 clusters / 0 noise. See the clustering lesson for memberships and the full calculations.

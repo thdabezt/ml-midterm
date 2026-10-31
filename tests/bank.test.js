@@ -63,7 +63,7 @@ test('bank structure', () => {
   }
   for (const q of questions.filter((x) => x.type === 'mcq')) assert.ok(q.answer < q.options.length);
   const hw = questions.filter((q) => q.source.kind === 'hw').map((q) => q.id);
-  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3', 'hw06-ex1', 'hw06-ex2', 'hw06-ex3', 'hw07-ex1', 'hw07-ex2', 'hw07-ex3']) {
+  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3', 'hw06-ex1', 'hw06-ex2', 'hw06-ex3', 'hw07-ex1', 'hw07-ex2', 'hw07-ex3', 'hw08-ex1', 'hw08-ex2']) {
     assert.ok(hw.includes(id), `missing homework exercise ${id}`);
   }
 });
@@ -129,4 +129,74 @@ test('information, ensembles, chi-square', () => {
   close(answers('l7-ensemble-vote')[1], err, 1e-3);
   close(answers('l7-bootstrap')[0], 0.9 ** 10, 1e-4);
   close(answers('l2-kl')[0], -(0.5 * log2(0.75) + 0.5 * log2(0.25)), 1e-4);
+});
+
+const CLUSTER_POINTS = [[2, 10], [2, 5], [8, 4], [5, 8], [7, 5], [6, 4], [1, 2], [4, 9]];
+const squaredDistance = (a, b) => sum(a.map((x, j) => (x - b[j]) ** 2));
+const mean = (points) => points[0].map((_, j) => sum(points.map((p) => p[j])) / points.length);
+const sse = (points) => sum(points.map((p) => squaredDistance(p, mean(points))));
+
+// Reference calculation from raw coordinates: classify density first, then
+// expand connected core components and attach reachable non-core points.
+function dbscan(points, radiusSquared, minPts) {
+  const neighbours = points.map((p) => points.flatMap((q, j) => squaredDistance(p, q) <= radiusSquared ? [j] : []));
+  const core = neighbours.map((n) => n.length >= minPts);
+  const assigned = new Set(); const groups = [];
+  for (let i = 0; i < points.length; i++) {
+    if (!core[i] || assigned.has(i)) continue;
+    const queue = [i]; const group = new Set([i]); assigned.add(i);
+    for (let k = 0; k < queue.length; k++) {
+      for (const j of neighbours[queue[k]]) {
+        if (assigned.has(j)) continue;
+        assigned.add(j); group.add(j);
+        if (core[j]) queue.push(j);
+      }
+    }
+    groups.push([...group].sort((a, b) => a - b));
+  }
+  return { groups, core: core.filter(Boolean).length, noise: points.length - assigned.size };
+}
+
+test('HW08 one K-means epoch: memberships, centres and SSE from coordinates', () => {
+  const seeds = [CLUSTER_POINTS[0], CLUSTER_POINTS[3], CLUSTER_POINTS[6]];
+  const groups = seeds.map(() => []);
+  CLUSTER_POINTS.forEach((p, i) => {
+    const distances = seeds.map((seed) => squaredDistance(p, seed));
+    groups[distances.indexOf(Math.min(...distances))].push(i);
+  });
+  assert.deepEqual(groups, [[0], [2, 3, 4, 5, 7], [1, 6]]);
+  const expected = groups.flatMap((indices) => mean(indices.map((i) => CLUSTER_POINTS[i])));
+  expected.forEach((v, i) => close(answers('hw08-ex1')[i], v, 1e-9));
+  const total = sum(groups.map((indices) => sse(indices.map((i) => CLUSTER_POINTS[i]))));
+  close(answers('l8-sse-hw-v1')[0], total, 1e-9);
+});
+
+test('HW08 DBSCAN: exact radius boundary, noise, both counting conventions', () => {
+  const small = dbscan(CLUSTER_POINTS, 4, 2);
+  const large = dbscan(CLUSTER_POINTS, 10, 2);
+  assert.deepEqual(small.groups, [[2, 4, 5], [3, 7]]);
+  assert.deepEqual(large.groups, [[0, 3, 7], [1, 6], [2, 4, 5]]);
+  assert.deepEqual(answers('hw08-ex2'), [small.groups.length, small.noise, large.groups.length, large.noise]);
+  assert.equal(small.core, 5); assert.equal(large.core, 8);
+  // The alternative convention requires two OTHER neighbours (3 with self).
+  assert.deepEqual(dbscan(CLUSTER_POINTS, 4, 3).groups, [[2, 4, 5]]);
+  const alternate = dbscan(CLUSTER_POINTS, 10, 3);
+  assert.deepEqual(alternate.groups, [[2, 4, 5], [0, 3, 7]]);
+  assert.equal(alternate.noise, 2);
+});
+
+test('clustering variants: distances, linkage, SSE and border points', () => {
+  const x = [1, 2]; const y = [4, 6];
+  const distances = [Math.sqrt(squaredDistance(x, y)), sum(x.map((v, i) => Math.abs(v - y[i]))), sum(x.map((v, i) => v * y[i])) / (Math.hypot(...x) * Math.hypot(...y))];
+  distances.forEach((v, i) => close(answers('l8-distances')[i], v, 1e-9));
+  const A = [[0], [2]]; const B = [[5], [9]];
+  const cross = A.flatMap((a) => B.map((b) => Math.sqrt(squaredDistance(a, b))));
+  const linkage = [Math.min(...cross), Math.max(...cross), sum(cross) / cross.length, sse([...A, ...B]) - sse(A) - sse(B)];
+  linkage.forEach((v, i) => close(answers('l8-linkage')[i], v, 1e-9));
+  assert.deepEqual(answers('l8-hac-cut'), [2, 3, 4, 2]);
+  assert.deepEqual(answers('l8-kmeans-v1'), [1, 9, sse([[0], [2]]) + sse([[8], [10]])]);
+  const weights = [0, 2, 6].map((v) => v * v);
+  weights.slice(1).forEach((v, i) => close(answers('l8-kmeans-plus-plus')[i], v / sum(weights), 1e-9));
+  const density = dbscan([0, 1, 2, 4, 8].map((v) => [v]), 1.1 ** 2, 3);
+  assert.deepEqual(answers('l8-dbscan-border'), [density.core, 5 - density.core - density.noise, density.noise, density.groups.length]);
 });
