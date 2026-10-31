@@ -5,9 +5,104 @@ const POINTS = r`| Point | A | B | C | D | E | F | G | H | I | J | K | L |
 | $x$ | 1 | 0 | 0 | 3 | 2 | 1 | 5 | 4 | 3 | 3 | 2 | 2 |
 | $y$ | 1 | 1 | 6 | 6 | 1 | 2 | 2 | 5 | 4 | 5 | 4 | 6 |`;
 
+const HW08_POINTS = r`| Point | A1 | A2 | A3 | A4 | A5 | A6 | A7 | A8 |
+|---|---|---|---|---|---|---|---|---|
+| $x$ | 2 | 2 | 8 | 5 | 7 | 6 | 1 | 4 |
+| $y$ | 10 | 5 | 4 | 8 | 5 | 4 | 2 | 9 |`;
+
 export default {
   lesson: 'l8-unsupervised-learning',
   questions: [
+    {
+      id: 'hw08-ex1', type: 'numeric',
+      source: { kind: 'hw', label: 'HW_Cluster.pdf, Homework 08 Exercise 1 (p1)' },
+      prompt: r`${HW08_POINTS}
+
+Run K-means for **one epoch only**, starting with centres $c_1=A1=(2,10)$, $c_2=A4=(5,8)$ and $c_3=A7=(1,2)$. Find the points in each new cluster and its updated centre. Enter the six updated centre coordinates below; compare your cluster memberships with the solution.
+
+**Distance convention:** the homework does not specify a metric. Use standard **Euclidean K-means** here. One epoch means a single **batch assignment to the original seeds, followed by one arithmetic-mean update**. Do not reassign points to the new centres within this epoch.`,
+      fields: [
+        { label: 'updated $c_{1x}$', answer: 2, tol: 0.001 },
+        { label: 'updated $c_{1y}$', answer: 10, tol: 0.001 },
+        { label: 'updated $c_{2x}$', answer: 6, tol: 0.001 },
+        { label: 'updated $c_{2y}$', answer: 6, tol: 0.001 },
+        { label: 'updated $c_{3x}$', answer: 1.5, tol: 0.001 },
+        { label: 'updated $c_{3y}$', answer: 3.5, tol: 0.001 },
+      ],
+      solution: r`**1. Assign every point using the original seeds.** Euclidean distance is $d((x,y),(u,v))=\sqrt{(x-u)^2+(y-v)^2}$. Work out the coordinate differences, square them, add, then take the square root.
+
+| Point | Distance to $c_1=(2,10)$ | Distance to $c_2=(5,8)$ | Distance to $c_3=(1,2)$ | Chosen cluster |
+|---|---|---|---|---|
+| A1 | $0$ | $\sqrt{13}$ | $\sqrt{65}$ | 1 |
+| A2 | $5$ | $\sqrt{18}$ | $\sqrt{10}$ | 3 |
+| A3 | $\sqrt{72}$ | $5$ | $\sqrt{53}$ | 2 |
+| A4 | $\sqrt{13}$ | $0$ | $\sqrt{52}$ | 2 |
+| A5 | $\sqrt{50}$ | $\sqrt{13}$ | $\sqrt{45}$ | 2 |
+| A6 | $\sqrt{52}$ | $\sqrt{17}$ | $\sqrt{29}$ | 2 |
+| A7 | $\sqrt{65}$ | $\sqrt{52}$ | $0$ | 3 |
+| A8 | $\sqrt{5}$ | $\sqrt{2}$ | $\sqrt{58}$ | 2 |
+
+For example, A2 to $c_3$ is $\sqrt{(2-1)^2+(5-2)^2}=\sqrt{1+9}=\sqrt{10}$. This is smaller than $\sqrt{18}$ and 5, so A2 joins cluster 3. You may compare squared distances directly: squaring preserves the order of nonnegative distances.
+
+**2. Average coordinates within each assigned cluster.**
+- $C_1=\{A1\}$: $c_1=(2,10)$.
+- $C_2=\{A3,A4,A5,A6,A8\}$: $c_2=\left(\frac{8+5+7+6+4}{5},\frac{4+8+5+4+9}{5}\right)=(6,6)$.
+- $C_3=\{A2,A7\}$: $c_3=\left(\frac{2+1}{2},\frac{5+2}{2}\right)=(1.5,3.5)$.
+
+These memberships and centres are the result after **exactly one epoch**. Updating a centre after each individual point, or assigning again after the mean update, would be a different procedure.`,
+    },
+    {
+      id: 'hw08-ex2', type: 'numeric',
+      source: { kind: 'hw', label: 'HW_Cluster.pdf, Homework 08 Exercise 2 (p1)' },
+      prompt: r`${HW08_POINTS}
+
+Run DBSCAN on these eight points with **min_samples = 2**. Find its clusters first for $\varepsilon=2$, then for $\varepsilon=\sqrt{10}$. For each radius enter the number of clusters, core points, border points and noise points; compare the actual cluster memberships with the solution.
+
+**Conventions:** the homework leaves the distance metric unspecified; use **Euclidean distance** here. Count the point itself in its neighbourhood, and include points at distance **equal to** $\varepsilon$. Thus a point is core when its neighbourhood contains at least two points, including itself.`,
+      fields: [
+        { label: r`$\varepsilon=2$: clusters`, answer: 2, tol: 0.01 },
+        { label: r`$\varepsilon=2$: core points`, answer: 5, tol: 0.01 },
+        { label: r`$\varepsilon=2$: border points`, answer: 0, tol: 0.01 },
+        { label: r`$\varepsilon=2$: noise points`, answer: 3, tol: 0.01 },
+        { label: r`$\varepsilon=\sqrt{10}$: clusters`, answer: 3, tol: 0.01 },
+        { label: r`$\varepsilon=\sqrt{10}$: core points`, answer: 8, tol: 0.01 },
+        { label: r`$\varepsilon=\sqrt{10}$: border points`, answer: 0, tol: 0.01 },
+        { label: r`$\varepsilon=\sqrt{10}$: noise points`, answer: 0, tol: 0.01 },
+      ],
+      solution: r`**1. Find every neighbourhood.** Instead of rounding square roots, compare the squared Euclidean distance $(x-u)^2+(y-v)^2$ to **4** for $\varepsilon=2$ or **10** for $\varepsilon=\sqrt{10}$. Use $\le$, not $<$, and include self (distance 0).
+
+| Point | Neighbours for $\varepsilon=2$ | Neighbours for $\varepsilon=\sqrt{10}$ |
+|---|---|---|
+| A1 | A1 | A1, A8 |
+| A2 | A2 | A2, A7 |
+| A3 | A3, A5, A6 | A3, A5, A6 |
+| A4 | A4, A8 | A4, A8 |
+| A5 | A3, A5, A6 | A3, A5, A6 |
+| A6 | A3, A5, A6 | A3, A5, A6 |
+| A7 | A7 | A2, A7 |
+| A8 | A4, A8 | A1, A4, A8 |
+
+For example, A3-A6 has squared distance $(8-6)^2+(4-4)^2=4$, so this pair is included at $\varepsilon=2$. A2-A7 has squared distance $(2-1)^2+(5-2)^2=10$, so it is included **exactly at** $\varepsilon=\sqrt{10}$.
+
+**2. With $\varepsilon=2$: inspect the neighbourhood counts and connect core points.**
+- Core points: **A3, A4, A5, A6, A8**; each has at least one other neighbour.
+- Clusters: **{A3,A5,A6}** and **{A4,A8}**.
+- Noise: **A1, A2, A7**; each has only itself as a neighbour.
+- Border points: **none**.
+
+Counts are **2 clusters, 5 core, 0 border, 3 noise**.
+
+**3. With $\varepsilon=\sqrt{10}$: recompute the neighbourhoods.**
+- Every point now has at least one other neighbour, so **all eight are core**.
+- A1 connects to A8, which already connects to A4: one cluster is **{A1,A4,A8}**. Direct A1-A4 distance is $\sqrt{13}>\sqrt{10}$, but the path through core point A8 connects them.
+- A2 and A7 become neighbours and form a new cluster **{A2,A7}**.
+- The remaining cluster is **{A3,A5,A6}**.
+- There are **no border points and no noise points**.
+
+Counts are **3 clusters, 8 core, 0 border, 0 noise**. With min_samples = 2 and self included, any point close enough to another point already has two neighbours, so it is itself core; a non-core border point cannot occur under these conventions.
+
+The cluster count increases here because former noise points A2 and A7 form a new cluster. A larger radius can create clusters from noise as well as merge existing clusters; the number of clusters need not decrease at every increase of the radius.`,
+    },
     {
       id: 'l8-purpose', type: 'mcq',
       source: { kind: 'slide', label: 'L8 p5, clustering' },

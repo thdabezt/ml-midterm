@@ -2,7 +2,7 @@
 
 State as of 2026-10-31. Read this before changing anything.
 
-- **Live site:** https://thdabezt.github.io/ml-midterm/ (version 1.2.0)
+- **Live site:** https://thdabezt.github.io/ml-midterm/ (version 1.2.1)
 - **Repo:** https://github.com/thdabezt/ml-midterm (`main`; every push deploys via GitHub Actions)
 - **Course:** INT3405 Machine Learning, VNU-UET. Midterm = 10 MCQs + 2–3 practical questions (Lecture 0), week 9.
 
@@ -13,7 +13,7 @@ State as of 2026-10-31. Read this before changing anything.
 | **Math for idiots** (the "Math toolkit" page) | `content/theory/00-math-toolkit.md` | Math from zero for a reader with almost no math background: reading notation, Σ/Π, logs (and how to do log₂ on a calculator), e and the sigmoid, probability, derivatives and partial derivatives, vectors/matrices and the 2×2 inverse, norms, argmax, combinations, Lagrange multipliers, English–Vietnamese glossary. Seven warm-up questions in `content/practice/l0-math.js`. **This page is the backbone of the site.** Every lesson assumes the reader may not know the math, so keep that standard for any new content. |
 | Theory, L1–L8 | `content/theory/01…08-*.md` | Each formula gets a `:::formula` box, a `:::read` box (explained symbol by symbol, "how to read it") and a `:::steps` / `:::example` box with small numbers. Slide page refs like "(p34)". L8 covers clustering through evaluation metrics; L7 now explains the HW07 Lasso coordinate update. |
 | Formula sheet | `content/theory/99-formula-sheet.md` | Printable reference including L8 and HW07. |
-| Question bank | `content/practice/l*.js` | 207 questions: all 18 supplied homework exercises (HW01, HW02 = `HW03-ML.pdf`, HW04 incl. `HW4 (1).pdf`, HW05, HW06 = `HW_week06.pdf`, HW07 = `HW_07.pdf`), 48 variants, slide quizzes, MCQs. L8 has 25 questions. |
+| Question bank | `content/practice/l*.js` | 209 questions: all 20 supplied homework exercises (HW01, HW02 = `HW03-ML.pdf`, HW04 incl. `HW4 (1).pdf`, HW05, HW06 = `HW_week06.pdf`, HW07 = `HW_07.pdf`, HW08 = `HW_Cluster.pdf`), 48 variants, slide quizzes, MCQs. L8 has 27 questions. |
 | Drills | `src/generators.js` | 15 random-number generators with worked solutions. |
 | App | `src/app.js`, `src/styles.css`, `src/index.html` | Hash router, practice/answer checking, mock midterm, review list, localStorage progress. |
 | Build / tests | `tools/build.mjs`, `tools/render.mjs`, `tests/` | KaTeX renders at build time, so a broken formula fails the build. The tests recompute homework and clustering answers from raw data and render 300 drills per generator. New homework checks are in `tests/new-homework.test.js`; clustering checks are in `tests/unsupervised.test.js`. |
@@ -45,6 +45,7 @@ npm start         # http://127.0.0.1:4174
 - L8 p56/p58 are corrected visibly: Davies–Bouldin uses mean distance to the centroid and the maximum scatter/separation ratio over other clusters; silhouette's within-cluster mean excludes self and divides by **cluster size minus 1**.
 - HW06 Ex1 lists a six-coordinate feature map, so its printed target space $\mathbb{R}^5$ is corrected to $\mathbb{R}^6$. SVM deletion can leave the optimal margin unchanged or increase it; all four margin-point deletions are independently checked.
 - `HW_07.pdf` has a mismatched "Homework 01 / INT3424, AIT3007" header. Identify it by filename. The ensemble solution requires independent, identically distributed votes conditional on true class 1; use **strict** majority (ties fail). For accuracy 0.51: probabilities ≈0.726099 at M=1000 and ≈0.976718 at M=10000. These do not establish overall two-class accuracy.
+- HW08 (`HW_Cluster.pdf`, one page, IDs `hw08-ex1` and `hw08-ex2`) uses **Euclidean distance**, explicitly stated because the sheet omits the metric. Ex1 is one batch assignment to seeds A1/A4/A7 followed by one mean update, giving centres (2,10), (6,6), (1.5,3.5); do not reassign again. Ex2 counts self with min_samples=2 and includes the radius boundary. At Eps=2: two clusters, five cores, no borders, noise A1/A2/A7. At Eps=sqrt(10): three clusters, all eight points core; the new A2/A7 cluster forms exactly at that boundary. Independent checks are in `tests/bank.test.js`.
 
 ## Open items / ideas
 
@@ -53,4 +54,4 @@ npm start         # http://127.0.0.1:4174
 
 ## Source material (local, not in the repo)
 
-`C:\Users\Admin\Downloads\Y3S1\ML\`: lecture PDFs L0–L8, homework PDFs through the supplied `HW_07.pdf`, plus older Vietnamese notes `HW03_LoiGiai.md` and `Tuan3_TomTat.md`. The new L7 copy has the same topic coverage already present. Slide formulas are images, so read the PDFs page by page as images rather than relying on text extraction. The 1.2.0 update reviewed all 59 L8 pages and both pages of each new homework sheet visually.
+`C:\Users\Admin\Downloads\Y3S1\ML\`: lecture PDFs L0–L8, homework PDFs through `HW_Cluster.pdf` (Homework 08), plus older Vietnamese notes `HW03_LoiGiai.md` and `Tuan3_TomTat.md`. The new L7 feature-selection copy has the same topic coverage already present. A shorter `Lecture 7_Clustering.pdf` also exists, with an internal Lecture 8 title; site slide references remain tied to the 59-page `Lecture8-Unsupervised-Learning.pdf`. Slide formulas are images, so read the PDFs page by page as images rather than relying on text extraction. The 1.2.0 update reviewed all 59 L8 pages and both pages of HW06/HW07 visually; 1.2.1 reviewed the full HW08 page.

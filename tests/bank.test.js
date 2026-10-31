@@ -63,7 +63,7 @@ test('bank structure', () => {
   }
   for (const q of questions.filter((x) => x.type === 'mcq')) assert.ok(q.answer < q.options.length);
   const hw = questions.filter((q) => q.source.kind === 'hw').map((q) => q.id);
-  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3', 'hw06-ex1', 'hw06-ex2', 'hw06-ex3', 'hw07-ex1', 'hw07-ex2', 'hw07-ex3']) {
+  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3', 'hw06-ex1', 'hw06-ex2', 'hw06-ex3', 'hw07-ex1', 'hw07-ex2', 'hw07-ex3', 'hw08-ex1', 'hw08-ex2']) {
     assert.ok(hw.includes(id), `missing homework exercise ${id}`);
   }
 });
@@ -129,4 +129,54 @@ test('information, ensembles, chi-square', () => {
   close(answers('l7-ensemble-vote')[1], err, 1e-3);
   close(answers('l7-bootstrap')[0], 0.9 ** 10, 1e-4);
   close(answers('l2-kl')[0], -(0.5 * log2(0.75) + 0.5 * log2(0.25)), 1e-4);
+});
+
+// HW_Cluster.pdf: original eight-point dataset, using Euclidean distance.
+const HW08 = [[2, 10], [2, 5], [8, 4], [5, 8], [7, 5], [6, 4], [1, 2], [4, 9]];
+const squaredDistance = (a, b) => sum(a.map((x, j) => (x - b[j]) ** 2));
+
+test('HW08 one batch k-means epoch uses the original seeds until all assignments are done', () => {
+  const seeds = [HW08[0], HW08[3], HW08[6]];
+  const groups = seeds.map(() => []);
+  HW08.forEach((point, i) => {
+    const distances = seeds.map((seed) => squaredDistance(point, seed));
+    const nearest = Math.min(...distances);
+    assert.equal(distances.filter((d) => d === nearest).length, 1, `unexpected tie at A${i + 1}`);
+    groups[distances.indexOf(nearest)].push(i);
+  });
+  assert.deepEqual(groups.map((g) => g.map((i) => `A${i + 1}`)), [['A1'], ['A3', 'A4', 'A5', 'A6', 'A8'], ['A2', 'A7']]);
+  const centers = groups.flatMap((g) => [0, 1].map((j) => sum(g.map((i) => HW08[i][j])) / g.length));
+  assert.equal(answers('hw08-ex1').length, centers.length);
+  centers.forEach((coordinate, i) => close(answers('hw08-ex1')[i], coordinate, 1e-10));
+});
+
+test('HW08 DBSCAN uses inclusive Euclidean radii and counts self for min_samples=2', () => {
+  const countTypes = (radiusSquared) => {
+    const neighbors = HW08.map((p) => HW08.map((q, i) => squaredDistance(p, q) <= radiusSquared ? i : -1).filter((i) => i >= 0));
+    const core = neighbors.map((near) => near.length >= 2);
+    const border = neighbors.map((near, i) => !core[i] && near.some((j) => core[j]));
+    const unseen = new Set(core.flatMap((isCore, i) => isCore ? [i] : []));
+    const components = [];
+    while (unseen.size) {
+      const queue = [unseen.values().next().value];
+      const component = [];
+      unseen.delete(queue[0]);
+      while (queue.length) {
+        const i = queue.pop(); component.push(i);
+        for (const j of neighbors[i]) if (core[j] && unseen.has(j)) { unseen.delete(j); queue.push(j); }
+      }
+      components.push(component.sort((a, b) => a - b));
+    }
+    const noise = core.flatMap((isCore, i) => !isCore && !border[i] ? [`A${i + 1}`] : []);
+    return { counts: [components.length, core.filter(Boolean).length, border.filter(Boolean).length, noise.length], components: components.map((g) => g.map((i) => `A${i + 1}`)), noise };
+  };
+  const small = countTypes(4);
+  const large = countTypes(10); // Compare squares so points exactly sqrt(10) away remain included.
+  assert.deepEqual(small.components, [['A3', 'A5', 'A6'], ['A4', 'A8']]);
+  assert.deepEqual(small.noise, ['A1', 'A2', 'A7']);
+  assert.deepEqual(large.components, [['A1', 'A4', 'A8'], ['A2', 'A7'], ['A3', 'A5', 'A6']]);
+  assert.deepEqual(large.noise, []);
+  const expected = [...small.counts, ...large.counts];
+  assert.equal(answers('hw08-ex2').length, expected.length);
+  expected.forEach((value, i) => close(answers('hw08-ex2')[i], value, 1e-10));
 });

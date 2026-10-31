@@ -234,7 +234,7 @@
       ${startCards()}
       ${lessonList()}
       <h2>About the midterm</h2>
-      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. The lessons cover L1–L8, including unsupervised learning, and the question bank includes the supplied homework through HW07.</p>
+      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. The lessons cover L1–L8, including unsupervised learning, and the question bank includes the supplied homework through HW08.</p>
     </div>`;
   }
 
