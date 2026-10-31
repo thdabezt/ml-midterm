@@ -204,14 +204,14 @@
       <section class="hero">
         <p class="eyebrow">INT3405 · Machine Learning · midterm prep</p>
         <h1>ML Studyroom</h1>
-        <p class="lede">Every lecture from L1 to L7, explained in plain language. Each formula is taken apart symbol by symbol and then worked through with small numbers. The practice questions copy the style of the homework and slide quizzes.</p>
+        <p class="lede">Every lecture from L1 to L8, including clustering, explained in plain language. Each formula is taken apart symbol by symbol and then worked through with small numbers. The practice questions copy the style of the homework and slide quizzes.</p>
       </section>
       <div class="split">
         <a class="big-card" href="#/theory">
           <p class="eyebrow">Section 1</p><h2>Theory</h2>
           <ul><li>Start with the <b>Math toolkit</b> if Σ, ∂, matrices or log look scary.</li>
           <li>Each lesson: big picture → formulas → “how to read it” → step-by-step example.</li>
-          <li>One-page <b>formula sheet</b> for the night before.</li></ul>
+          <li>Printable <b>formula sheet</b> for the night before.</li></ul>
           <span class="go">Open theory →</span>
         </a>
         <a class="big-card practice" href="#/practice">
@@ -234,7 +234,7 @@
       ${startCards()}
       ${lessonList()}
       <h2>About the midterm</h2>
-      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. Lecture 8 (unsupervised learning) is in the course plan before the midterm, but its slides were not in the material, so it is not covered.</p>
+      <p>Lecture 0 gives the midterm format as <b>10 multiple-choice questions + 2–3 practical questions</b>, worth 30% of the grade, in week 9. The mock midterm here follows that shape. Clustering is covered in L8, including both HW08 exercises; you can include it in the mock exam using the lesson checkboxes.</p>
     </div>`;
   }
 
@@ -270,7 +270,7 @@
     };
     return `<div class="start-cards">
       ${card('math-toolkit', 'Start here', 'Notation, sums, logs, derivatives and matrices explained from zero, with small examples you can check on a calculator.')}
-      ${card('formula-sheet', 'Night before', 'Every formula from L2–L7 on one printable page, each with a one-line reminder of what it means.')}
+      ${card('formula-sheet', 'Night before', 'A printable reference for L2–L8, including clustering, with a short reminder of what each formula means.')}
     </div>`;
   }
 

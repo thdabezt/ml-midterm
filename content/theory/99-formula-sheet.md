@@ -3,7 +3,7 @@ slug: formula-sheet
 num: 99
 title: Formula sheet
 short: Formula sheet
-summary: Every formula you need for the midterm on one page, grouped by lecture, each with a one-line reminder of what it means.
+summary: A printable midterm formula reference, grouped by lecture, each with a one-line reminder of what it means. Includes clustering distances, K-means, HAC and DBSCAN.
 ---
 Print this page (Ctrl+P hides the menus) or read it the night before. Each line links a formula to the idea behind it; the lesson pages explain how to compute each one.
 
@@ -101,3 +101,21 @@ Print this page (Ctrl+P hides the menus) or read it the night before. Each line 
 | $(1 - \frac1n)^n \to \frac1e \approx 0.37$ | fraction left out of a bootstrap sample |
 | $P(\text{majority wrong}) = \sum_{i > T/2}\binom{T}{i}\varepsilon^i(1-\varepsilon)^{T-i}$ | ensemble of $T$ independent voters |
 | reject if $\max_j p(j \mid x) < 1 - \frac{\lambda_r}{\lambda_s}$ | reject option (HW5) |
+
+## Clustering (L8)
+
+| Formula | Meaning |
+|---|---|
+| $d_2(\mathbf{x},\mathbf{y})=\sqrt{\sum_j(x_j-y_j)^2}$; $d_1=\sum_j|x_j-y_j|$ | Euclidean and Manhattan distance; compare squared Euclidean distances to avoid square roots |
+| $d_p=(\sum_j|x_j-y_j|^p)^{1/p}$, $p\ge1$ | Minkowski; $p=1$ Manhattan, $p=2$ Euclidean |
+| $s_{\cos}=\frac{\mathbf{x}^T\mathbf{y}}{\lVert\mathbf{x}\rVert\lVert\mathbf{y}\rVert}$; $d_{\cos}=1-s_{\cos}$ | cosine is similarity, not distance; both vectors must be nonzero |
+| $c_i=\arg\min_k\lVert\mathbf{x}_i-\boldsymbol\mu_k\rVert^2$; $\boldsymbol\mu_k=\frac1{|C_k|}\sum_{\mathbf{x}_i\in C_k}\mathbf{x}_i$ | one epoch: assign all points using fixed centres, then average each group |
+| $\mathrm{SSE}=\sum_k\sum_{\mathbf{x}_i\in C_k}\lVert\mathbf{x}_i-\boldsymbol\mu_k\rVert^2$ | K-means objective; also WCSS; $K$ is specified, seeds affect the local solution |
+| K-means++: $P(\mathbf{x})=D(\mathbf{x})^2/\sum_{\mathbf{z}}D(\mathbf{z})^2$ | $D$ is distance to the nearest chosen centre; sample randomly, weighted by squared distance |
+| single-link $=\min_{x\in A,y\in B}d(x,y)$; complete-link $=\max_{x\in A,y\in B}d(x,y)$ | closest / farthest cross-cluster pair |
+| average-link $=\frac1{|A||B|}\sum_{x\in A,y\in B}d(x,y)$ | mean of all cross-cluster distances |
+| $\Delta_{\rm Ward}=\frac{|A||B|}{|A|+|B|}\lVert\mu_A-\mu_B\rVert^2$ | Ward's increase in SSE when merging |
+| $N_\epsilon(x)=\{y:d(x,y)\le\epsilon\}$; core if $|N_\epsilon(x)|\ge\mathrm{MinPts}$ | count self and include the boundary; compare $d^2\le\epsilon^2$ |
+| border = non-core within epsilon of a core; noise = neither | connect core points, attach border points; a border point cannot bridge core components |
+
+HW08 check: one K-means epoch gives centres $(2,10),(6,6),(1.5,3.5)$ and SSE 37. DBSCAN with MinPts 2 counting self: epsilon 2 gives 2 clusters / 3 noise; epsilon $\sqrt{10}$ gives 3 clusters / 0 noise. See the clustering lesson for memberships and the full calculations.

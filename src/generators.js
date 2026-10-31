@@ -396,5 +396,69 @@
     },
   });
 
+  // ---------------- Lecture 8 ----------------
+  list.push({
+    id: 'kmeans-epoch',
+    lesson: 'l8-clustering',
+    title: 'One K-means epoch and SSE',
+    blurb: 'Assign 1-D points to fixed seeds, update the means, compute SSE.',
+    make(rng) {
+      const offset = int(rng, -5, 5); const step = int(rng, 1, 4);
+      const xs = [0, 1, 3, 8, 10, 11].map((v) => offset + step * v);
+      const left = xs.slice(0, 3); const right = xs.slice(3);
+      const means = [sum(left) / 3, sum(right) / 3];
+      const sse = sum(left.map((x) => (x - means[0]) ** 2)) + sum(right.map((x) => (x - means[1]) ** 2));
+      return {
+        prompt: `<p>Points on a line: $${xs.join(', ')}$. Initial centres $\\mu_1=${xs[0]}$, $\\mu_2=${xs[5]}$. Run <b>one</b> K-means assignment/update epoch. Compute the new centres and SSE after that update.</p>`,
+        fields: [field('new $\\mu_1$', means[0]), field('new $\\mu_2$', means[1]), field('SSE after update', sse)],
+        solution: `<ol><li>Compare squared distances to the two fixed seeds. The split is at their midpoint $${f((xs[0] + xs[5]) / 2)}$: $C_1=\\{${left.join(', ')}\\}$, $C_2=\\{${right.join(', ')}\\}$.</li>
+          <li>Average each group: $\\mu_1=(${left.map(par).join('+')})/3=${f(means[0])}$; $\\mu_2=(${right.map(par).join('+')})/3=${f(means[1])}$.</li>
+          <li>Using these new means, $\\mathrm{SSE}=\\sum_{x\\in C_1}(x-\\mu_1)^2+\\sum_{x\\in C_2}(x-\\mu_2)^2=${f(sse)}$. Stop before the next assignment.</li></ol>`,
+      };
+    },
+  });
+
+  list.push({
+    id: 'hac-linkage',
+    lesson: 'l8-clustering',
+    title: 'HAC linkage scores',
+    blurb: 'Single, complete, average and Ward for two small clusters.',
+    make(rng) {
+      const a = int(rng, -4, 4); const width = int(rng, 1, 3);
+      const gap = int(rng, 1, 5); const span = int(rng, 1, 4);
+      const A = [a, a + width]; const B = [a + width + gap, a + width + gap + span];
+      const ds = A.flatMap((x) => B.map((y) => Math.abs(x - y)));
+      const ma = sum(A) / 2; const mb = sum(B) / 2;
+      const ward = (ma - mb) ** 2;
+      return {
+        prompt: `<p>On a line, $A=\\{${A.join(', ')}\\}$, $B=\\{${B.join(', ')}\\}$. Compute single-link, complete-link, average-link distances and the Ward <b>increase in SSE</b>.</p>`,
+        fields: [field('single-link', Math.min(...ds)), field('complete-link', Math.max(...ds)), field('average-link', sum(ds) / 4), field('Ward SSE increase', ward)],
+        solution: `<ol><li>The four cross-pair distances are $${ds.join(', ')}$.</li><li>Single = minimum $${Math.min(...ds)}$; complete = maximum $${Math.max(...ds)}$; average $=(${ds.join('+')})/4=${f(sum(ds) / 4)}$.</li>
+          <li>Means: $${f(ma)}$, $${f(mb)}$. Ward: $\\frac{2\\cdot2}{2+2}(${par(f(ma))}-${par(f(mb))})^2=${f(ward)}$. Ward is an SSE increase, not a pairwise distance.</li></ol>`,
+      };
+    },
+  });
+
+  list.push({
+    id: 'dbscan-neighbourhoods',
+    lesson: 'l8-clustering',
+    title: 'DBSCAN core, border, noise',
+    blurb: 'Count epsilon-neighbours including self, then find core components.',
+    make(rng) {
+      const offset = int(rng, -5, 5); const step = int(rng, 1, 4);
+      const xs = [0, 1, 2, 6, 7, 8, 12].map((v) => offset + step * v);
+      const neighbours = xs.map((x) => xs.filter((y) => Math.abs(x - y) <= step));
+      const core = neighbours.map((n) => n.length >= 3);
+      const border = xs.map((x, i) => !core[i] && xs.some((y, j) => core[j] && Math.abs(x - y) <= step));
+      const nc = core.filter(Boolean).length; const nb = border.filter(Boolean).length;
+      return {
+        prompt: `<p>DBSCAN on the 1-D points $${xs.join(', ')}$, with $\\epsilon=${step}$ and MinPts $=3$, <b>counting self</b>. Include points exactly at epsilon. Give the core, border, noise and cluster counts.</p>`,
+        fields: [field('core points', nc, 0.01), field('border points', nb, 0.01), field('noise points', xs.length - nc - nb, 0.01), field('clusters', 2, 0.01)],
+        solution: `${table(['Point', 'Epsilon-neighbourhood', 'Type'], xs.map((x, i) => [x, neighbours[i].join(', '), core[i] ? 'Core' : border[i] ? 'Border' : 'Noise']))}
+          <p>The core points $${xs[1]}$ and $${xs[4]}$ are farther apart than epsilon, so they form two components. Attach their border neighbours: clusters $\\{${xs.slice(0, 3).join(', ')}\\}$ and $\\{${xs.slice(3, 6).join(', ')}\\}$. Point $${xs[6]}$ is noise. Totals: ${nc} core, ${nb} border, ${xs.length - nc - nb} noise, 2 clusters.</p>`,
+      };
+    },
+  });
+
   root.MLGen = { list, helpers: { entropy, gini, sigmoid, comb } };
 })(typeof globalThis !== 'undefined' ? globalThis : window);

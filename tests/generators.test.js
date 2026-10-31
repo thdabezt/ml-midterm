@@ -49,3 +49,21 @@ test('helpers', () => {
   assert.equal(helpers.comb(25, 13), 5200300);
   assert.equal(helpers.sigmoid(0), 0.5);
 });
+
+test('clustering drills: numerical answers at the random range endpoints', () => {
+  const byId = Object.fromEntries(list.map((g) => [g.id, g]));
+  const cases = [
+    [0, 'kmeans-epoch', [-11 / 3, 14 / 3, 28 / 3]],
+    [0.999999, 'kmeans-epoch', [31 / 3, 131 / 3, 448 / 3]],
+    [0, 'hac-linkage', [1, 3, 2, 4]],
+    [0.999999, 'hac-linkage', [5, 12, 8.5, 72.25]],
+    [0, 'dbscan-neighbourhoods', [2, 4, 1, 2]],
+    [0.999999, 'dbscan-neighbourhoods', [2, 4, 1, 2]],
+  ];
+  for (const [randomValue, id, expected] of cases) {
+    assert.equal(byId[id].lesson, 'l8-clustering');
+    const actual = byId[id].make(() => randomValue).fields.map((f) => f.answer);
+    actual.forEach((answer, i) => assert.ok(Math.abs(answer - expected[i]) < 1e-9, `${id}: ${answer} vs ${expected[i]}`));
+    assert.equal(actual.length, expected.length);
+  }
+});

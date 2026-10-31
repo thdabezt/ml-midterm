@@ -4,6 +4,24 @@ export default {
   lesson: 'l1-introduction',
   questions: [
     {
+      id: 'l1-when-ml',
+      type: 'mcq',
+      source: { kind: 'slide', label: 'supplied L1 PDF p30–31' },
+      prompt: 'Which situation makes machine learning a useful candidate?',
+      options: ['The task has complex patterns that are hard to encode as explicit rules, and useful data is available', 'No useful data or feedback can be collected', 'A fixed exact arithmetic rule already solves the whole task cheaply', 'There is no way to define or assess the desired output'],
+      answer: 0,
+      solution: 'The slides list complex rules, changing patterns, perception tasks, data-rich but incompletely understood phenomena, and clear targets as reasons to consider ML. The costs of data preparation, training and use still matter.',
+    },
+    {
+      id: 'l1-ml-workflow-cost',
+      type: 'mcq',
+      source: { kind: 'slide', label: 'supplied L1 PDF p31, p36' },
+      prompt: 'A team has trained a promising medical-imaging model. Which statement best reflects the application workflow?',
+      options: ['Training is the only cost worth considering', 'Data collection, cleaning, labelling, domain knowledge, integration and ongoing monitoring also matter', 'Deployment automatically removes the need for evaluation', 'Representative data is unnecessary when the model is complex'],
+      answer: 1,
+      solution: 'The supplied slides discuss the full cost of collecting/preparing data, training, deployment, use, monitoring and maintenance, and show clinical knowledge and data annotation as parts of a healthcare workflow.',
+    },
+    {
       id: 'l1-def-mitchell',
       type: 'mcq',
       source: { kind: 'slide', label: 'L1 p12 · definitions' },
