@@ -170,6 +170,41 @@ Cost: $J(\mathbf{w}) = \frac{1}{2m}\Big[\sum_i(\mathbf{w}^T\mathbf{x}_i - y_i)^2
 
 **Regularised logistic regression** (p32): $\min_{\mathbf{w}}\sum_i\ln(1 + \exp(-y_i\mathbf{w}^T\mathbf{x}_i)) + \lambda\lVert\mathbf{w}\rVert_2^2$ (L2) or $+ \lambda\lVert\mathbf{w}\rVert_1$ (L1, "sparse logistic regression"). This also fixes the infinite-weight problem on separable data.
 
+### Why Lasso needs more than ordinary derivatives (HW_07.pdf, Exercise 2)
+
+The supplied `HW_07.pdf` asks about $R_{\mathrm{reg}}(\boldsymbol{\theta})=\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2+\lambda\|\boldsymbol{\theta}\|_1$. Here $X$ has $n$ rows (examples) and $p$ columns (features); $\theta_j$ is the weight of column $j$.
+
+:::read Absolute value has a corner
+$|t|=-t$ for $t<0$, so its slope is $-1$. For $t>0$, $|t|=t$, so its slope is $+1$. At $t=0$ the two slopes disagree: there is no ordinary derivative. Lasso has this corner whenever a penalised weight is zero. This is also why it can set weights exactly to zero.
+:::
+
+**Convex** means a straight line between any two points on the graph stays on or above the graph: there is no separate lower valley hidden behind a hill. Squared linear residuals are convex, and absolute values are convex; adding them with $\lambda>0$ preserves convexity. Thus a Lasso local minimum is global, although the best weight vector need not be unique.
+
+:::formula Isolate one coordinate
+$$z_j=\sum_{i=1}^{n}x_{ij}^2,\qquad \rho_j=\sum_{i=1}^{n}x_{ij}\left(y_i-\sum_{k\ne j}x_{ik}\theta_k\right)$$
+$$\frac{\partial}{\partial\theta_j}\frac12\|X\boldsymbol{\theta}-\mathbf{y}\|_2^2=z_j\theta_j-\rho_j$$
+:::
+
+:::read
+Hold all weights except $\theta_j$ fixed. The inner sum is the prediction from those **other** columns. Subtract it from $y_i$ to get the part column $j$ still has to explain. Multiply by $x_{ij}$ and add to get $\rho_j$. Separately, square column $j$ and add to get $z_j$.
+:::
+
+:::steps A two-row example
+Take $X=\begin{bmatrix}1&1\\1&2\end{bmatrix}$, $\mathbf{y}=(2,3)$ and hold $\theta_1=1$ while updating $\theta_2$.
+1. Predictions from column 1 alone: $(1,1)$; remaining targets: $(1,2)$.
+2. $z_2=1^2+2^2=5$; $\rho_2=1\times1+2\times2=5$.
+3. The squared-loss derivative is $5\theta_2-5$.
+4. With $\lambda=1$, on the positive side add the L1 slope $+1$: $5\theta_2-5+1=0$, giving $\theta_2=0.8$.
+:::
+
+:::formula Coordinate descent with soft thresholding
+$$\theta_j\leftarrow\frac{\operatorname{sgn}(\rho_j)\max\{|\rho_j|-\lambda,0\}}{z_j}\quad(z_j>0)$$
+:::
+
+:::read
+Subtract $\lambda$ from the magnitude of $\rho_j$, stop at zero, restore its sign, then divide by $z_j$. This is **soft thresholding**. If $|\rho_j|\le\lambda$, the update is exactly zero. At zero, the allowed L1 **subgradient** (a replacement for a single slope) is the interval $[-1,1]$. If $z_j=0$, the whole column is zero; with this penalised objective, set its weight to zero instead of dividing by zero. Update one coordinate at a time and repeat. The scaling here matches the homework's $\frac12$ squared-loss objective.
+:::
+
 ## Fix 3: ensembles
 
 **Idea** (p33): train several models and **combine** them (vote or average). Usually improves accuracy, often by a lot.

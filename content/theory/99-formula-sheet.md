@@ -3,7 +3,7 @@ slug: formula-sheet
 num: 99
 title: Formula sheet
 short: Formula sheet
-summary: Every formula you need for the midterm on one page, grouped by lecture, each with a one-line reminder of what it means.
+summary: Key midterm formulas grouped by lecture, each with a one-line reminder of what it means.
 ---
 Print this page (Ctrl+P hides the menus) or read it the night before. Each line links a formula to the idea behind it; the lesson pages explain how to compute each one.
 
@@ -101,3 +101,26 @@ Print this page (Ctrl+P hides the menus) or read it the night before. Each line 
 | $(1 - \frac1n)^n \to \frac1e \approx 0.37$ | fraction left out of a bootstrap sample |
 | $P(\text{majority wrong}) = \sum_{i > T/2}\binom{T}{i}\varepsilon^i(1-\varepsilon)^{T-i}$ | ensemble of $T$ independent voters |
 | reject if $\max_j p(j \mid x) < 1 - \frac{\lambda_r}{\lambda_s}$ | reject option (HW5) |
+| Lasso coordinate: $z_j=\sum_i x_{ij}^2$, $\rho_j=\sum_i x_{ij}(y_i-\sum_{k\ne j}x_{ik}\theta_k)$ | squared-loss derivative $z_j\theta_j-\rho_j$ (HW07) |
+| $P(\text{strict majority correct})=\sum_{k=\lfloor M/2\rfloor+1}^M\binom{M}{k}\theta^k(1-\theta)^{M-k}$ | independent voters, each correct with probability $\theta$; ties excluded |
+
+## Clustering (L8)
+
+| Formula | Meaning |
+|---|---|
+| $d_1(\mathbf{x},\mathbf{z})=\sum_j|x_j-z_j|$; $d_2(\mathbf{x},\mathbf{z})=\sqrt{\sum_j(x_j-z_j)^2}$ | Manhattan / Euclidean distance |
+| $\cos(\mathbf{x},\mathbf{z})=\frac{\mathbf{x}^T\mathbf{z}}{\|\mathbf{x}\|_2\|\mathbf{z}\|_2}$ | similarity: larger means more aligned; nonzero vectors |
+| $c(i)=\arg\min_k\|\mathbf{x}_i-\boldsymbol{\mu}_k\|_2^2$, $\boldsymbol{\mu}_k=\frac{1}{|C_k|}\sum_{i\in C_k}\mathbf{x}_i$ | k-means: assign, then average; handle ties/empty clusters explicitly |
+| $\mathrm{SSE}=\sum_k\sum_{i\in C_k}\|\mathbf{x}_i-\boldsymbol{\mu}_k\|_2^2$ | k-means objective / WCSS; lower for the same data and K |
+| $O(nKId)$ | k-means time: points × clusters × iterations × coordinates |
+| $P(\mathbf{x}\text{ chosen next})=\frac{D(\mathbf{x})^2}{\sum_{\mathbf{z}}D(\mathbf{z})^2}$ | k-means++: distance to the nearest chosen centre |
+| $d_{\mathrm{single}}(A,B)=\min_{a\in A,b\in B}d(a,b)$; $d_{\mathrm{complete}}(A,B)=\max_{a\in A,b\in B}d(a,b)$ | HAC nearest / furthest pair |
+| $d_{\mathrm{avg}}(A,B)=\frac{\sum_{a\in A,b\in B}d(a,b)}{|A||B|}$ | average linkage: every cross-cluster pair |
+| $\Delta\mathrm{SSE}=\frac{|A||B|}{|A|+|B|}\|\boldsymbol{\mu}_A-\boldsymbol{\mu}_B\|_2^2$ | Ward: merge with the smallest increase in SSE |
+| $N_\varepsilon(p)=\{q:d(p,q)\le\varepsilon\}$; core if $|N_\varepsilon(p)|\ge\mathrm{MinPts}$ | DBSCAN; count the point itself; border = non-core neighbour of a core |
+| $\mathrm{DB}=\frac1K\sum_i\max_{j\ne i}\frac{S_i+S_j}{\|\boldsymbol{\mu}_i-\boldsymbol{\mu}_j\|_2}$, $S_i=\frac{1}{|C_i|}\sum_{x\in C_i}\|x-\boldsymbol{\mu}_i\|_2$ | Davies–Bouldin: lower is better; distinct centroids |
+| $\mathrm{Dunn}=\frac{\min_{i\ne j}\min_{x\in C_i,z\in C_j}d(x,z)}{\max_k\max_{x,z\in C_k}d(x,z)}$ | smallest separation / largest diameter: higher is better |
+| $a(i)=\frac{\sum_{j\in C_i,j\ne i}d(i,j)}{|C_i|-1}$; $b(i)=\min_{C\ne C_i}\frac{\sum_{j\in C}d(i,j)}{|C|}$ | silhouette: own-cluster mean vs best other-cluster mean |
+| $s(i)=\frac{b(i)-a(i)}{\max\{a(i),b(i)\}}\in[-1,1]$ | near 1 is good; singleton or zero denominator: use 0 |
+
+For the L1-distance exercise on L8 p26/p51, follow its stated distance and specify ties; the usual squared-Euclidean k-means objective above has a mean update. A pure L1 objective uses coordinate medians instead. The lesson also explains the corrected silhouette divisor and Davies–Bouldin definition from p56/p58.

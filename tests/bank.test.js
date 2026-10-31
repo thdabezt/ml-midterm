@@ -55,14 +55,15 @@ const TENNIS = [
 
 test('bank structure', () => {
   assert.ok(questions.length >= 150, `only ${questions.length} questions`);
-  for (const l of lectures.filter((x) => x.num >= 1 && x.num <= 7)) {
+  assert.ok(lectures.some((l) => l.num === 8 && l.slug === 'l8-unsupervised-learning'), 'missing Lecture 8');
+  for (const l of lectures.filter((x) => x.num >= 1 && x.num <= 8)) {
     const qs = questions.filter((q) => q.lesson === l.slug);
     assert.ok(qs.length >= 12, `${l.slug} has ${qs.length} questions`);
     assert.ok(qs.some((q) => q.type === 'mcq'), `${l.slug} has no MCQ`);
   }
   for (const q of questions.filter((x) => x.type === 'mcq')) assert.ok(q.answer < q.options.length);
   const hw = questions.filter((q) => q.source.kind === 'hw').map((q) => q.id);
-  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3']) {
+  for (const id of ['hw01-ex1', 'hw01-ex2', 'hw02-ex1a', 'hw02-ex1b', 'hw02-ex2', 'hw02-ex3', 'hw04-ex1', 'hw04-ex2', 'hw04-ex3', 'hw05-ex1', 'hw05-ex2', 'hw05-ex3', 'hw06-ex1', 'hw06-ex2', 'hw06-ex3', 'hw07-ex1', 'hw07-ex2', 'hw07-ex3']) {
     assert.ok(hw.includes(id), `missing homework exercise ${id}`);
   }
 });

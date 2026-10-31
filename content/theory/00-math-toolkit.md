@@ -228,6 +228,36 @@ $$\begin{bmatrix} a & b\\ c & d\end{bmatrix}^{-1} = \frac{1}{ad - bc}\begin{bmat
 
 Ridge regression adds $\lambda\lVert\mathbf{w}\rVert_2^2$; Lasso adds $\lambda\lVert\mathbf{w}\rVert_1$ (Lecture 7). The SVM margin is $2/\lVert\mathbf{w}\rVert$ (Lecture 6).
 
+## Distances and averages for clustering
+
+Lecture 8 compares points and replaces a group of points with its **centroid** (average point). A point such as $(2, 5)$ has two coordinates: first 2, then 5.
+
+:::formula Distance between two points
+$$d_1(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{d}|x_j-z_j|, \qquad d_2(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{d}(x_j-z_j)^2}$$
+:::
+
+:::read
+- $d$ is the number of coordinates; $j$ visits them one at a time.
+- Subtract the matching coordinates. For **Manhattan / L1** distance, remove the minus signs with absolute values and add. For **Euclidean / L2** distance, square the differences, add, then take the square root.
+- Squared Euclidean distance $d_2^2$ skips the square root. It gives the same nearest point as $d_2$, because square roots preserve the order of nonnegative numbers.
+:::
+
+:::example
+For $\mathbf{x}=(1,2)$ and $\mathbf{z}=(4,6)$, the differences are $-3,-4$. L1 distance is $3+4=7$. L2 distance is $\sqrt{9+16}=5$. Squared L2 distance is $25$.
+:::
+
+:::formula A centroid is a coordinate-by-coordinate average
+$$\mu_j = \frac{1}{|C|}\sum_{\mathbf{x}\in C}x_j$$
+:::
+
+:::read
+$C$ is a cluster (a group of points), $|C|$ counts its points, and $\mu_j$ is coordinate $j$ of its centroid. The notation $\mathbf{x}\in C$ means "for every point in this cluster". Add the first coordinates and divide by the number of points; then repeat for the second coordinates.
+:::
+
+:::steps
+For points $(1,2),(3,4),(5,3)$, there are $|C|=3$ points. The first coordinate is $(1+3+5)/3=3$; the second is $(2+4+3)/3=3$. Their centroid is $(3,3)$, even though it is not one of the original points.
+:::
+
 ## Max, min, argmax, argmin
 
 - $\max_x f(x)$ = the **highest value** of $f$.
@@ -281,3 +311,6 @@ Used in Homework 1 Exercise 2 (dice MLE) and in the SVM derivation (Lecture 6).
 | ensemble, bagging, boosting | kết hợp mô hình, bagging, boosting |
 | support vector machine | máy vector hỗ trợ |
 | margin | lề |
+| cluster / centroid | cụm / tâm cụm |
+| core / border / noise point | điểm nhân / điểm biên / điểm nhiễu |
+| hierarchical clustering / dendrogram | phân cụm phân cấp / biểu đồ cây |

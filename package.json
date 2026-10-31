@@ -1,6 +1,6 @@
 {
   "name": "ml-midterm",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "description": "ML Studyroom: theory notes and practice for INT3405 Machine Learning midterm",
